@@ -35,7 +35,7 @@ CAMERA_XYZ = 0x0fa
 
 
 # noinspection PyMethodMayBeStatic
-class _Camera:
+class _Camera(object):
     """Clase abstracta"""
 
     def __init__(self):
@@ -144,7 +144,9 @@ class CameraXYZ(_Camera):
     def __init__(self, pos, center, up=Point3(0, 0, 1)):
         """Función constructora"""
         _Camera.__init__(self)
-        if isinstance(pos, Point3) and isinstance(center, Point3) and isinstance(up, Point3):
+        if isinstance(pos, Point3) and isinstance(center,
+                                                  Point3) and isinstance(up,
+                                                                         Point3):
             self.pos = Vector3(*pos.export_to_list())
             self.center = Vector3(*center.export_to_list())
             self.up = Vector3(*up.export_to_list())
@@ -154,14 +156,17 @@ class CameraXYZ(_Camera):
         self.viewVel = Vector3(1.0, 1.0, 1.0)
         self.angle = 45.0
         self.centerangle = 0.0
-        self.centervel = Vector3(CAMERA_CENTER_VEL, CAMERA_CENTER_VEL, CAMERA_CENTER_VEL)
+        self.centervel = Vector3(CAMERA_CENTER_VEL, CAMERA_CENTER_VEL,
+                                 CAMERA_CENTER_VEL)
         self._name = "unnamed"
 
     def place(self):
         """Ubica la cámara en el mundo"""
         glLoadIdentity()
-        gluLookAt(self.pos.get_x(), self.pos.get_y(), self.pos.get_z(), self.center.get_x(), self.center.get_y(),
-                  self.center.get_z(), self.up.get_x(), self.up.get_y(), self.up.get_z())
+        gluLookAt(self.pos.get_x(), self.pos.get_y(), self.pos.get_z(),
+                  self.center.get_x(), self.center.get_y(),
+                  self.center.get_z(), self.up.get_x(), self.up.get_y(),
+                  self.up.get_z())
 
     def move_x(self, direction=CAMERA_POSITIVE):
         """Mueve la posición de la cámara en el eje x"""
@@ -261,7 +266,8 @@ class CameraXYZ(_Camera):
 class CameraR(_Camera):
     """Cámara en coordenadas esféricas, recibe un radio R, y angulos phi y theta"""
 
-    def __init__(self, r=1.0, phi=45, theta=45, center_point=Point3(), up_vector=Vector3(0, 0, 1)):
+    def __init__(self, r=1.0, phi=45, theta=45, center_point=Point3(),
+                 up_vector=Vector3(0, 0, 1)):
         """Función constructora"""
         _Camera.__init__(self)
         if isinstance(center_point, Point3):
@@ -276,7 +282,8 @@ class CameraR(_Camera):
                         self.rvel = CAMERA_DEFAULT_RVEL
                         self._name = "unnamed"
                     else:
-                        raise Exception("el angulo phi debe variar entre 0 y 360, theta debe variar entre 0 y 180")
+                        raise Exception(
+                            "el angulo phi debe variar entre 0 y 360, theta debe variar entre 0 y 180")
                 else:
                     raise Exception("El radio debe ser mayor a cero""")
             else:
@@ -294,9 +301,11 @@ class CameraR(_Camera):
     def place(self):
         """Ubica la cámara en el mundo"""
         glLoadIdentity()
-        gluLookAt(self.r * sin(self.theta) * cos(self.phi), self.r * sin(self.theta) * sin(self.phi),
+        gluLookAt(self.r * sin(self.theta) * cos(self.phi),
+                  self.r * sin(self.theta) * sin(self.phi),
                   self.r * cos(self.theta),
-                  self.center.get_x(), self.center.get_y(), self.center.get_z(), self.up.get_x(), self.up.get_y(),
+                  self.center.get_x(), self.center.get_y(), self.center.get_z(),
+                  self.up.get_x(), self.up.get_y(),
                   self.up.get_z())
 
     def __str__(self):
@@ -305,9 +314,12 @@ class CameraR(_Camera):
         r = CAMERA_ROUNDED
         msg = 'Camera: {12}\nRadius: {0}\nPhi angle: {1}, Theta angle: {2}\nXYZ eye pos: ({3},{4},{5})\nXYZ center ' \
               'pos: ({6},{7},{8})\nXYZ up vector: ({9},{10},{11})'
-        return msg.format(round(self.r, r), round(self.phi, r), round(self.theta, r), round(x, r), round(y, r),
-                          round(z, r), round(self.center.get_x(), r), round(self.center.get_y(), r),
-                          round(self.center.get_z(), r), round(self.up.get_x(), r), round(self.up.get_y(), r),
+        return msg.format(round(self.r, r), round(self.phi, r),
+                          round(self.theta, r), round(x, r), round(y, r),
+                          round(z, r), round(self.center.get_x(), r),
+                          round(self.center.get_y(), r),
+                          round(self.center.get_z(), r),
+                          round(self.up.get_x(), r), round(self.up.get_y(), r),
                           round(self.up.get_z(), r), self.get_name())
 
     def far(self):

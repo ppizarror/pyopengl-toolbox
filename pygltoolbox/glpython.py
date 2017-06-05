@@ -17,15 +17,17 @@ GNU General Public License for more details.
 """
 
 # Importación de librerías
+from __future__ import print_function
 import pygame
 from pygame.locals import *
 import os
 
 # Constantes
-_DEFAULT_CAPTION = "Program title"
+_DEFAULT_CAPTION = 'Program title'
 
 
-def initPygame(w, h, caption=_DEFAULT_CAPTION, center_mouse=False, icon=None, centered=False):
+def initPygame(w, h, caption=_DEFAULT_CAPTION, center_mouse=False, icon=None,
+               centered=False):
     """
     Inicia Pygame
 
@@ -57,5 +59,5 @@ def loadPythonImage(path, convert=False):
             image = image.convert_alpha()
         return image
     except:
-        print "fail"
+        print('fail')
         return None

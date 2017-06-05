@@ -23,15 +23,19 @@ WINDOW_SIZE = [800, 600]
 
 # Se inicia ventana
 initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], "Ejemplo Ejes", centered=True)
-initGl(transparency=False, materialcolor=False, normalized=True, lighting=True, numlights=1,
-       perspectivecorr=True, antialiasing=True, depth=True, smooth=True, texture=True, verbose=False)
+initGl(transparency=False, materialcolor=False, normalized=True, lighting=True,
+       numlights=1,
+       perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
+       texture=True, verbose=False)
 reshape(*WINDOW_SIZE)
+# noinspection PyArgumentEqualDefault
 initLight(GL_LIGHT0)
 clock = pygame.time.Clock()
 
 # Se crean objetos
 axis = create_axes(AXES_LENGTH)  # Ejes
-camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Cámara del tipo esférica
+camera = CameraR(CAMERA_RAD, CAMERA_PHI,
+                 CAMERA_THETA)  # Cámara del tipo esférica
 
 cubo = Particle()
 cubo.add_property('GLLIST', create_cube())
@@ -72,11 +76,15 @@ while True:
     # Dibuja luces
     luz.exec_property_func('MATERIAL')
     glLightfv(GL_LIGHT0, GL_POSITION, luz.get_position_list())
-    draw_list(luz.get_property('GLLIST'), luz.get_position_list(), 0, None, luz.get_property('SIZE'), None)
+    # noinspection PyArgumentEqualDefault
+    draw_list(luz.get_property('GLLIST'), luz.get_position_list(), 0, None,
+              luz.get_property('SIZE'), None)
 
     # Dibuja modelos
     cubo.exec_property_func('MATERIAL')
-    draw_list(cubo.get_property('GLLIST'), cubo.get_position_list(), 0, None, cubo.get_property('SIZE'), None)
+    # noinspection PyArgumentEqualDefault
+    draw_list(cubo.get_property('GLLIST'), cubo.get_position_list(), 0, None,
+              cubo.get_property('SIZE'), None)
 
     # Comprueba las teclas presionadas
     keys = pygame.key.get_pressed()

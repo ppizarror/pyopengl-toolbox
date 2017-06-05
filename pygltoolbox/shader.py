@@ -17,6 +17,7 @@ GNU General Public License for more details.
 """
 
 # Importación de librerías
+from __future__ import print_function
 from OpenGL.GL import *
 import ctypes
 import types
@@ -27,7 +28,7 @@ FRAGMENT = 0x01
 VERTEX = 0x02
 
 
-class Shader:
+class Shader(object):
     """Permite cargar y compilar shaders"""
 
     # noinspection PyShadowingBuiltins
@@ -48,9 +49,11 @@ class Shader:
                             self.file = self.file.replace(key, str(f))
                         num += 1
                 else:
-                    raise Exception("el tipo de formatlist debe ser del tipo list")
+                    raise Exception(
+                        "el tipo de formatlist debe ser del tipo list")
         else:
-            raise Exception("tipo de shader incorrecto, debe ser FRAGMENT o VERTEX")
+            raise Exception(
+                "tipo de shader incorrecto, debe ser FRAGMENT o VERTEX")
         if compile:
             self.compile()
 
@@ -71,13 +74,13 @@ class Shader:
             else:
                 raise Exception("no se ha cargado un archivo")
         else:
-            print "Error :: el shader ya ha sido compilado"
+            print('Error :: el shader ya ha sido compilado')
 
     # noinspection PyMethodMayBeStatic
     def load(self, path):
         """Carga un archivo y lo convierte a un string"""
         try:
-            f = open(path, "r")
+            f = open(path)
             program = ""
             for i in f:
                 program += i
@@ -114,15 +117,16 @@ class Shader:
             s = "not compiled"
         else:
             s = "compiled"
-        return "file: {0}\ntype: {1}\nstatus: {2}\n".format(self.get_path(), t, s)
+        return 'file: {0}\ntype: {1}\nstatus: {2}\n'.format(self.get_path(), t,
+                                                            s)
 
     def printShader(self):
         """Imprime el codigo fuente del shader"""
-        print self.file
+        print(self.file)
 
 
 # noinspection PyShadowingNames,PyCallingNonCallable,PyTypeChecker
-class ShaderProgram:
+class ShaderProgram(object):
     """Permite la creacion de un programa que ejecutara shaders en segundo plano"""
 
     # noinspection PyShadowingBuiltins
@@ -154,7 +158,8 @@ class ShaderProgram:
             if fragment.get_type() == FRAGMENT:
                 self.fshader = fragment
             else:
-                raise Exception("se esperaba un fragment shader, en cambio se paso un vertex shader")
+                raise Exception(
+                    "se esperaba un fragment shader, en cambio se paso un vertex shader")
         else:
             raise Exception("el fragment shader debe ser del tipo Shader")
 
@@ -164,7 +169,8 @@ class ShaderProgram:
             if vertex.get_type() == VERTEX:
                 self.vshader = vertex
             else:
-                raise Exception("se esperaba un vertex shader, en cambio se paso un fragment shader")
+                raise Exception(
+                    "se esperaba un vertex shader, en cambio se paso un fragment shader")
         else:
             raise Exception("el vertex shader debe ser del tipo Shader")
 
@@ -183,7 +189,7 @@ class ShaderProgram:
 
             self.compiled = True
         else:
-            print "Error :: el programa ya ha sido compilado"
+            print('Error :: el programa ya ha sido compilado')
 
     def is_compiled(self):
         """Retorna true/false si el programa ha sido compilado"""
@@ -222,7 +228,8 @@ class ShaderProgram:
             c = "compiled | {0}".format(e)
         else:
             c = "not compiled | {0}".format(e)
-        return "shader: {3}\nfragment shader: {0}\nvertex shader: {1}\nstatus: {2}".format(f, v, c, self.get_name())
+        return "shader: {3}\nfragment shader: {0}\nvertex shader: {1}\nstatus: {2}".format(
+            f, v, c, self.get_name())
 
     def start(self):
         """Usa el programa"""
@@ -279,8 +286,11 @@ class ShaderProgram:
             glUniformMatrix4fv(loc, 1, False, (ctypes.c_float * 16)(*mat))
 
 
-def load_shader(shaderpath, shadername, vertex_format_list=None, fragment_formatlist=None):
+def load_shader(shaderpath, shadername, vertex_format_list=None,
+                fragment_formatlist=None):
     """Funcion que carga un shader y retorna un objeto del tipo ShaderProgram"""
-    fragment = Shader(shaderpath + shadername + ".fsh", FRAGMENT, True, fragment_formatlist)
-    vertex = Shader(shaderpath + shadername + ".vsh", VERTEX, True, vertex_format_list)
+    fragment = Shader(shaderpath + shadername + ".fsh", FRAGMENT, True,
+                      fragment_formatlist)
+    vertex = Shader(shaderpath + shadername + ".vsh", VERTEX, True,
+                    vertex_format_list)
     return ShaderProgram(vertex, fragment, True)

@@ -17,6 +17,7 @@ GNU General Public License for more details.
 """
 
 # Importación de librerías
+from __future__ import print_function
 import math
 import types
 
@@ -26,7 +27,7 @@ POINT_3 = "util-point-3"
 
 
 # noinspection PyMethodFirstArgAssignment
-class Point3:
+class Point3(object):
     """
     Punto de 3 componentes.
     """
@@ -142,18 +143,22 @@ class Point3:
             return vec
 
 
-# Punto de 2 componentes
+# noinspection PyClassicStyleClass
 class Point2(Point3):
+    """
+    Punto de 2 componentes
+    """
+
     def __init__(self, x=0.0, y=0.0):
         Point3.__init__(self, x, y)
-        self._point = Vector3(x, y, 0.0)
+        self._point = Vector3(x, y)
         self._type = POINT_2
 
     # noinspection PyMethodMayBeStatic,PyShadowingNames
     def _point_to_vec(self, point):
         """Convierte un punto a un vector"""
         if isinstance(point, Point2):
-            return Vector3(point.get_x(), point.get_y(), 0.0)
+            return Vector3(point.get_x(), point.get_y())
         else:
             return point
 
@@ -184,7 +189,7 @@ class Point2(Point3):
 
 
 # noinspection PyTypeChecker,PyArgumentList
-class Vector3:
+class Vector3(object):
     """
     Vector de 3 componentes, provee funciones matemáticas básicas.
     """
@@ -236,10 +241,13 @@ class Vector3:
     def __add__(self, other):
         """Suma el vector con otro"""
         if isinstance(other, Vector3):
-            return Vector3(self.x + other.get_x(), self.y + other.get_y(), self.z + other.get_z())
-        elif isinstance(other, types.TupleType) or isinstance(other, types.ListType):
+            return Vector3(self.x + other.get_x(), self.y + other.get_y(),
+                           self.z + other.get_z())
+        elif isinstance(other, types.TupleType) or isinstance(other,
+                                                              types.ListType):
             if len(other) == 3:
-                return Vector3(self.x + other[0], self.y + other[1], self.z + other[2])
+                return Vector3(self.x + other[0], self.y + other[1],
+                               self.z + other[2])
         else:
             self.throwError(2, "__add__")
             return self
@@ -247,26 +255,34 @@ class Vector3:
     def __sub__(self, other):
         """Resta el vector con otro"""
         if isinstance(other, Vector3):
-            return Vector3(self.x - other.get_x(), self.y - other.get_y(), self.z - other.get_z())
-        elif isinstance(other, types.TupleType) or isinstance(other, types.ListType):
+            return Vector3(self.x - other.get_x(), self.y - other.get_y(),
+                           self.z - other.get_z())
+        elif isinstance(other, types.TupleType) or isinstance(other,
+                                                              types.ListType):
             if len(other) == 3:
-                return Vector3(self.x - other[0], self.y - other[1], self.z - other[2])
+                return Vector3(self.x - other[0], self.y - other[1],
+                               self.z - other[2])
         else:
             self.throwError(2, "__sub__")
             return self
 
     def __mod__(self, other):
         """Calcula el modulo con otro"""
-        return Vector3(self.x % other.get_x(), self.y % other.get_y(), self.z % other.get_z())
+        return Vector3(self.x % other.get_x(), self.y % other.get_y(),
+                       self.z % other.get_z())
 
     def __mul__(self, other):
         """Producto punto o producto por valor"""
         if isinstance(other, Vector3):
-            return Vector3(self.x * other.get_x(), self.y * other.get_y(), self.z * other.get_z())
+            return Vector3(self.x * other.get_x(), self.y * other.get_y(),
+                           self.z * other.get_z())
         else:
-            if isinstance(other, types.ListType) or isinstance(other, types.TupleType):
-                return Vector3(self.x * other[0], self.y * other[1], self.z * other[2])
-            elif isinstance(other, types.IntType) or isinstance(other, types.FloatType):
+            if isinstance(other, types.ListType) or isinstance(other,
+                                                               types.TupleType):
+                return Vector3(self.x * other[0], self.y * other[1],
+                               self.z * other[2])
+            elif isinstance(other, types.IntType) or isinstance(other,
+                                                                types.FloatType):
                 return Vector3(self.x * other, self.y * other, self.z * other)
             else:
                 self.throwError(2, "__mul__")
@@ -279,9 +295,11 @@ class Vector3:
     def __div__(self, other):
         """Dividir por un ector o por un valor"""
         if isinstance(other, Vector3):
-            return Vector3(self.x / other.get_x(), self.y / other.get_y(), self.z / other.get_z())
+            return Vector3(self.x / other.get_x(), self.y / other.get_y(),
+                           self.z / other.get_z())
         else:
-            if isinstance(other, types.IntType) or isinstance(other, types.FloatType):
+            if isinstance(other, types.IntType) or isinstance(other,
+                                                              types.FloatType):
                 return Vector3(self.x / other, self.y / other, self.z / other)
             else:
                 self.throwError(2, "__div__")
@@ -386,7 +404,8 @@ class Vector3:
             self.y += other.get_y()
             self.z += other.get_z()
             return self
-        elif isinstance(other, types.TupleType) or isinstance(other, types.ListType):
+        elif isinstance(other, types.TupleType) or isinstance(other,
+                                                              types.ListType):
             if len(other) == 3:
                 self.x += other[0]
                 self.y += other[1]
@@ -403,7 +422,8 @@ class Vector3:
             self.y -= other.get_y()
             self.z -= other.get_z()
             return self
-        elif isinstance(other, types.TupleType) or isinstance(other, types.ListType):
+        elif isinstance(other, types.TupleType) or isinstance(other,
+                                                              types.ListType):
             if len(other) == 3:
                 self.x -= other[0]
                 self.y -= other[1]
@@ -421,12 +441,14 @@ class Vector3:
             self.z *= other.get_z()
             return self
         else:
-            if isinstance(other, types.ListType) or isinstance(other, types.TupleType):
+            if isinstance(other, types.ListType) or isinstance(other,
+                                                               types.TupleType):
                 self.x *= other[0]
                 self.y *= other[1]
                 self.z *= other[2]
                 return self
-            elif isinstance(other, types.IntType) or isinstance(other, types.FloatType):
+            elif isinstance(other, types.IntType) or isinstance(other,
+                                                                types.FloatType):
                 self.x *= other
                 self.y *= other
                 self.z *= other
@@ -443,12 +465,14 @@ class Vector3:
             self.z /= other.get_z()
             return self
         else:
-            if isinstance(other, types.ListType) or isinstance(other, types.TupleType):
+            if isinstance(other, types.ListType) or isinstance(other,
+                                                               types.TupleType):
                 self.x /= other[0]
                 self.y /= other[1]
                 self.z /= other[2]
                 return self
-            elif isinstance(other, types.IntType) or isinstance(other, types.FloatType):
+            elif isinstance(other, types.IntType) or isinstance(other,
+                                                                types.FloatType):
                 self.x /= other
                 self.y /= other
                 self.z /= other
@@ -462,7 +486,7 @@ class Vector3:
         """Imprime un error en pantalla"""
 
         def _printError(error):
-            print "Error :: {0} ~ {1}".format(error, err_func)
+            print('Error :: {0} ~ {1}'.format(error, err_func))
 
         if err_num == 1:
             _printError("La mantisa es menor a 1")
@@ -472,7 +496,7 @@ class Vector3:
     # override
     def echo(self, mantise=1, **kwargs):
         """Imprime el vector en pantalla"""
-        print self.__str__(mantise, **kwargs)
+        print(self.__str__(mantise, **kwargs))
 
     def dot(self, other):
         """Producto punto"""
@@ -492,7 +516,8 @@ class Vector3:
             j = self.z * other.get_x() - self.x * other.get_z()
             k = self.x * other.get_y() - self.y * other.get_x()
             return Vector3(i, j, k)
-        elif isinstance(other, types.TupleType) or isinstance(other, types.ListType):
+        elif isinstance(other, types.TupleType) or isinstance(other,
+                                                              types.ListType):
             return self.cross(Vector3(*other))
         else:
             self.throwError(2, "cross")
@@ -509,8 +534,11 @@ class Vector3:
         """Retorna la distancia a otro vector"""
         if isinstance(other, Vector3):
             return math.sqrt(
-                (self.x - other.get_x()) ** 2 + (self.y - other.get_y()) ** 2 + (self.z - other.get_y()) ** 2)
-        elif isinstance(other, types.ListType) or isinstance(other, types.TupleType):
+                (self.x - other.get_x()) ** 2 + (
+                    self.y - other.get_y()) ** 2 + (
+                    self.z - other.get_y()) ** 2)
+        elif isinstance(other, types.ListType) or isinstance(other,
+                                                             types.TupleType):
             return self.distancewith(Vector3(*other))
         else:
             self.throwError(2, "distance")
@@ -527,7 +555,9 @@ class Vector3:
                 _format = "({0},{1},{2})"
             if kwargs.get("point2"):
                 _format = "({0},{1})"
-            return _format.format(round(self.x, mantise), round(self.y, mantise), round(self.z, mantise))
+            return _format.format(round(self.x, mantise),
+                                  round(self.y, mantise),
+                                  round(self.z, mantise))
         else:
             self.throwError(1, "echo")
 

@@ -21,15 +21,19 @@ WINDOW_SIZE = [800, 600]
 
 # Se inicia ventana
 initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], "Ejemplo Ejes", centered=True)
-initGl(transparency=False, materialcolor=False, normalized=True, lighting=True, numlights=1,
-       perspectivecorr=True, antialiasing=True, depth=True, smooth=True, texture=True, verbose=False)
+initGl(transparency=False, materialcolor=False, normalized=True, lighting=True,
+       numlights=1,
+       perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
+       texture=True, verbose=False)
 reshape(*WINDOW_SIZE)
+# noinspection PyArgumentEqualDefault
 initLight(GL_LIGHT0)
 clock = pygame.time.Clock()
 
 # Se crean objetos
 axis = create_axes(AXES_LENGTH)  # Ejes
-camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Cámara del tipo esférica
+camera = CameraR(CAMERA_RAD, CAMERA_PHI,
+                 CAMERA_THETA)  # Cámara del tipo esférica
 
 # Bucle principal
 while True:

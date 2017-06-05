@@ -25,28 +25,35 @@ NUM_LIGHTS = 2
 WINDOW_SIZE = [800, 600]
 
 # Se inicia ventana
-initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Ejemplo Ejes mas Cubo', centered=True)
-initGl(transparency=False, materialcolor=False, normalized=True, lighting=True, numlights=NUM_LIGHTS,
-       perspectivecorr=True, antialiasing=True, depth=True, smooth=True, texture=True, verbose=False)
+initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Ejemplo Ejes mas Cubo',
+           centered=True)
+initGl(transparency=False, materialcolor=False, normalized=True, lighting=True,
+       numlights=NUM_LIGHTS,
+       perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
+       texture=True, verbose=False)
 reshape(*WINDOW_SIZE)
+# noinspection PyArgumentEqualDefault
 initLight(GL_LIGHT0)
-initLight(GL_LIGHT1, ambient=AMBIENT_COLOR_RED, diffuse=DIFFUSE_COLOR_RED, specular=SPECULAR_COLOR_RED)
+initLight(GL_LIGHT1, ambient=AMBIENT_COLOR_RED, diffuse=DIFFUSE_COLOR_RED,
+          specular=SPECULAR_COLOR_RED)
 clock = pygame.time.Clock()
 
 # Se cargan texturas
 textures = [
-    load_texture('ejemplo_data/metal-texture.jpg', False),
-    load_texture('ejemplo_data/metal-normal.jpg', False),
-    load_texture('ejemplo_data/metal-bump.jpg', False)
+    load_texture('ejemplo_data/metal-texture.jpg'),
+    load_texture('ejemplo_data/metal-normal.jpg'),
+    load_texture('ejemplo_data/metal-bump.jpg')
 ]
 
 # Se carga el shader
-program = load_shader('ejemplo_data/', 'normalMapShader', [NUM_LIGHTS], [3, NUM_LIGHTS])
+program = load_shader('ejemplo_data/', 'normalMapShader', [NUM_LIGHTS],
+                      [3, NUM_LIGHTS])
 program.set_name('NormalMap Shader')
 
 # Se crean objetos
 axis = create_axes(AXES_LENGTH)  # Ejes
-camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Cámara del tipo esférica
+camera = CameraR(CAMERA_RAD, CAMERA_PHI,
+                 CAMERA_THETA)  # Cámara del tipo esférica
 
 cubo = Particle()
 cubo.add_property('GLLIST', create_cube_textured(textures))
@@ -101,11 +108,15 @@ while True:
     # Dibuja luces
     luz.exec_property_func('MATERIAL')
     glLightfv(GL_LIGHT0, GL_POSITION, luz.get_position_list())
-    draw_list(luz.get_property('GLLIST'), luz.get_position_list(), 0, None, luz.get_property('SIZE'), None)
+    # noinspection PyArgumentEqualDefault
+    draw_list(luz.get_property('GLLIST'), luz.get_position_list(), 0, None,
+              luz.get_property('SIZE'), None)
 
     luz_fija.exec_property_func('MATERIAL')
     glLightfv(GL_LIGHT1, GL_POSITION, luz_fija.get_position_list())
-    draw_list(luz_fija.get_property('GLLIST'), luz_fija.get_position_list(), 0, None, luz_fija.get_property('SIZE'),
+    # noinspection PyArgumentEqualDefault
+    draw_list(luz_fija.get_property('GLLIST'), luz_fija.get_position_list(), 0,
+              None, luz_fija.get_property('SIZE'),
               None)
 
     # Dibuja modelos
@@ -116,7 +127,9 @@ while True:
     cubo.get_property('MATERIAL')()
     for i in range(3):
         program.uniformi('texture[{0}]'.format(i), i)
-    draw_list(cubo.get_property('GLLIST'), cubo.get_position_list(), 0, None, cubo.get_property('SIZE'), None)
+    # noinspection PyArgumentEqualDefault
+    draw_list(cubo.get_property('GLLIST'), cubo.get_position_list(), 0, None,
+              cubo.get_property('SIZE'), None)
     program.stop()
 
     # Comprueba las teclas presionadas
