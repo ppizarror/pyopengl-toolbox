@@ -93,11 +93,11 @@ class Particle:
             self.setY(y)
             self.setZ(z)
 
-    def getList(self):
+    def getPositionList(self):
         """Retorna la posicion de la particula como una lista"""
         return self.position.exportToList()
 
-    def getTuple(self):
+    def getPositionTuple(self):
         """Retorna la posicion de la particula como una tupla"""
         return self.position.exportToTuple()
 
@@ -351,21 +351,21 @@ class Particle:
         else:
             raise Exception("la funcion {0} no existe".format(funcname))
 
-    def addPropertie(self, propname, value):
+    def addProperty(self, propname, value):
         """Agrega una propiedad a la particula"""
         if isinstance(propname, types.IntType) or isinstance(propname, types.StringType):
             self.properties[propname] = value
         else:
             raise Exception("la propiedad debe ser de tipo int o string")
 
-    def getPropertie(self, propname):
+    def getProperty(self, propname):
         """Retorna el valor de una propiedad"""
         if propname in self._getPropName():
             return self.properties[propname]
         else:
             raise Exception("la propiedad no existe")
 
-    def getPropertieList(self, propname, propindex):
+    def getPropertyList(self, propname, propindex):
         """Retorna el valor de una propiedad que es lista y es parte de indice index"""
         if propname in self._getPropName():
             try:
@@ -375,7 +375,7 @@ class Particle:
         else:
             raise Exception("la propiedad {0} no existe".format(propname))
 
-    def modifyPropertie(self, propname, newvalue, operator=None):
+    def modifyProperty(self, propname, newvalue, operator=None):
         """Modifica el valor de una propiedad, recibe como parametro el nombre de la propiedad, un valor y una operacion, operadores aceptados:
         OPERATOR_ADD: Sumar con otro valor
         OPERATOR_AND: Calcular el operador logico and
@@ -423,13 +423,13 @@ class Particle:
         print "Properties of: {0}".format(self.getName())
         for prop in self._getPropName():
             if isinstance(prop, types.IntType):
-                print "\t{0} => {1}".format(prop, self.getPropertie(prop))
+                print "\t{0} => {1}".format(prop, self.getProperty(prop))
             else:
-                print "\t'{0}' => {1}".format(prop, self.getPropertie(prop))
+                print "\t'{0}' => {1}".format(prop, self.getProperty(prop))
 
     def __getitem__(self, item):
         """Retorna el elemento en forma de lista"""
-        return self.getList()
+        return self.getPositionList()
 
     def __str__(self):
         """Retorna el estado de la particula"""

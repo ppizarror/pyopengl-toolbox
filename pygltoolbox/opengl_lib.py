@@ -23,11 +23,11 @@ from utils import *
 
 # Definición de constantes
 _OPENGL_CONFIGS = [False]
-DEFAULT_AMBIENT_COLOR = [0.2, 0.2, 0.2, 1.0]
+DEFAULT_AMBIENT_COLOR = [1, 1, 1, 1.0]
 DEFAULT_BGCOLOR = [0.0, 0.0, 0.0, 1.0]
 DEFAULT_BGDEPTH = 1.0
 DEFAULT_CONSTANT_ATTENUATION = 1.0
-DEFAULT_DIFFUSE_COLOR = [0.8, 0.8, 0.8, 1.0]
+DEFAULT_DIFFUSE_COLOR = [1, 1, 1, 1.0]
 DEFAULT_LINEAR_ATTENUATION = 0.0
 DEFAULT_QUADRATIC_ATTENUATION = 0.0
 DEFAULT_SPECULAR_COLOR = [1.0, 1.0, 1.0, 1.0]
@@ -229,16 +229,16 @@ def initLight(light=GL_LIGHT0, *args, **kwargs):
     """Define las propiedades de iluminacion, forma de uso
     light: luz a iniciar, del tipo GL_LIGHTn con n=0..8
 
-    parametros validos:\n
-    ambient: color ambiente rgba\n
-    diffuse: color difuso rgba\n
-    specular: color especular rgba\n
-    spot_cutoff: angulo de enfoque\n
-    spot_exponent: exponente del enfoque\n
-    spot_direction: direccion de enfoque\n
-    constant_att: atenuacion constante\n
-    linear_att: atenuacion linear\n
-    quad_att: atenuacion cuadratica\n
+    parametros validos:
+    ambient: color ambiente rgba
+    diffuse: color difuso rgba
+    specular: color especular rgba
+    spot_cutoff: angulo de enfoque
+    spot_exponent: exponente del enfoque
+    spot_direction: direccion de enfoque
+    constant_att: atenuacion constante
+    linear_att: atenuacion linear
+    quad_att: atenuacion cuadratica
     """
 
     # Se define el color ambiente

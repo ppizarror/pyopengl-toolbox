@@ -19,15 +19,17 @@ GNU General Public License for more details.
 # Importación de librerías
 import pygame
 from pygame.locals import *
-
+import os
 
 # Constantes
 _DEFAULT_CAPTION = "Program title"
 
 
-def initPygame(w, h, caption=_DEFAULT_CAPTION, center_mouse=False, icon=None):
+def initPygame(w, h, caption=_DEFAULT_CAPTION, center_mouse=False, icon=None, centered=False):
     """Inicia el modulo de pygame"""
     pygame.init()
+    if centered:
+        os.environ['SDL_VIDEO_CENTERED'] = '1'
     pygame.display.set_mode((w, h), OPENGLBLIT | DOUBLEBUF)
     pygame.display.set_caption(caption)
     if center_mouse:

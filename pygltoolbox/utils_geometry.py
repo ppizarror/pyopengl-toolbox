@@ -25,7 +25,7 @@ def drawVertexList(vertex_list):
 def drawVertexListNormal(normal, vertex_list):
     """Dibuja una lista de puntos point2/point3 con una normal"""
     if len(vertex_list) >= 3:
-        if isinstance(normal, vector3):
+        if isinstance(normal, Vector3):
             glNormal3fv(normal.exportToList())
             drawVertexList(vertex_list)
         else:
@@ -66,7 +66,7 @@ def drawVertexListNormal_textured(normal, vertex_list, tvertex_list):
     para modelos texturados con una normal"""
     if len(vertex_list) >= 1:
         if len(tvertex_list) >= 3:
-            if isinstance(normal, vector3):
+            if isinstance(normal, Vector3):
                 glNormal3fv(normal.exportToList())
                 drawVertexList_textured(vertex_list, tvertex_list)
             else:
@@ -89,7 +89,16 @@ def drawVertexListCreateNormal_textured(vertex_list, tvertex_list):
 
 # noinspection PyDefaultArgument
 def drawList(lista, pos=[0.0, 0.0, 0.0], angle=0.0, rot=None, sz=None, rgb=None):
-    """Dibuja una lista"""
+    """
+    Dibuja una lista de OpenGl
+    :param lista: Lista OpenGL
+    :param pos: Posición
+    :param angle: Lista de ángulos a rotar
+    :param rot: Indica si rota o no
+    :param sz: Escalado de imagen
+    :param rgb: Colores del objeto
+    :return:
+    """
     glPushMatrix()
     glTranslate(pos[0], pos[1], pos[2])
     if sz is not None:

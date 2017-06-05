@@ -19,7 +19,19 @@ GNU General Public License for more details.
 from OpenGL.GL import *
 
 # Constantes
+AMBIENT_COLOR_GREEN = [0.0, 0.403, 0.0]
+AMBIENT_COLOR_PURPLE = [0.203, 0.0, 0.203]
+AMBIENT_COLOR_RED = [0.403, 0.0, 0.0, 1.0]
+AMBIENT_COLOR_YELLOW = [0.603, 0.603, 0.0]
 DEFAULT_EMISSION = [0.0, 0.0, 0.0, 1.0]
+DIFFUSE_COLOR_GREEN = [0.0, 0.505, 0.0]
+DIFFUSE_COLOR_PURPLE = [0.301, 0.0, 0.301]
+DIFFUSE_COLOR_RED = [0.556, 0.0, 0.0, 1.0]
+DIFFUSE_COLOR_YELLOW = [0.803, 0.803, 0.0]
+SPECULAR_COLOR_GREEN = [0.0, 0.705, 0.0]
+SPECULAR_COLOR_PURPLE = [0.505, 0.0, 0.505]
+SPECULAR_COLOR_RED = [0.858, 0.0, 0.0, 1.0]
+SPECULAR_COLOR_YELLOW = [0.901, 0.901, 0.0]
 WHITE_EMISSION = [1.0, 1.0, 1.0, 1.0]
 
 
@@ -236,4 +248,12 @@ def material_yellow_rubber(emission=DEFAULT_EMISSION, face=GL_FRONT_AND_BACK):
     glMaterialfv(face, GL_DIFFUSE, [0.5, 0.5, 0.4, 1.0])
     glMaterialfv(face, GL_SPECULAR, [0.7, 0.7, 0.04, 1.0])
     glMaterialfv(face, GL_SHININESS, 0.078125 * 128)
+    glMaterialfv(face, GL_EMISSION, emission)
+
+def material_natural_white(emission=DEFAULT_EMISSION, face=GL_FRONT_AND_BACK):
+    """Blanco natural"""
+    glMaterialfv(face, GL_AMBIENT, [1, 1, 1, 1.0])
+    glMaterialfv(face, GL_DIFFUSE, [1, 1, 1, 1.0])
+    glMaterialfv(face, GL_SPECULAR, [1, 1, 1, 1])
+    glMaterialfv(face, GL_SHININESS, 128)
     glMaterialfv(face, GL_EMISSION, emission)
