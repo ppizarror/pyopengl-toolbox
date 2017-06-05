@@ -12,6 +12,7 @@ from pygltoolbox.particles import *
 from pygltoolbox.figures import *
 from pygltoolbox.materials import *
 from pygltoolbox.textures import *
+from pygltoolbox.shader import *
 
 # Constantes
 AXES_LENGTH = 700
@@ -37,6 +38,10 @@ textures = [
     loadTexture('metal-bump.jpg', False)
 ]
 
+# Se carga el shader
+program = loadShader('', 'normalMap', [1], [3, 1])
+program.setName('Normal Map')
+
 # Se crean objetos
 axis = createAxes(AXES_LENGTH)  # Ejes
 camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Camara del tipo esférica
@@ -44,7 +49,7 @@ camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Camara del tipo esfér
 cubo = Particle()
 cubo.addProperty('GLLIST', create_cube_textured(textures))
 cubo.addProperty('SIZE', [400, 400, 400])
-cubo.addProperty('MATERIAL', material_natural_white)
+cubo.addProperty('MATERIAL', material_silver)
 cubo.setName('Cubo')
 
 luz = Particle(1000, 1000, 100)
@@ -58,6 +63,9 @@ while True:
     clock.tick(FPS)
     clearBuffer()
     camera.place()
+    luz.rotateX(1)
+    luz.rotateY(-1)
+    luz.rotateZ(0.5)
     if islightEnabled():
         glDisable(GL_LIGHTING)
         glCallList(axis)
@@ -83,8 +91,15 @@ while True:
     drawList(luz.getProperty('GLLIST'), luz.getPositionList(), 0, None, luz.getProperty('SIZE'), None)
 
     # Dibuja modelos
+    program.start()
+    program.uniformi('toggletexture', True)
+    program.uniformi('togglebump', True)
+    program.uniformi('toggleparallax', True)
     cubo.getProperty('MATERIAL')()
-    drawList(cubo.getProperty('GLLIST'), cubo.getPositionList(), 0, None, cubo.getProperty('SIZE'), [1, 1, 1, 1])
+    for i in range(3):
+        program.uniformi('texture[{0}]'.format(i), i)
+    drawList(cubo.getProperty('GLLIST'), cubo.getPositionList(), 0, None, cubo.getProperty('SIZE'), None)
+    program.stop()
 
     # Comprueba las teclas presionadas
     keys = pygame.key.get_pressed()
