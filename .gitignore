@@ -6,3 +6,6 @@
 
 # Archivos zip
 *.zip
+
+# Se agrega contador de líneas
+lc.py
