@@ -35,7 +35,7 @@ for i in range(10):
 
 
 # noinspection PyDefaultArgument
-class Vboobject:
+class VboObject:
     """Objeto del tipo VBO el cual permite cargar y dibujar elementos usando shaders"""
 
     def __init__(self, vertex, fragment, total_vertex, texture=None):
@@ -270,9 +270,9 @@ def loadGMSHModel(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True, neg_normal
 
     vertex, norm, avgnorm = load(modelfile, scale, float(dx), float(dy), float(dz))
     if avg:
-        return Vboobject(vbo.VBO(array(vertex, 'f')), vbo.VBO(array(avgnorm, 'f')), len(vertex), texture)
+        return VboObject(vbo.VBO(array(vertex, 'f')), vbo.VBO(array(avgnorm, 'f')), len(vertex), texture)
     else:
-        return Vboobject(vbo.VBO(array(vertex, 'f')), vbo.VBO(array(norm, 'f')), len(vertex), texture)
+        return VboObject(vbo.VBO(array(vertex, 'f')), vbo.VBO(array(norm, 'f')), len(vertex), texture)
 
 
 # noinspection PyBroadException
@@ -347,7 +347,7 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=COLOR_WHITE):
 
 
 def create_cube(color=COLOR_WHITE):
-    """Crea un cubo"""
+    """Crea un cubo de arista 1.0"""
     a = Point3(-1.0, -1.0, -1.0)
     b = Point3(1.0, -1.0, -1.0)
     c = Point3(1.0, -1.0, 1.0)
@@ -450,7 +450,7 @@ def create_cube_solid(color=COLOR_WHITE):
 
 # noinspection PyBroadException
 def create_piramid(color=COLOR_WHITE):
-    """Crea una piramide de base cuadrada"""
+    """Crea una pirámide de base cuadrada"""
     arista = 2.0
     a = Point3(-0.5, -0.5, -0.333) * arista
     b = Point3(0.5, -0.5, -0.333) * arista
@@ -478,7 +478,7 @@ def create_piramid(color=COLOR_WHITE):
 
 # noinspection PyBroadException
 def create_piramid_textured(texture_list):
-    """Crea una piramide de base cuadrada con texturas"""
+    """Crea una pirámide de base cuadrada con texturas"""
     arista = 2.0
     a = Point3(-0.5, -0.5, -0.333) * arista
     b = Point3(0.5, -0.5, -0.333) * arista
@@ -513,7 +513,7 @@ def create_piramid_textured(texture_list):
 
 
 # noinspection PyBroadException
-def create_rombo(color=COLOR_WHITE):
+def create_diamond(color=COLOR_WHITE):
     """Crea un rombo de base cuadrada"""
     a = Point3(-1.0, -1.0, 0.0)
     b = Point3(1.0, -1.0, 0.0)
@@ -543,7 +543,7 @@ def create_rombo(color=COLOR_WHITE):
 
 # noinspection PyBroadException
 def create_teapot(color=COLOR_WHITE):
-    """Crea un teapot"""
+    """Crea un teapot de OpenGL"""
     obj = glGenLists(1)
     glNewList(obj, GL_COMPILE)
     glPushMatrix()
@@ -591,7 +591,7 @@ def create_piramid_vbo(arista=1.0):
 
     def ex(element):
         """Exporta el elemento a una lista"""
-        return element.exportToList()
+        return element.export_to_list()
 
     # Se crean los puntos
     a = Point3(-0.5, -0.5, -0.333) * arista
@@ -613,7 +613,7 @@ def create_piramid_vbo(arista=1.0):
     normal_array = [n1, n1, n1, n2, n2, n2, n3, n3, n3, n4, n4, n4, n5, n5, n5, n5, n5, n5]
 
     # Se retornan los vertex buffer object
-    return Vboobject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')), len(vertex_array))
+    return VboObject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')), len(vertex_array))
 
 
 # noinspection PyTypeChecker,PyTypeChecker
@@ -622,7 +622,7 @@ def create_tetrahedron_vbo(arista=1.0):
 
     def ex(element):
         """Exporta el elemento a una lista"""
-        return element.exportToList()
+        return element.export_to_list()
 
     # Se crean los puntos
     a = Point3(-0.5, -0.288675, -0.288675) * arista
@@ -641,7 +641,7 @@ def create_tetrahedron_vbo(arista=1.0):
     normal_array = [n1, n1, n1, n2, n2, n2, n3, n3, n3, n4, n4, n4]
 
     # Se retornan los vertex buffer object
-    return Vboobject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')), len(vertex_array))
+    return VboObject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')), len(vertex_array))
 
 
 # noinspection PyBroadException

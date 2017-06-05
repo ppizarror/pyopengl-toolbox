@@ -21,8 +21,8 @@ except ImportError:
         exit()
 
 
-def loadTexture(image_file, repeat=False):
-    """Carga una textura desde un archivo t"""
+def load_texture(image_file, repeat=False):
+    """Carga una textura desde un archivo image_file"""
     img = Image.open(image_file)
     data = numpy.array(list(img.getdata()), numpy.int8)
 

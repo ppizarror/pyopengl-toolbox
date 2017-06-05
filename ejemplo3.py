@@ -21,51 +21,63 @@ CAMERA_RAD = 1700.0
 CAMERA_ROT_VEL = 2.5
 CAMERA_THETA = 56
 FPS = 60
+NUM_LIGHTS = 2
 WINDOW_SIZE = [800, 600]
 
 # Se inicia ventana
-initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], "Ejemplo Ejes", centered=True)
-initGl(transparency=False, materialcolor=False, normalized=True, lighting=True, numlights=1,
+initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Ejemplo Ejes mas Cubo', centered=True)
+initGl(transparency=False, materialcolor=False, normalized=True, lighting=True, numlights=NUM_LIGHTS,
        perspectivecorr=True, antialiasing=True, depth=True, smooth=True, texture=True, verbose=False)
 reshape(*WINDOW_SIZE)
 initLight(GL_LIGHT0)
+initLight(GL_LIGHT1, ambient=AMBIENT_COLOR_RED, diffuse=DIFFUSE_COLOR_RED, specular=SPECULAR_COLOR_RED)
 clock = pygame.time.Clock()
 
 # Se cargan texturas
 textures = [
-    loadTexture('metal-texture.jpg', False),
-    loadTexture('metal-normal.jpg', False),
-    loadTexture('metal-bump.jpg', False)
+    load_texture('ejemplo_data/metal-texture.jpg', False),
+    load_texture('ejemplo_data/metal-normal.jpg', False),
+    load_texture('ejemplo_data/metal-bump.jpg', False)
 ]
 
 # Se carga el shader
-program = loadShader('', 'normalMap', [1], [3, 1])
-program.setName('Normal Map')
+program = load_shader('ejemplo_data/', 'normalMapShader', [NUM_LIGHTS], [3, NUM_LIGHTS])
+program.set_name('NormalMap Shader')
 
 # Se crean objetos
-axis = createAxes(AXES_LENGTH)  # Ejes
-camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Camara del tipo esférica
+axis = create_axes(AXES_LENGTH)  # Ejes
+camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Cámara del tipo esférica
 
 cubo = Particle()
-cubo.addProperty('GLLIST', create_cube_textured(textures))
-cubo.addProperty('SIZE', [400, 400, 400])
-cubo.addProperty('MATERIAL', material_silver)
-cubo.setName('Cubo')
+cubo.add_property('GLLIST', create_cube_textured(textures))
+cubo.add_property('SIZE', [400, 400, 400])
+cubo.add_property('MATERIAL', material_silver)
+cubo.set_name('Cubo')
 
 luz = Particle(1000, 1000, 100)
-luz.setName('Luz')
-luz.addProperty('GLLIST', create_cube())
-luz.addProperty('SIZE', [15, 15, 15])
-luz.addProperty('MATERIAL', material_gold)
+luz.set_name('Luz móvil (1)')
+luz.add_property('GLLIST', create_cube())
+luz.add_property('SIZE', [15, 15, 15])
+luz.add_property('MATERIAL', material_gold)
+
+luz_fija = Particle(1000, -1000, 1000)
+luz_fija.set_name('Luz fija (2)')
+luz_fija.add_property('GLLIST', create_cube())
+luz_fija.add_property('SIZE', [15, 15, 15])
+luz_fija.add_property('MATERIAL', material_ruby)
 
 # Bucle principal
 while True:
+
+    # Crea contador, limpia ventana, establece cámara
     clock.tick(FPS)
     clearBuffer()
     camera.place()
-    luz.rotateX(1)
-    luz.rotateY(-1)
-    luz.rotateZ(0.5)
+
+    # Rota luz
+    luz.rotate_x(1)
+    luz.rotate_y(-1)
+    luz.rotate_z(0.5)
     if islightEnabled():
         glDisable(GL_LIGHTING)
         glCallList(axis)
@@ -75,30 +87,36 @@ while True:
 
     # Se actualizan modelos
     luz.update()
+    luz_fija.update()
     cubo.update()
 
     # Se comprueban eventos
     for event in pygame.event.get():
-        if event.type == QUIT:  # Cierra la aplicacion
+        if event.type == QUIT:  # Cierra la aplicación
             exit()
         elif event.type == KEYDOWN:
-            if event.key == K_ESCAPE:  # Cierra la aplicacion
+            if event.key == K_ESCAPE:  # Cierra la aplicación
                 exit()
 
     # Dibuja luces
-    luz.getProperty('MATERIAL')()
-    glLightfv(GL_LIGHT0, GL_POSITION, luz.getPositionList())
-    drawList(luz.getProperty('GLLIST'), luz.getPositionList(), 0, None, luz.getProperty('SIZE'), None)
+    luz.exec_property_func('MATERIAL')
+    glLightfv(GL_LIGHT0, GL_POSITION, luz.get_position_list())
+    draw_list(luz.get_property('GLLIST'), luz.get_position_list(), 0, None, luz.get_property('SIZE'), None)
+
+    luz_fija.exec_property_func('MATERIAL')
+    glLightfv(GL_LIGHT1, GL_POSITION, luz_fija.get_position_list())
+    draw_list(luz_fija.get_property('GLLIST'), luz_fija.get_position_list(), 0, None, luz_fija.get_property('SIZE'),
+              None)
 
     # Dibuja modelos
     program.start()
     program.uniformi('toggletexture', True)
     program.uniformi('togglebump', True)
     program.uniformi('toggleparallax', True)
-    cubo.getProperty('MATERIAL')()
+    cubo.get_property('MATERIAL')()
     for i in range(3):
         program.uniformi('texture[{0}]'.format(i), i)
-    drawList(cubo.getProperty('GLLIST'), cubo.getPositionList(), 0, None, cubo.getProperty('SIZE'), None)
+    draw_list(cubo.get_property('GLLIST'), cubo.get_position_list(), 0, None, cubo.get_property('SIZE'), None)
     program.stop()
 
     # Comprueba las teclas presionadas
@@ -109,19 +127,19 @@ while True:
     elif keys[K_s]:
         camera.rotateX(-CAMERA_ROT_VEL)
 
-    # Rotar la camara en el eje Y
+    # Rotar la cámara en el eje Y
     if keys[K_a]:
         camera.rotateY(-CAMERA_ROT_VEL)
     elif keys[K_d]:
         camera.rotateY(CAMERA_ROT_VEL)
 
-    # Rotar la camara en el eje Z
+    # Rotar la cámara en el eje Z
     if keys[K_q]:
         camera.rotateZ(-CAMERA_ROT_VEL)
     elif keys[K_e]:
         camera.rotateZ(CAMERA_ROT_VEL)
 
-    # Acerca / aleja la camara
+    # Acerca / aleja la cámara
     if keys[K_n]:
         camera.close()
     elif keys[K_m]:

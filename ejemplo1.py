@@ -28,8 +28,8 @@ initLight(GL_LIGHT0)
 clock = pygame.time.Clock()
 
 # Se crean objetos
-axis = createAxes(AXES_LENGTH)  # Ejes
-camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Camara del tipo esférica
+axis = create_axes(AXES_LENGTH)  # Ejes
+camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Cámara del tipo esférica
 
 # Bucle principal
 while True:
@@ -45,10 +45,10 @@ while True:
 
     # Se comprueban eventos
     for event in pygame.event.get():
-        if event.type == QUIT:  # Cierra la aplicacion
+        if event.type == QUIT:  # Cierra la aplicación
             exit()
         elif event.type == KEYDOWN:
-            if event.key == K_ESCAPE:  # Cierra la aplicacion
+            if event.key == K_ESCAPE:  # Cierra la aplicación
                 exit()
 
     # Comprueba las teclas presionadas
@@ -59,19 +59,19 @@ while True:
     elif keys[K_s]:
         camera.rotateX(-CAMERA_ROT_VEL)
 
-    # Rotar la camara en el eje Y
+    # Rotar la cámara en el eje Y
     if keys[K_a]:
         camera.rotateY(-CAMERA_ROT_VEL)
     elif keys[K_d]:
         camera.rotateY(CAMERA_ROT_VEL)
 
-    # Rotar la camara en el eje Z
+    # Rotar la cámara en el eje Z
     if keys[K_q]:
         camera.rotateZ(-CAMERA_ROT_VEL)
     elif keys[K_e]:
         camera.rotateZ(CAMERA_ROT_VEL)
 
-    # Acerca / aleja la camara
+    # Acerca / aleja la cámara
     if keys[K_n]:
         camera.close()
     elif keys[K_m]:

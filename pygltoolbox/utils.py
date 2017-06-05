@@ -31,7 +31,7 @@ def printGLError(err_msg):
     print "[GL-ERROR] {0}".format(err_msg)
 
 
-def isWindows():
+def is_windows():
     """Retorna true/false si el sistema operativo cliente es windows"""
     if os.name == "nt":
         return True
@@ -39,7 +39,7 @@ def isWindows():
 
 
 # noinspection PyUnresolvedReferences
-def createAxes(s, both=False, text=True):
+def create_axes(s, both=False, text=True):
     """Dibuja los ejes en pantalla"""
     # Se convierte la distancia a un entero positivo
     s = abs(s)
@@ -81,14 +81,14 @@ def createAxes(s, both=False, text=True):
         glEnd()
 
         if text:  # Se dibujan los nombres de los ejes
-            drawText("x", Point3(s + 60, 0, -15), [1, 0, 0], GLUT_BITMAP_HELVETICA_18)
-            drawText("y", Point3(0, s + 50, -15), [0, 1, 0], GLUT_BITMAP_HELVETICA_18)
-            drawText("z", Point3(+0, +0, s + 50), [0, 0, 1], GLUT_BITMAP_HELVETICA_18)
+            draw_text("x", Point3(s + 60, 0, -15), [1, 0, 0], GLUT_BITMAP_HELVETICA_18)
+            draw_text("y", Point3(0, s + 50, -15), [0, 1, 0], GLUT_BITMAP_HELVETICA_18)
+            draw_text("z", Point3(+0, +0, s + 50), [0, 0, 1], GLUT_BITMAP_HELVETICA_18)
 
             if both:
-                drawText("-x", Point3(-s - 60, 0, -15), [1, 0, 0], GLUT_BITMAP_HELVETICA_18)
-                drawText("-y", Point3(0, -s - 70, -15), [0, 1, 0], GLUT_BITMAP_HELVETICA_18)
-                drawText("-z", Point3(+0, +0, -s - 80), [0, 0, 1], GLUT_BITMAP_HELVETICA_18)
+                draw_text("-x", Point3(-s - 60, 0, -15), [1, 0, 0], GLUT_BITMAP_HELVETICA_18)
+                draw_text("-y", Point3(0, -s - 70, -15), [0, 1, 0], GLUT_BITMAP_HELVETICA_18)
+                draw_text("-z", Point3(+0, +0, -s - 80), [0, 0, 1], GLUT_BITMAP_HELVETICA_18)
 
         # Se retorna la lista
         glEndList()
@@ -99,13 +99,13 @@ def createAxes(s, both=False, text=True):
 
 
 # noinspection PyBroadException
-def drawText(text, pos, color=COLOR_WHITE, font=GLUT_BITMAP_TIMES_ROMAN_24, linespace=20):
+def draw_text(text, pos, color=COLOR_WHITE, font=GLUT_BITMAP_TIMES_ROMAN_24, linespace=20):
     """Dibuja un texto en una posicon dada por un punto point3"""
     glColor3fv(color)
     if isinstance(pos, Point3):
-        x = pos.getX()
-        y = pos.getY()
-        z = pos.getZ()
+        x = pos.get_x()
+        y = pos.get_y()
+        z = pos.get_z()
         glRasterPos3f(x, y, z)
         for char in text:
             if char == "\n":
@@ -122,11 +122,11 @@ def drawText(text, pos, color=COLOR_WHITE, font=GLUT_BITMAP_TIMES_ROMAN_24, line
         raise Exception("el punto debe ser del tipo point3")
 
 
-def getRGBNormalized(r, g, b, a=1.0):
+def get_rgb_normalized(r, g, b, a=1.0):
     """Retorna una lista con el color rgb normalizado"""
     return r / 255.0, g / 255.0, b / 255.0, a
 
 
-def setRGBColor(r, g, b, a=1.0):
+def set_rgb_color(r, g, b, a=1.0):
     """Define el color de dibujado RGB"""
-    glColor4fv(getRGBNormalized(r, g, b, a))
+    glColor4fv(get_rgb_normalized(r, g, b, a))

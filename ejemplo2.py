@@ -15,7 +15,7 @@ from pygltoolbox.materials import *
 # Constantes
 AXES_LENGTH = 700
 CAMERA_PHI = 45
-CAMERA_RAD = 1700.0
+CAMERA_RAD = 2000.0
 CAMERA_ROT_VEL = 2.5
 CAMERA_THETA = 56
 FPS = 60
@@ -30,20 +30,20 @@ initLight(GL_LIGHT0)
 clock = pygame.time.Clock()
 
 # Se crean objetos
-axis = createAxes(AXES_LENGTH)  # Ejes
-camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Camara del tipo esférica
+axis = create_axes(AXES_LENGTH)  # Ejes
+camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Cámara del tipo esférica
 
 cubo = Particle()
-cubo.addProperty('GLLIST', create_cube())
-cubo.addProperty('SIZE', [400, 400, 400])
-cubo.addProperty('MATERIAL', material_gold)
-cubo.setName('Cubo')
+cubo.add_property('GLLIST', create_cube())
+cubo.add_property('SIZE', [400, 400, 400])
+cubo.add_property('MATERIAL', material_gold)
+cubo.set_name('Cubo')
 
 luz = Particle(1000, 1000, 100)
-luz.setName('Luz')
-luz.addProperty('GLLIST', create_cube())
-luz.addProperty('SIZE', [15, 15, 15])
-luz.addProperty('MATERIAL', material_silver)
+luz.set_name('Luz')
+luz.add_property('GLLIST', create_cube())
+luz.add_property('SIZE', [15, 15, 15])
+luz.add_property('MATERIAL', material_silver)
 
 # Bucle principal
 while True:
@@ -63,20 +63,20 @@ while True:
 
     # Se comprueban eventos
     for event in pygame.event.get():
-        if event.type == QUIT:  # Cierra la aplicacion
+        if event.type == QUIT:  # Cierra la aplicación
             exit()
         elif event.type == KEYDOWN:
-            if event.key == K_ESCAPE:  # Cierra la aplicacion
+            if event.key == K_ESCAPE:  # Cierra la aplicación
                 exit()
 
     # Dibuja luces
-    luz.getProperty('MATERIAL')()
-    glLightfv(GL_LIGHT0, GL_POSITION, luz.getPositionList())
-    drawList(luz.getProperty('GLLIST'), luz.getPositionList(), 0, None, luz.getProperty('SIZE'), None)
+    luz.exec_property_func('MATERIAL')
+    glLightfv(GL_LIGHT0, GL_POSITION, luz.get_position_list())
+    draw_list(luz.get_property('GLLIST'), luz.get_position_list(), 0, None, luz.get_property('SIZE'), None)
 
     # Dibuja modelos
-    cubo.getProperty('MATERIAL')()
-    drawList(cubo.getProperty('GLLIST'), cubo.getPositionList(), 0, None, cubo.getProperty('SIZE'), None)
+    cubo.exec_property_func('MATERIAL')
+    draw_list(cubo.get_property('GLLIST'), cubo.get_position_list(), 0, None, cubo.get_property('SIZE'), None)
 
     # Comprueba las teclas presionadas
     keys = pygame.key.get_pressed()
@@ -86,19 +86,19 @@ while True:
     elif keys[K_s]:
         camera.rotateX(-CAMERA_ROT_VEL)
 
-    # Rotar la camara en el eje Y
+    # Rotar la cámara en el eje Y
     if keys[K_a]:
         camera.rotateY(-CAMERA_ROT_VEL)
     elif keys[K_d]:
         camera.rotateY(CAMERA_ROT_VEL)
 
-    # Rotar la camara en el eje Z
+    # Rotar la cámara en el eje Z
     if keys[K_q]:
         camera.rotateZ(-CAMERA_ROT_VEL)
     elif keys[K_e]:
         camera.rotateZ(CAMERA_ROT_VEL)
 
-    # Acerca / aleja la camara
+    # Acerca / aleja la cámara
     if keys[K_n]:
         camera.close()
     elif keys[K_m]:

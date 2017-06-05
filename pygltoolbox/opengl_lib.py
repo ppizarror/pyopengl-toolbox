@@ -40,25 +40,24 @@ SPOT_DIRECTION_ALL = [1.0, 1.0, 1.0, 1.0]
 # noinspection PyGlobalUndefined
 def initGl(**kwargs):
     """Inicia opengl
-    Parametros validos:\n
-    antialiasing=true/false (activa el antialiasing, true por defecto)\n
-    bgcolor=color de fondo\n
-    bgdepth=profundidad de dibujo\n
-    depth=true/false (activa el depth map, true por defecto)\n
-    height=alto de la ventana\n
-    lighting=true/false (activa la iluminacion, false por defecto)\n
-    materialcolor=true/false (activa el color natural de los materiales, true por defecto)\n
-    normalized=true/false (normaliza las normales, true por defecto)\n
-    numlights=1..9 (indica el numero de luces a activar, 0 por defecto)\n
-    perspectivecorr=true/false (activa la correccion de perspectiva, false por defecto)\n
-    polygonfillmode=true/false (indica el rellenar las superficies, true por defecto)\n
-    smooth=true/false (activa el dibujado suave, true por defecto)\n
-    surffil=true/false (activa el rellenado de superficies, true por defecto)\n
-    textures=true/false (activa las texturas, false por defecto)\n
-    transparency=true/false (activa la transparencia de los modelos, true por defecto)\n
-    verbose=true/false (activa el logging, false por defecto)\n
-    version=true/false (imprime la version en pantalla de OpenGL, false por defecto)\n
-    width=ancho de la ventana
+    Parametros válidos:
+
+    antialiasing=true/false (activa el antialiasing, true por defecto)
+    bgcolor=color de fondo
+    bgdepth=profundidad de dibujo
+    depth=true/false (activa el depth map, true por defecto)
+    lighting=true/false (activa la iluminacion, false por defecto)
+    materialcolor=true/false (activa el color natural de los materiales, true por defecto)
+    normalized=true/false (normaliza las normales, true por defecto)
+    numlights=1..9 (indica el numero de luces a activar, 0 por defecto)
+    perspectivecorr=true/false (activa la correccion de perspectiva, false por defecto)
+    polygonfillmode=true/false (indica el rellenar las superficies, true por defecto)
+    smooth=true/false (activa el dibujado suave, true por defecto)
+    surffil=true/false (activa el rellenado de superficies, true por defecto)
+    textures=true/false (activa las texturas, false por defecto)
+    transparency=true/false (activa la transparencia de los modelos, true por defecto)
+    verbose=true/false (activa el logging, false por defecto)
+    version=true/false (imprime la version en pantalla de OpenGL, false por defecto)
     """
 
     global verbose

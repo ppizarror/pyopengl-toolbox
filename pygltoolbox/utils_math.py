@@ -30,46 +30,47 @@ class Point3:
     """
     Punto de 3 componentes.
     """
+
     def __init__(self, x=0.0, y=0.0, z=0.0):
         """Funcion constructora"""
         self._point = Vector3(x, y, z)
         self._type = POINT_3
 
-    def getType(self):
+    def get_type(self):
         """Retorna el tipo de punto"""
         return self._type
 
-    def getX(self):
+    def get_x(self):
         """Retorna el primer elemento del punto"""
-        return self._point.getX()
+        return self._point.get_x()
 
-    def getY(self):
+    def get_y(self):
         """Retorna el segundo elemento del punto"""
-        return self._point.getY()
+        return self._point.get_y()
 
-    def getZ(self):
+    def get_z(self):
         """Retorna el tercer elemento del punto"""
-        return self._point.getZ()
+        return self._point.get_z()
 
-    def setX(self, value):
+    def set_x(self, value):
         """Define el primer elemento del punto"""
-        self._point.setX(value)
+        self._point.set_x(value)
 
-    def setY(self, value):
+    def set_y(self, value):
         """Define el segundo elemento del punto"""
-        self._point.setY(value)
+        self._point.set_y(value)
 
-    def setZ(self, value):
+    def set_z(self, value):
         """Define el tercer elemento del punto"""
-        self._point.setZ(value)
+        self._point.set_z(value)
 
-    def exportToList(self):
+    def export_to_list(self):
         """Exportar el punto a una lista"""
-        return [self._point.getX(), self._point.getY(), self._point.getZ()]
+        return [self._point.get_x(), self._point.get_y(), self._point.get_z()]
 
-    def exportToTuple(self):
+    def export_to_tuple(self):
         """Exportar el punto a una tupla"""
-        return self._point.getX(), self._point.getY(), self._point.getZ()
+        return self._point.get_x(), self._point.get_y(), self._point.get_z()
 
     def normalize(self):
         """Normaliza el punto"""
@@ -82,15 +83,15 @@ class Point3:
 
     def __add__(self, other):
         """Sumar el punto con otro"""
-        return self._vectoPoint(self._point.__add__(self._pointToVec(other)))
+        return self._vecto_point(self._point.__add__(self._point_to_vec(other)))
 
     def __sub__(self, other):
         """Restar el punto con otro"""
-        return self._vectoPoint(self._point.__sub__(self._pointToVec(other)))
+        return self._vecto_point(self._point.__sub__(self._point_to_vec(other)))
 
     def __mul__(self, other):
         """Multiplicar el punto por otro"""
-        return self._vectoPoint(self._point.__mul__(self._pointToVec(other)))
+        return self._vecto_point(self._point.__mul__(self._point_to_vec(other)))
 
     def __str__(self, mantise=1, **kwargs):
         """Retornar el string del punto"""
@@ -98,45 +99,45 @@ class Point3:
 
     def __div__(self, other):
         """Dividir el punto por otro"""
-        return self._vectoPoint(self._point.__div__(self._pointToVec(other)))
+        return self._vecto_point(self._point.__div__(self._point_to_vec(other)))
 
     def __abs__(self):
         """Retornar el valor absoluto del punto"""
-        return self._vectoPoint(self._point.__abs__())
+        return self._vecto_point(self._point.__abs__())
 
     def __iadd__(self, other):
         """Suma el mismo punto con other"""
-        self = self._vectoPoint(self._point.__iadd__(other))
+        self = self._vecto_point(self._point.__iadd__(other))
         return self
 
     def __isub__(self, other):
         """Resta el mismo punto con other"""
-        self = self._vectoPoint(self._point.__isub__(other))
+        self = self._vecto_point(self._point.__isub__(other))
         return self
 
     def __imul__(self, other):
         """Multiplica el mismo punto con other"""
-        self = self._vectoPoint(self._point.__imul__(other))
+        self = self._vecto_point(self._point.__imul__(other))
         return self
 
     def __idiv__(self, other):
         """Divide el mismo punto con other"""
-        self = self._vectoPoint(self._point.__iadd__(other))
+        self = self._vecto_point(self._point.__iadd__(other))
         return self
 
     # noinspection PyMethodMayBeStatic,PyShadowingNames
-    def _pointToVec(self, point):
+    def _point_to_vec(self, point):
         """Convierte un punto a un vector"""
         if isinstance(point, Point3):
-            return Vector3(point.getX(), point.getY(), point.getZ())
+            return Vector3(point.get_x(), point.get_y(), point.get_z())
         else:
             return point
 
     # noinspection PyMethodMayBeStatic
-    def _vectoPoint(self, vec):
+    def _vecto_point(self, vec):
         """Convierte un vector a un punto"""
         if isinstance(vec, Vector3):
-            return Point3(vec.getX(), vec.getY(), vec.getZ())
+            return Point3(vec.get_x(), vec.get_y(), vec.get_z())
         else:
             return vec
 
@@ -149,18 +150,18 @@ class Point2(Point3):
         self._type = POINT_2
 
     # noinspection PyMethodMayBeStatic,PyShadowingNames
-    def _pointToVec(self, point):
+    def _point_to_vec(self, point):
         """Convierte un punto a un vector"""
         if isinstance(point, Point2):
-            return Vector3(point.getX(), point.getY(), 0.0)
+            return Vector3(point.get_x(), point.get_y(), 0.0)
         else:
             return point
 
     # noinspection PyMethodMayBeStatic
-    def _vectoPoint(self, vec):
+    def _vecto_point(self, vec):
         """Convierte un vector a un punto"""
         if isinstance(vec, Vector3):
-            return Point2(vec.getX(), vec.getY())
+            return Point2(vec.get_x(), vec.get_y())
         else:
             return vec
 
@@ -173,13 +174,13 @@ class Point2(Point3):
         """Imprime el punto"""
         self._point.echo(mantise, point2=True)
 
-    def exportToList(self):
+    def export_to_list(self):
         """Exportar el punto a una lista"""
-        return [self._point.getX(), self._point.getY()]
+        return [self._point.get_x(), self._point.get_y()]
 
-    def exportToTuple(self):
+    def export_to_tuple(self):
         """Exportar el punto a una tupla"""
-        return self._point.getX(), self._point.getY()
+        return self._point.get_x(), self._point.get_y()
 
 
 # noinspection PyTypeChecker,PyArgumentList
@@ -187,37 +188,38 @@ class Vector3:
     """
     Vector de 3 componentes, provee funciones matemáticas básicas.
     """
+
     def __init__(self, x=0.0, y=0.0, z=0.0):
         """Funcion constructora"""
         self.x = float(x)
         self.y = float(y)
         self.z = float(z)
 
-    def getModule(self):
+    def get_module(self):
         """Retorna el modulo del vector"""
         return self.distancewith(Vector3(0, 0, 0))
 
-    def setX(self, x):
+    def set_x(self, x):
         """Define la coordenada x"""
         self.x = x
 
-    def setY(self, y):
+    def set_y(self, y):
         """Define la coordenada y"""
         self.y = y
 
-    def setZ(self, z):
+    def set_z(self, z):
         """Define la coordenada z"""
         self.z = z
 
-    def getX(self):
+    def get_x(self):
         """Retorna la coordenada x"""
         return self.x
 
-    def getY(self):
+    def get_y(self):
         """Retorna la coordenada y"""
         return self.y
 
-    def getZ(self):
+    def get_z(self):
         """Retorna la coordenada z"""
         return self.z
 
@@ -234,7 +236,7 @@ class Vector3:
     def __add__(self, other):
         """Suma el vector con otro"""
         if isinstance(other, Vector3):
-            return Vector3(self.x + other.getX(), self.y + other.getY(), self.z + other.getZ())
+            return Vector3(self.x + other.get_x(), self.y + other.get_y(), self.z + other.get_z())
         elif isinstance(other, types.TupleType) or isinstance(other, types.ListType):
             if len(other) == 3:
                 return Vector3(self.x + other[0], self.y + other[1], self.z + other[2])
@@ -245,7 +247,7 @@ class Vector3:
     def __sub__(self, other):
         """Resta el vector con otro"""
         if isinstance(other, Vector3):
-            return Vector3(self.x - other.getX(), self.y - other.getY(), self.z - other.getZ())
+            return Vector3(self.x - other.get_x(), self.y - other.get_y(), self.z - other.get_z())
         elif isinstance(other, types.TupleType) or isinstance(other, types.ListType):
             if len(other) == 3:
                 return Vector3(self.x - other[0], self.y - other[1], self.z - other[2])
@@ -255,12 +257,12 @@ class Vector3:
 
     def __mod__(self, other):
         """Calcula el modulo con otro"""
-        return Vector3(self.x % other.getX(), self.y % other.getY(), self.z % other.getZ())
+        return Vector3(self.x % other.get_x(), self.y % other.get_y(), self.z % other.get_z())
 
     def __mul__(self, other):
         """Producto punto o producto por valor"""
         if isinstance(other, Vector3):
-            return Vector3(self.x * other.getX(), self.y * other.getY(), self.z * other.getZ())
+            return Vector3(self.x * other.get_x(), self.y * other.get_y(), self.z * other.get_z())
         else:
             if isinstance(other, types.ListType) or isinstance(other, types.TupleType):
                 return Vector3(self.x * other[0], self.y * other[1], self.z * other[2])
@@ -277,7 +279,7 @@ class Vector3:
     def __div__(self, other):
         """Dividir por un ector o por un valor"""
         if isinstance(other, Vector3):
-            return Vector3(self.x / other.getX(), self.y / other.getY(), self.z / other.getZ())
+            return Vector3(self.x / other.get_x(), self.y / other.get_y(), self.z / other.get_z())
         else:
             if isinstance(other, types.IntType) or isinstance(other, types.FloatType):
                 return Vector3(self.x / other, self.y / other, self.z / other)
@@ -300,15 +302,15 @@ class Vector3:
     def __and__(self, other):
         """Calcula el operador logico and"""
         if isinstance(other, Vector3):
-            if self.x > 0 and other.getX() > 0:
+            if self.x > 0 and other.get_x() > 0:
                 x = 1
             else:
                 x = 0
-            if self.y > 0 and other.getY() > 0:
+            if self.y > 0 and other.get_y() > 0:
                 y = 1
             else:
                 y = 0
-            if self.z > 0 and other.getZ() > 0:
+            if self.z > 0 and other.get_z() > 0:
                 z = 1
             else:
                 z = 0
@@ -320,15 +322,15 @@ class Vector3:
     def __or__(self, other):
         """Calcula el operador logico and"""
         if isinstance(other, Vector3):
-            if self.x > 0 or other.getX() > 0:
+            if self.x > 0 or other.get_x() > 0:
                 x = 1
             else:
                 x = 0
-            if self.y > 0 or other.getY() > 0:
+            if self.y > 0 or other.get_y() > 0:
                 y = 1
             else:
                 y = 0
-            if self.z > 0 or other.getZ() > 0:
+            if self.z > 0 or other.get_z() > 0:
                 z = 1
             else:
                 z = 0
@@ -347,14 +349,14 @@ class Vector3:
 
     def normalize(self):
         """Normalizar el vector"""
-        modl = self.getModule()
+        modl = self.get_module()
         self.x /= modl
         self.y /= modl
         self.z /= modl
 
-    def getNormalized(self):
+    def get_normalized(self):
         """Retorna el vector normalizado"""
-        modl = self.getModule()
+        modl = self.get_module()
         return Vector3(self.x / modl, self.y / modl, self.z / modl)
 
     def clone(self):
@@ -380,9 +382,9 @@ class Vector3:
     def __iadd__(self, other):
         """Suma un vector con otro"""
         if isinstance(other, Vector3):
-            self.x += other.getX()
-            self.y += other.getY()
-            self.z += other.getZ()
+            self.x += other.get_x()
+            self.y += other.get_y()
+            self.z += other.get_z()
             return self
         elif isinstance(other, types.TupleType) or isinstance(other, types.ListType):
             if len(other) == 3:
@@ -397,9 +399,9 @@ class Vector3:
     def __isub__(self, other):
         """Resta un vector con otro"""
         if isinstance(other, Vector3):
-            self.x -= other.getX()
-            self.y -= other.getY()
-            self.z -= other.getZ()
+            self.x -= other.get_x()
+            self.y -= other.get_y()
+            self.z -= other.get_z()
             return self
         elif isinstance(other, types.TupleType) or isinstance(other, types.ListType):
             if len(other) == 3:
@@ -414,9 +416,9 @@ class Vector3:
     def __imul__(self, other):
         """Producto punto con otro"""
         if isinstance(other, Vector3):
-            self.x *= other.getX()
-            self.y *= other.getY()
-            self.z *= other.getZ()
+            self.x *= other.get_x()
+            self.y *= other.get_y()
+            self.z *= other.get_z()
             return self
         else:
             if isinstance(other, types.ListType) or isinstance(other, types.TupleType):
@@ -436,9 +438,9 @@ class Vector3:
     def __idiv__(self, other):
         """Division con otro vector por valor"""
         if isinstance(other, Vector3):
-            self.x /= other.getX()
-            self.y /= other.getY()
-            self.z /= other.getZ()
+            self.x /= other.get_x()
+            self.y /= other.get_y()
+            self.z /= other.get_z()
             return self
         else:
             if isinstance(other, types.ListType) or isinstance(other, types.TupleType):
@@ -479,16 +481,16 @@ class Vector3:
     def dotwith(self, other):
         """Producto punto con otro"""
         dot = self.dot(other)
-        self.x = dot.getX()
-        self.y = dot.getY()
-        self.z = dot.getZ()
+        self.x = dot.get_x()
+        self.y = dot.get_y()
+        self.z = dot.get_z()
 
     def cross(self, other):
         """Retorna el producto cruz"""
         if isinstance(other, Vector3):
-            i = self.y * other.getZ() - self.z * other.getY()
-            j = self.z * other.getX() - self.x * other.getZ()
-            k = self.x * other.getY() - self.y * other.getX()
+            i = self.y * other.get_z() - self.z * other.get_y()
+            j = self.z * other.get_x() - self.x * other.get_z()
+            k = self.x * other.get_y() - self.y * other.get_x()
             return Vector3(i, j, k)
         elif isinstance(other, types.TupleType) or isinstance(other, types.ListType):
             return self.cross(Vector3(*other))
@@ -499,14 +501,15 @@ class Vector3:
     def crosswith(self, other):
         """Aplica el producto cruz con el otro vector"""
         cross = self.cross(other)
-        self.x = cross.getX()
-        self.y = cross.getY()
-        self.z = cross.getZ()
+        self.x = cross.get_x()
+        self.y = cross.get_y()
+        self.z = cross.get_z()
 
     def distancewith(self, other):
         """Retorna la distancia a otro vector"""
         if isinstance(other, Vector3):
-            return math.sqrt((self.x - other.getX()) ** 2 + (self.y - other.getY()) ** 2 + (self.z - other.getY()) ** 2)
+            return math.sqrt(
+                (self.x - other.get_x()) ** 2 + (self.y - other.get_y()) ** 2 + (self.z - other.get_y()) ** 2)
         elif isinstance(other, types.ListType) or isinstance(other, types.TupleType):
             return self.distancewith(Vector3(*other))
         else:
@@ -528,11 +531,11 @@ class Vector3:
         else:
             self.throwError(1, "echo")
 
-    def exportToList(self):
+    def export_to_list(self):
         """Exportar el vector a una lista"""
         return [self.x, self.y, self.z]
 
-    def exportToTuple(self):
+    def export_to_tuple(self):
         """Exportar el vector a una tupla"""
         return self.x, self.y, self.z
 
@@ -544,16 +547,16 @@ def normal3points(a, b, c):
         b = Vector3(*b)
         c = Vector3(*c)
     elif isinstance(a, Point3):
-        a = Vector3(*a.exportToList())
-        b = Vector3(*b.exportToList())
-        c = Vector3(*c.exportToList())
-    cross_result = (a - c).cross(b - c).getNormalized()
-    if cross_result.getX() == -0.0:
-        cross_result.setX(0.0)
-    if cross_result.getY() == -0.0:
-        cross_result.setY(0.0)
-    if cross_result.getZ() == -0.0:
-        cross_result.setZ(0.0)
+        a = Vector3(*a.export_to_list())
+        b = Vector3(*b.export_to_list())
+        c = Vector3(*c.export_to_list())
+    cross_result = (a - c).cross(b - c).get_normalized()
+    if cross_result.get_x() == -0.0:
+        cross_result.set_x(0.0)
+    if cross_result.get_y() == -0.0:
+        cross_result.set_y(0.0)
+    if cross_result.get_z() == -0.0:
+        cross_result.set_z(0.0)
     return cross_result
 
 
@@ -577,7 +580,7 @@ def sgn(x):
         return -1
 
 
-def SPRtoXYZ(r, fi, theta):
+def spr_to_xyz(r, fi, theta):
     """Convierte las coordenadas esferiacs (r,fi,theta) a (x,y,z)"""
     x = r * sin(theta) * cos(fi)
     y = r * sin(theta) * sin(fi)
@@ -585,7 +588,7 @@ def SPRtoXYZ(r, fi, theta):
     return x, y, z
 
 
-def XYZtoSPR(x, y, z):
+def xyz_to_spr(x, y, z):
     """Convierte las coordenadas cartesianas (x,y,z) a las coordenadas esfericas (r,phi,theta) con angulos en grados"""
     # Calculo el radio
     r = math.sqrt(x ** 2 + y ** 2 + z ** 2)

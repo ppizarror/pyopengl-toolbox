@@ -250,6 +250,7 @@ def material_yellow_rubber(emission=DEFAULT_EMISSION, face=GL_FRONT_AND_BACK):
     glMaterialfv(face, GL_SHININESS, 0.078125 * 128)
     glMaterialfv(face, GL_EMISSION, emission)
 
+
 def material_natural_white(emission=DEFAULT_EMISSION, face=GL_FRONT_AND_BACK):
     """Blanco natural"""
     glMaterialfv(face, GL_AMBIENT, [1, 1, 1, 1.0])

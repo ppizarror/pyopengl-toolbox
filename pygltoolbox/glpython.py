@@ -26,7 +26,17 @@ _DEFAULT_CAPTION = "Program title"
 
 
 def initPygame(w, h, caption=_DEFAULT_CAPTION, center_mouse=False, icon=None, centered=False):
-    """Inicia el modulo de pygame"""
+    """
+    Inicia Pygame
+
+    :param w: Ancho de la ventana (px)
+    :param h: Alto de la ventana (px)
+    :param caption: Título de la ventana
+    :param center_mouse: Indica si el mouse está centrado
+    :param icon: Indica el ícono de la ventana
+    :param centered: Indica si la ventana está centrada
+    :return: None
+    """
     pygame.init()
     if centered:
         os.environ['SDL_VIDEO_CENTERED'] = '1'
@@ -40,7 +50,7 @@ def initPygame(w, h, caption=_DEFAULT_CAPTION, center_mouse=False, icon=None, ce
 
 # noinspection PyBroadException,PyUnresolvedReferences
 def loadPythonImage(path, convert=False):
-    """Carga una imagen en python"""
+    """Carga una imagen en pygame"""
     try:
         image = pygame.image.load(path)
         if convert:
@@ -49,8 +59,3 @@ def loadPythonImage(path, convert=False):
     except:
         print "fail"
         return None
-
-
-def setCaption(caption):
-    """Cambia el titulo de la ventana"""
-    pygame.display.set_caption(caption)
