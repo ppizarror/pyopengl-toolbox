@@ -11,4 +11,4 @@ Soporte sólo para Python 2.7.
 Este proyecto se encuentra bajo GPLv3 (GNU General Public License, version 3) [https://www.gnu.org/licenses/gpl-3.0.html].
 
 ## Autor
-Autor: Pablo Pizarro, 2017
+<a href="http://ppizarror.com">Pablo Pizarro R.</a>, 2017.
