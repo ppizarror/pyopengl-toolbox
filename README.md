@@ -8,12 +8,10 @@
 <a href="https://www.python.org/downloads/"><img alt="Python 2.7" src="http://ppizarror.com/badges/python27.svg" /></a>
 </div><br />
 
-Paquete de herramientas para PyOpenGL, contiene distintas funciones utilitarias para manipular la cámara, los colores, iluminaciones, particulas o objetos.
-
-Soporte sólo para Python 2.7
+Paquete de herramientas para PyOpenGL, contiene distintas funciones utilitarias para manipular la cámara, los colores, iluminaciones, particulas o objetos. Soporte sólo para Python 2.7
 
 ## Licencia
-Este proyecto se encuentra bajo GPLv3 [https://www.gnu.org/licenses/gpl-3.0.html]
+Este proyecto se encuentra bajo la licencia GPLv3 [https://www.gnu.org/licenses/gpl-3.0.html]
 
 ## Autor
 <a href="http://ppizarror.com" title="ppizarror">Pablo Pizarro R.</a> | 2017
