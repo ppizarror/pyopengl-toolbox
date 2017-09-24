@@ -3,4 +3,4 @@ Paquete de herramientas para PyOpenGL, contiene distintas funciones utilitarias 
 Soporte sólo para Python 2.7
 
 ## Licencia
-Este proyecto se encuentra bajo GPLv3 (GNU General Public License, version 3) [https://www.gnu.org/licenses/gpl-3.0.html]
+Este proyecto se encuentra bajo GPLv3 [https://www.gnu.org/licenses/gpl-3.0.html]
