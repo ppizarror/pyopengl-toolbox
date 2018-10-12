@@ -207,7 +207,7 @@ def clear_buffer():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
 
-def reshape(w, h, fov=60, nearplane=300.0, farplane=20000.0):
+def reshape(w, h, fov=60, nearplane=10, farplane=10000):
     """
     Reshape OpenGL window
     :param w: Window width

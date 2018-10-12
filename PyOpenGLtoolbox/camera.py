@@ -34,8 +34,8 @@ import math as _math
 # Constants
 CAMERA_CENTER_LIMIT_Z_DOWN = -3500
 CAMERA_CENTER_LIMIT_Z_UP = 3500
-CAMERA_CENTER_VEL = 10
-CAMERA_DEFAULT_RVEL = 10
+CAMERA_CENTER_VEL = 1
+CAMERA_DEFAULT_RVEL = 1
 CAMERA_MIN_THETA_VALUE = 0.000001
 CAMERA_NEGATIVE = -1.0
 CAMERA_POSITIVE = 1.0
@@ -511,6 +511,7 @@ class CameraR(_Camera):
         :return:
         """
         self.r -= self.rvel
+        self.r = max(0, self.r)
 
     def rotate_x(self, angle):
         """
