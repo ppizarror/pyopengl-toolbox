@@ -22,8 +22,7 @@ WINDOW_SIZE = [800, 600]
 # Se inicia ventana
 initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], "Ejemplo Ejes", centered=True)
 initGl(transparency=False, materialcolor=False, normalized=True, lighting=True,
-       numlights=1,
-       perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
+       numlights=1, perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
        texture=True, verbose=False)
 reshape(*WINDOW_SIZE)
 # noinspection PyArgumentEqualDefault
