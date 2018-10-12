@@ -5,10 +5,10 @@ Se dibujan los ejes y una cámara.
 """
 
 # Importación de librerías
-from pygltoolbox.glpython import *
-from pygltoolbox.opengl_lib import *
-from pygltoolbox.camera import *
-from pygltoolbox.particles import *
+from pyOpenglToolbox.glpython import *
+from pyOpenglToolbox.opengl_lib import *
+from pyOpenglToolbox.camera import *
+from pyOpenglToolbox.particles import *
 
 # Constantes
 AXES_LENGTH = 700

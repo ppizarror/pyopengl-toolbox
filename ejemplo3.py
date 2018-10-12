@@ -5,14 +5,14 @@ Se dibujan los ejes, una cámara y una partícula en el centro con textura que r
 """
 
 # Importación de librerías
-from pygltoolbox.glpython import *
-from pygltoolbox.opengl_lib import *
-from pygltoolbox.camera import *
-from pygltoolbox.particles import *
-from pygltoolbox.figures import *
-from pygltoolbox.materials import *
-from pygltoolbox.textures import *
-from pygltoolbox.shader import *
+from pyOpenglToolbox.glpython import *
+from pyOpenglToolbox.opengl_lib import *
+from pyOpenglToolbox.camera import *
+from pyOpenglToolbox.particles import *
+from pyOpenglToolbox.figures import *
+from pyOpenglToolbox.materials import *
+from pyOpenglToolbox.textures import *
+from pyOpenglToolbox.shader import *
 
 # Constantes
 AXES_LENGTH = 700
