@@ -35,13 +35,13 @@ from OpenGL.GL import glGenTextures, GL_UNPACK_ALIGNMENT, glPixelStorei, glBindT
 try:
     from PIL import Image
 except ImportError:
-    print('[ERR] Error al importar la libreria, probando Image')
+    print('[ERR] Error importing PIL, trying Image')
     # noinspection PyBroadException
     try:
         # noinspection PyUnresolvedReferences,PyPackageRequirements
         import Image
     except:
-        print('[ERR] Error al importar Image, esta aplicacion requiere de PIL')
+        print('[ERR] Error importing Image, this pyOpenGLtoolbox needs Pillow')
         exit()
 
 

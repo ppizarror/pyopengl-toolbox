@@ -27,8 +27,8 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-import types
 from pyOpenGLtoolbox.utils_math import cos, sin, Point3, Vector3
+import types
 
 # Constants
 OPERATOR_ADD = 0x0f60
