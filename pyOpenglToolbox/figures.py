@@ -69,7 +69,7 @@ class VboObject:
             else:
                 raise Exception('total_vertex must be int type')
         else:
-            raise Exception('vertex y fragment must be VBO type (OpenGL.arrays.vbo)')
+            raise Exception('vertex and fragment must be VBO type (OpenGL.arrays.vbo)')
 
     def draw(self, pos=None, rgb=None):
         """
@@ -188,7 +188,7 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
         :return:
         """
 
-        def getAveNormals(_nodes, _elems):
+        def get_ave_normals(_nodes, _elems):
             """
             Calculate normal average for each vertex
             :param _nodes:
@@ -196,65 +196,70 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
             :return:
             """
             nodetrilist = []
-            for nodenum in range(len(_nodes)):
+            for _nodenum in range(len(_nodes)):
                 nodetrilist.append([])
                 for elemnum in range(len(_elems)):
-                    if nodenum in _elems[elemnum]:
-                        nodetrilist[nodenum].append(elemnum)
-            avenorms = []
+                    if _nodenum in _elems[elemnum]:
+                        nodetrilist[_nodenum].append(elemnum)
+            _avenorms = []
             for tri in nodetrilist:
-                aveNi = 0.0
-                aveNj = 0.0
-                aveNk = 0.0
+                ave_ni = 0.0
+                ave_nj = 0.0
+                ave_nk = 0.0
                 denom = max(float(len(tri)), 1)
-                for elem in tri:
-                    vert1 = [_nodes[_elems[elem][0]][0], _nodes[_elems[elem][0]][1],
-                             _nodes[_elems[elem][0]][2]]
-                    vert2 = [_nodes[_elems[elem][1]][0], _nodes[_elems[elem][1]][1],
-                             _nodes[_elems[elem][1]][2]]
-                    vert3 = [_nodes[_elems[elem][2]][0], _nodes[_elems[elem][2]][1],
-                             _nodes[_elems[elem][2]][2]]
-                    normals = getNormals(vert1, vert2, vert3)
-                    aveNi += normals[0]
-                    aveNj += normals[1]
-                    aveNk += normals[2]
-                avenorms.append([aveNi / denom, aveNj / denom, aveNk / denom])
-            return avenorms
+                for _elem in tri:
+                    _vert1 = [_nodes[_elems[_elem][0]][0], _nodes[_elems[_elem][0]][1],
+                              _nodes[_elems[_elem][0]][2]]
+                    _vert2 = [_nodes[_elems[_elem][1]][0], _nodes[_elems[_elem][1]][1],
+                              _nodes[_elems[_elem][1]][2]]
+                    _vert3 = [_nodes[_elems[_elem][2]][0], _nodes[_elems[_elem][2]][1],
+                              _nodes[_elems[_elem][2]][2]]
+                    _normals = get_normals(_vert1, _vert2, _vert3)
+                    ave_ni += _normals[0]
+                    ave_nj += _normals[1]
+                    ave_nk += _normals[2]
+                _avenorms.append([ave_ni / denom, ave_nj / denom, ave_nk / denom])
+            return _avenorms
 
-        # noinspection PyPep8Naming
-        def getNormals(vertA, vertB, vertC):
-            """Calcula las normales por cada 3 vertices"""
-            xA = vertA[0]
-            xB = vertB[0]
-            xC = vertC[0]
-            yA = vertA[1]
-            yB = vertB[1]
-            yC = vertC[1]
-            zA = vertA[2]
-            zB = vertB[2]
-            zC = vertC[2]
-            ABx = xB - xA
-            ABy = yB - yA
-            ABz = zB - zA
-            BCx = xC - xB
-            BCy = yC - yB
-            BCz = zC - zB
-            Nx = ABy * BCz - ABz * BCy
-            Ny = ABz * BCx - ABx * BCz
-            Nz = ABx * BCy - ABy * BCx
-            VecMag = math.sqrt(Nx ** 2 + Ny ** 2 + Nz ** 2)
-            Ni = Nx / VecMag
-            Nj = Ny / VecMag
-            Nk = Nz / VecMag
-            return [Ni, Nj, Nk]
+        def get_normals(vert_a, vert_b, vert_c):
+            """
+            Calculate normal each 3 vertex
+            :param vert_a:
+            :param vert_b:
+            :param vert_c:
+            :return:
+            """
+            x_a = vert_a[0]
+            x_b = vert_b[0]
+            x_c = vert_c[0]
+            y_a = vert_a[1]
+            y_b = vert_b[1]
+            y_c = vert_c[1]
+            z_a = vert_a[2]
+            z_b = vert_b[2]
+            z_c = vert_c[2]
+            a_bx = x_b - x_a
+            a_by = y_b - y_a
+            a_bz = z_b - z_a
+            b_cx = x_c - x_b
+            b_cy = y_c - y_b
+            b_cz = z_c - z_b
+            nx = a_by * b_cz - a_bz * b_cy
+            ny = a_bz * b_cx - a_bx * b_cz
+            nz = a_bx * b_cy - a_by * b_cx
+            vec_mag = math.sqrt(nx ** 2 + ny ** 2 + nz ** 2)
+            ni = nx / vec_mag
+            nj = ny / vec_mag
+            nk = nz / vec_mag
+            return [ni, nj, nk]
 
-        # Lee el archivo
+        # Read file
         try:
             infile = open(gmshfile)
         except:
-            raise Exception("el archivo del modelo no existe")
+            raise Exception('Model file does not exist')
 
-        # Crea el modeo
+        # Create model
         nodes = []
         try:
             gmshlines = infile.readlines()
@@ -292,7 +297,7 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
                         nodes[nodenum] = [n_x, n_y, n_z]
                     elif readelems:
                         n123 = line.split()
-                        if n123[1] == "2":
+                        if n123[1] == '2':
                             n1 = int(n123[-3]) - 1
                             n2 = int(n123[-1]) - 1
                             n3 = int(n123[-2]) - 1
@@ -303,7 +308,7 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
             triarray = []
             normarray = []
             avenorms = []
-            nodeavenorms = getAveNormals(nodes, elems)
+            nodeavenorms = get_ave_normals(nodes, elems)
             for elem in elems:
                 vert1 = [nodes[elem[0]][0], nodes[elem[0]][1],
                          nodes[elem[0]][2]]
@@ -314,7 +319,7 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
                 avenorm0 = nodeavenorms[elem[0]]
                 avenorm1 = nodeavenorms[elem[1]]
                 avenorm2 = nodeavenorms[elem[2]]
-                normals = getNormals(vert1, vert2, vert3)
+                normals = get_normals(vert1, vert2, vert3)
                 triarray.append(vert1)
                 triarray.append(vert2)
                 triarray.append(vert3)
@@ -338,9 +343,14 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
                          len(vertex), texture)
 
 
-# noinspection PyBroadException
 def create_sphere(lat=10, lng=10, color=None):
-    """Crea una esfera con latitud y longitud definidos de radio 1.0"""
+    """
+    Create an sphere
+    :param lat: Latitude
+    :param lng: Longitude
+    :param color: Color
+    :return:
+    """
     if color is None:
         color = COLOR_WHITE
     if lat >= 3 and lng >= 10:
@@ -348,24 +358,33 @@ def create_sphere(lat=10, lng=10, color=None):
         glNewList(obj, GL_COMPILE)
         glPushMatrix()
         glColor4fv(color)
+        # noinspection PyBroadException
         try:
             glutSolidSphere(1.0, lat, lng)
         except:
             if not _ERRS[0]:
-                printGLError(
-                    "la version actual de OpenGL no posee la funcion glutSolidSphere")
+                printGLError('OpenGL actual version does not support glutSolidSphere function')
             _ERRS[0] = True
         glPopMatrix()
         glEndList()
         return obj
     else:
-        raise Exception(
-            "La latitud y longitud de la figura deben ser mayores a 3")
+        raise Exception('Latitude and logitude must be greater than 3')
 
 
-# noinspection PyDefaultArgument
-def create_circle(rad=1.0, diff=0.1, normal=[0.0, 0.0, 1.0], color=COLOR_WHITE):
-    """Crea un circulo"""
+def create_circle(rad=1.0, diff=0.1, normal=None, color=None):
+    """
+    Creates a circle
+    :param rad: Radius
+    :param diff: Difference
+    :param normal: Normal
+    :param color: Color
+    :return:
+    """
+    if color is None:
+        color = COLOR_WHITE
+    if normal is None:
+        normal = [0.0, 0.0, 1.0]
     if diff > 0:
         obj = glGenLists(1)
         glNewList(obj, GL_COMPILE)
@@ -387,12 +406,19 @@ def create_circle(rad=1.0, diff=0.1, normal=[0.0, 0.0, 1.0], color=COLOR_WHITE):
         glEndList()
         return obj
     else:
-        raise Exception("La diferencia debe ser mayor estricto a cero")
+        raise Exception('Difference must be greater than zero')
 
 
-# noinspection PyBroadException,PyArgumentEqualDefault
 def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
-    """Crea un cono de base y altura de radio 1.0"""
+    """
+    Creates an cone with base and height, radius 1
+    :param base:
+    :param height:
+    :param lat:
+    :param lng:
+    :param color:
+    :return:
+    """
     if color is None:
         color = COLOR_WHITE
     if lat >= 3 and lng >= 10:
@@ -401,24 +427,27 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
         glNewList(obj, GL_COMPILE)
         glPushMatrix()
         glColor4fv(color)
+        # noinspection PyBroadException
         try:
             glutSolidCone(base, height, lat, lng)
         except:
             if not _ERRS[3]:
-                printGLError(
-                    "la version actual de OpenGL no posee la funcion glutSolidCone")
+                printGLError('OpenGL actual version does not support glutSolidCone function')
             _ERRS[3] = True
         glCallList(circlebase)
         glPopMatrix()
         glEndList()
         return obj
     else:
-        raise Exception(
-            "La latitud y longitud de la figura deben ser mayores a 3")
+        raise Exception('Latitude and longitude of the figure must be greater than 3')
 
 
 def create_cube(color=None):
-    """Crea un cubo de arista 1.0"""
+    """
+    Cretes a cube
+    :param color:
+    :return:
+    """
     if color is None:
         color = COLOR_WHITE
     a = Point3(-1.0, -1.0, -1.0)
@@ -444,11 +473,16 @@ def create_cube(color=None):
     glEnd()
     glPopMatrix()
     glEndList()
+
     return obj
 
 
 def create_cube_textured(texture_list):
-    """Crea un cubo con texturas"""
+    """
+    Create a textured cube
+    :param texture_list: Texture OpenGL list
+    :return:
+    """
     a = Point3(-1.0, -1.0, -1.0)
     b = Point3(1.0, -1.0, -1.0)
     c = Point3(1.0, -1.0, 1.0)
@@ -474,17 +508,26 @@ def create_cube_textured(texture_list):
     drawVertexListCreateNormal_textured([d, c, g, h], t_list)
     drawVertexListCreateNormal_textured([a, e, f, b], t_list)
     glEnd()
+
     for _i in range(len(texture_list)):
         glActiveTexture(GL_TEXTURE0 + _i)
         glDisable(GL_TEXTURE_2D)
     glPopMatrix()
     glEndList()
+
     return obj
 
 
-# noinspection PyBroadException
 def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
-    """Crea un toro de radio menor minr y radio mayor maxr"""
+    """
+    Creates a torus
+    :param minr:
+    :param maxr:
+    :param lat:
+    :param lng:
+    :param color:
+    :return:
+    """
     if color is None:
         color = COLOR_WHITE
     if lat >= 3 and lng >= 3:
@@ -492,24 +535,27 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
         glNewList(obj, GL_COMPILE)
         glPushMatrix()
         glColor4fv(color)
+        # noinspection PyBroadException
         try:
             glutSolidTorus(minr, maxr, lat, lng)
         except:
             if not _ERRS[2]:
-                printGLError(
-                    "la version actual de OpenGL no posee la funcion glutSolidTorus")
+                printGLError('OpenGL actual version does not support glutSolidTorus function')
             _ERRS[2] = True
         glPopMatrix()
         glEndList()
         return obj
     else:
-        raise Exception(
-            "La latitud y longitud de la figura deben ser mayores a 3")
+        raise Exception('Latitude and longitude of the figure must be greater than 3')
 
 
 # noinspection PyBroadException
 def create_cube_solid(color=None):
-    """Crea un cubo solido de arista 1.0"""
+    """
+    Create a solid cube
+    :param color:
+    :return:
+    """
     if color is None:
         color = COLOR_WHITE
     obj = glGenLists(1)
@@ -674,135 +720,147 @@ def create_teapot_textured(texture_list):
 
 
 # noinspection PyBroadException,PyTypeChecker,PyTypeChecker,PyArgumentEqualDefault
-def create_piramid_vbo(arista=1.0):
-    """Crea una piramide de base cuadrada usando vbos para el manejo de shaders, retorna un objeto vboObject"""
+def create_pyramid_vbo(edge=1.0):
+    """
+    Creates a VBO pyramid for shader using
+    :param edge:
+    :return:
+    """
 
     def ex(element):
-        """Exporta el elemento a una lista"""
         return element.export_to_list()
 
-    # Se crean los puntos
-    a = Point3(-0.5, -0.5, -0.333) * arista
-    b = Point3(0.5, -0.5, -0.333) * arista
-    c = Point3(0.5, 0.5, -0.333) * arista
-    d = Point3(-0.5, 0.5, -0.333) * arista
-    e = Point3(0.0, 0.0, 0.666) * arista
+    # Create points
+    a = Point3(-0.5, -0.5, -0.333) * edge
+    b = Point3(0.5, -0.5, -0.333) * edge
+    c = Point3(0.5, 0.5, -0.333) * edge
+    d = Point3(-0.5, 0.5, -0.333) * edge
+    e = Point3(0.0, 0.0, 0.666) * edge
 
-    # Se crean las normales
+    # Create normals
     n1 = ex(normal3points(a, b, e))
     n2 = ex(normal3points(b, c, e))
     n3 = ex(normal3points(c, d, e))
     n4 = ex(normal3points(d, a, e))
     n5 = ex(normal3points(c, b, a))
 
-    # Se crean las listas de puntos y normales en orden por triangulos, cada 3 puntos se forma una cara
+    # Create point list
     vertex_array = [ex(b), ex(e), ex(a), ex(b), ex(c), ex(e), ex(c), ex(d),
                     ex(e), ex(d), ex(a), ex(e), ex(a), ex(b),
                     ex(c), ex(c), ex(d), ex(a)]
     normal_array = [n1, n1, n1, n2, n2, n2, n3, n3, n3, n4, n4, n4, n5, n5, n5,
                     n5, n5, n5]
 
-    # Se retornan los vertex buffer object
-    return VboObject(vbo.VBO(array(vertex_array, 'f')),
-                     vbo.VBO(array(normal_array, 'f')), len(vertex_array))
+    # Return VBO Object
+    return VboObject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')), len(vertex_array))
 
 
-# noinspection PyTypeChecker,PyTypeChecker,PyArgumentEqualDefault
-def create_tetrahedron_vbo(arista=1.0):
-    """Crea un tetraedro usando vbos para el manejo de shaders, retorna un objeto vboObject"""
+def create_tetrahedron_vbo(edge=1.0):
+    """
+    Creates a VBO tetrahedron for shaders
+    :param edge:
+    :return:
+    """
 
     def ex(element):
-        """Exporta el elemento a una lista"""
         return element.export_to_list()
 
-    # Se crean los puntos
-    a = Point3(-0.5, -0.288675, -0.288675) * arista
-    b = Point3(0.5, -0.288675, -0.288675) * arista
-    c = Point3(0.0, 0.577350, -0.288675) * arista
-    d = Point3(0.0, 0.0, 0.57735) * arista
+    # Create points
+    a = Point3(-0.5, -0.288675, -0.288675) * edge
+    b = Point3(0.5, -0.288675, -0.288675) * edge
+    c = Point3(0.0, 0.577350, -0.288675) * edge
+    d = Point3(0.0, 0.0, 0.57735) * edge
 
-    # Se crean las normales
+    # Create normals
     n1 = ex(normal3points(a, b, d))
     n2 = ex(normal3points(b, c, d))
     n3 = ex(normal3points(c, a, d))
     n4 = ex(normal3points(c, b, a))
 
-    # Se crean las listas de puntos y normales en orden por triangulos, cada 3 puntos se forma una cara
+    # Create triangles
     vertex_array = [ex(a), ex(b), ex(d), ex(b), ex(c), ex(d), ex(c), ex(a),
                     ex(d), ex(a), ex(b), ex(c)]
     normal_array = [n1, n1, n1, n2, n2, n2, n3, n3, n3, n4, n4, n4]
 
-    # Se retornan los vertex buffer object
-    return VboObject(vbo.VBO(array(vertex_array, 'f')),
-                     vbo.VBO(array(normal_array, 'f')), len(vertex_array))
+    # Return VBO
+    return VboObject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')),
+                     len(vertex_array))
 
 
-# noinspection PyBroadException
 def create_tetrahedron():
-    """Crea un tetraedro solido de arista 1.0"""
+    """
+    Creates a tetrahedron
+    :return:
+    """
     obj = glGenLists(1)
     glNewList(obj, GL_COMPILE)
     glPushMatrix()
+    # noinspection PyBroadException
     try:
         glutSolidTetrahedron()
     except:
         if not _ERRS[5]:
-            printGLError(
-                "la version actual de OpenGL no posee la funcion glutSolidTetrahedron")
+            printGLError('OpenGL actual version does not support glutSolidTetrahedron function')
         _ERRS[5] = True
     glPopMatrix()
     glEndList()
     return obj
 
 
-# noinspection PyBroadException
 def create_dodecahedron():
-    """Crea un dodecahedro de arista 1.0"""
+    """
+    Creates a dodecahedron
+    :return:
+    """
     obj = glGenLists(1)
     glNewList(obj, GL_COMPILE)
     glPushMatrix()
+    # noinspection PyBroadException
     try:
         glutSolidDodecahedron()
     except:
         if not _ERRS[6]:
-            printGLError(
-                "la version actual de OpenGL no posee la funcion glutSolidDodecahedron")
+            printGLError('OpenGL actual version dost not support glutSolidDodecahedron function')
         _ERRS[6] = True
     glPopMatrix()
     glEndList()
     return obj
 
 
-# noinspection PyBroadException
 def create_octahedron():
-    """Crea un octahedro de arista 1.0"""
+    """
+    Crates an octahedron
+    :return:
+    """
     obj = glGenLists(1)
     glNewList(obj, GL_COMPILE)
     glPushMatrix()
+    # noinspection PyBroadException
     try:
         glutSolidOctahedron()
     except:
         if not _ERRS[7]:
-            printGLError(
-                "la version actual de OpenGL no posee la funcion glutSolidOctahedron")
+            printGLError('OpenGL actual version does not support glutSolidOctahedron function')
         _ERRS[7] = True
     glPopMatrix()
     glEndList()
     return obj
 
 
-# noinspection PyBroadException
-def create_icosaedron():
-    """Crea un icosahedro de arista 1.0"""
+def create_icosahedron():
+    """
+    Creates an icosahedron
+    :return:
+    """
     obj = glGenLists(1)
     glNewList(obj, GL_COMPILE)
     glPushMatrix()
+    # noinspection PyBroadException
     try:
         glutSolidIcosahedron()
     except:
         if not _ERRS[8]:
-            printGLError(
-                "la version actual de OpenGL no posee la funcion glutSolidIcosahedron")
+            printGLError('OpenGL actual version does not support glutSolidIcosahedron function')
         _ERRS[8] = True
     glPopMatrix()
     glEndList()
