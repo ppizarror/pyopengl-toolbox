@@ -1,20 +1,20 @@
 # coding=utf-8
 """
-EJEMPLO 3.
-Se dibujan los ejes, una cámara y una partícula en el centro con textura que rota.
+EXAMPLE 3
+Draw axis, camera and a textured object.
 """
 
-# Importación de librerías
-from pyOpenglToolbox.glpython import *
-from pyOpenglToolbox.opengl_lib import *
+# Library imports
 from pyOpenglToolbox.camera import *
-from pyOpenglToolbox.particles import *
 from pyOpenglToolbox.figures import *
+from pyOpenglToolbox.glpython import *
 from pyOpenglToolbox.materials import *
-from pyOpenglToolbox.textures import *
+from pyOpenglToolbox.opengl_lib import *
+from pyOpenglToolbox.particles import *
 from pyOpenglToolbox.shader import *
+from pyOpenglToolbox.textures import *
 
-# Constantes
+# Constants
 AXES_LENGTH = 700
 CAMERA_PHI = 45
 CAMERA_RAD = 1700.0
@@ -24,67 +24,68 @@ FPS = 60
 NUM_LIGHTS = 2
 WINDOW_SIZE = [800, 600]
 
-# Se inicia ventana
-initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Ejemplo Ejes mas Cubo',
-           centered=True)
+# Init window
+initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 3', centered=True)
 initGl(transparency=False, materialcolor=False, normalized=True, lighting=True,
-       numlights=NUM_LIGHTS,
-       perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
+       numlights=NUM_LIGHTS, perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
        texture=True, verbose=False)
 reshape(*WINDOW_SIZE)
-# noinspection PyArgumentEqualDefault
 initLight(GL_LIGHT0)
 initLight(GL_LIGHT1, ambient=AMBIENT_COLOR_RED, diffuse=DIFFUSE_COLOR_RED,
           specular=SPECULAR_COLOR_RED)
 clock = pygame.time.Clock()
 
-# Se cargan texturas
+# Display help on console
+print('Rotate X axis with W/S keys')
+print('Rotate Y axis with A/D keys')
+print('Rotate Z axis with Q/E keys')
+print('Zoom in/out with N/M keys')
+
+# Load textures
 textures = [
-    load_texture('ejemplo_data/metal-texture.jpg'),
-    load_texture('ejemplo_data/metal-normal.jpg'),
-    load_texture('ejemplo_data/metal-bump.jpg')
+    load_texture('example_data/metal-texture.jpg'),
+    load_texture('example_data/metal-normal.jpg'),
+    load_texture('example_data/metal-bump.jpg')
 ]
 
-# Se carga el shader
-program = load_shader('ejemplo_data/', 'normalMapShader', [NUM_LIGHTS],
-                      [3, NUM_LIGHTS])
+# Creates shader
+program = load_shader('example_data/', 'normalMapShader', [NUM_LIGHTS], [3, NUM_LIGHTS])
 program.set_name('NormalMap Shader')
 
-# Se crean objetos
-axis = create_axes(AXES_LENGTH)  # Ejes
-camera = CameraR(CAMERA_RAD, CAMERA_PHI,
-                 CAMERA_THETA)  # Cámara del tipo esférica
+# Create objects
+axis = create_axes(AXES_LENGTH)  # Axis
+camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Spheric camera
 
-cubo = Particle()
-cubo.add_property('GLLIST', create_cube_textured(textures))
-cubo.add_property('SIZE', [400, 400, 400])
-cubo.add_property('MATERIAL', material_silver)
-cubo.set_name('Cubo')
+cube = Particle()
+cube.add_property('GLLIST', create_cube_textured(textures))
+cube.add_property('SIZE', [400, 400, 400])
+cube.add_property('MATERIAL', material_silver)
+cube.set_name('Cube')
 
-luz = Particle(1000, 1000, 100)
-luz.set_name('Luz móvil (1)')
-luz.add_property('GLLIST', create_cube())
-luz.add_property('SIZE', [15, 15, 15])
-luz.add_property('MATERIAL', material_gold)
+light = Particle(1000, 1000, 100)
+light.set_name('Dynamic light (1)')
+light.add_property('GLLIST', create_cube())
+light.add_property('SIZE', [15, 15, 15])
+light.add_property('MATERIAL', material_gold)
 
-luz_fija = Particle(1000, -1000, 1000)
-luz_fija.set_name('Luz fija (2)')
-luz_fija.add_property('GLLIST', create_cube())
-luz_fija.add_property('SIZE', [15, 15, 15])
-luz_fija.add_property('MATERIAL', material_ruby)
+static_light = Particle(1000, -1000, 1000)
+static_light.set_name('Light fixed (2)')
+static_light.add_property('GLLIST', create_cube())
+static_light.add_property('SIZE', [15, 15, 15])
+static_light.add_property('MATERIAL', material_ruby)
 
-# Bucle principal
+# Main loop
 while True:
 
-    # Crea contador, limpia ventana, establece cámara
+    # Creatos counter, clears buffer
     clock.tick(FPS)
     clearBuffer()
     camera.place()
 
-    # Rota luz
-    luz.rotate_x(1)
-    luz.rotate_y(-1)
-    luz.rotate_z(0.5)
+    # Rotate light
+    light.rotate_x(1)
+    light.rotate_y(-1)
+    light.rotate_z(0.5)
     if islightEnabled():
         glDisable(GL_LIGHTING)
         glCallList(axis)
@@ -92,67 +93,62 @@ while True:
     else:
         glCallList(axis)
 
-    # Se actualizan modelos
-    luz.update()
-    luz_fija.update()
-    cubo.update()
+    # Update model
+    light.update()
+    static_light.update()
+    cube.update()
 
-    # Se comprueban eventos
+    # Check events
     for event in pygame.event.get():
-        if event.type == QUIT:  # Cierra la aplicación
+        if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):  # Close app
             exit()
-        elif event.type == KEYDOWN:
-            if event.key == K_ESCAPE:  # Cierra la aplicación
-                exit()
 
-    # Dibuja luces
-    luz.exec_property_func('MATERIAL')
-    glLightfv(GL_LIGHT0, GL_POSITION, luz.get_position_list())
-    # noinspection PyArgumentEqualDefault
-    draw_list(luz.get_property('GLLIST'), luz.get_position_list(), 0, None,
-              luz.get_property('SIZE'), None)
+    # Check pressed keys
+    keys = pygame.key.get_pressed()
 
-    luz_fija.exec_property_func('MATERIAL')
-    glLightfv(GL_LIGHT1, GL_POSITION, luz_fija.get_position_list())
-    # noinspection PyArgumentEqualDefault
-    draw_list(luz_fija.get_property('GLLIST'), luz_fija.get_position_list(), 0,
-              None, luz_fija.get_property('SIZE'),
+    # Draw lights
+    light.exec_property_func('MATERIAL')
+    glLightfv(GL_LIGHT0, GL_POSITION, light.get_position_list())
+    draw_list(light.get_property('GLLIST'), light.get_position_list(), 0, None,
+              light.get_property('SIZE'), None)
+
+    static_light.exec_property_func('MATERIAL')
+    glLightfv(GL_LIGHT1, GL_POSITION, static_light.get_position_list())
+    draw_list(static_light.get_property('GLLIST'), static_light.get_position_list(), 0,
+              None, static_light.get_property('SIZE'),
               None)
 
-    # Dibuja modelos
+    # Draw model
     program.start()
     program.uniformi('toggletexture', True)
     program.uniformi('togglebump', True)
     program.uniformi('toggleparallax', True)
-    cubo.get_property('MATERIAL')()
+    cube.get_property('MATERIAL')()
     for i in range(3):
         program.uniformi('texture[{0}]'.format(i), i)
-    # noinspection PyArgumentEqualDefault
-    draw_list(cubo.get_property('GLLIST'), cubo.get_position_list(), 0, None,
-              cubo.get_property('SIZE'), None)
+    draw_list(cube.get_property('GLLIST'), cube.get_position_list(), 0, None,
+              cube.get_property('SIZE'), None)
     program.stop()
 
-    # Comprueba las teclas presionadas
-    keys = pygame.key.get_pressed()
-
+    # Rotate camera around X axis
     if keys[K_w]:
         camera.rotateX(CAMERA_ROT_VEL)
     elif keys[K_s]:
         camera.rotateX(-CAMERA_ROT_VEL)
 
-    # Rotar la cámara en el eje Y
+    # Rotate camera around Y axis
     if keys[K_a]:
         camera.rotateY(-CAMERA_ROT_VEL)
     elif keys[K_d]:
         camera.rotateY(CAMERA_ROT_VEL)
 
-    # Rotar la cámara en el eje Z
+    # Rotate camera around Z axis
     if keys[K_q]:
         camera.rotateZ(-CAMERA_ROT_VEL)
     elif keys[K_e]:
         camera.rotateZ(CAMERA_ROT_VEL)
 
-    # Acerca / aleja la cámara
+    # Close / Far camera
     if keys[K_n]:
         camera.close()
     elif keys[K_m]:

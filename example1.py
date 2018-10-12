@@ -1,16 +1,16 @@
 # coding=utf-8
 """
-EJEMPLO 1.
-Se dibujan los ejes y una cámara.
+Example 1
+Draw axis and camera.
 """
 
-# Importación de librerías
+# Library imports
 from pyOpenglToolbox.glpython import *
 from pyOpenglToolbox.opengl_lib import *
 from pyOpenglToolbox.camera import *
 from pyOpenglToolbox.particles import *
 
-# Constantes
+# Constants
 AXES_LENGTH = 700
 CAMERA_PHI = 45
 CAMERA_RAD = 1700.0
@@ -19,22 +19,26 @@ CAMERA_THETA = 56
 FPS = 60
 WINDOW_SIZE = [800, 600]
 
-# Se inicia ventana
-initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], "Ejemplo Ejes", centered=True)
+# Init window
+initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 1', centered=True)
 initGl(transparency=False, materialcolor=False, normalized=True, lighting=True,
        numlights=1, perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
        texture=True, verbose=False)
 reshape(*WINDOW_SIZE)
-# noinspection PyArgumentEqualDefault
 initLight(GL_LIGHT0)
 clock = pygame.time.Clock()
 
-# Se crean objetos
-axis = create_axes(AXES_LENGTH)  # Ejes
-camera = CameraR(CAMERA_RAD, CAMERA_PHI,
-                 CAMERA_THETA)  # Cámara del tipo esférica
+# Display help on console
+print('Rotate X axis with W/S keys')
+print('Rotate Y axis with A/D keys')
+print('Rotate Z axis with Q/E keys')
+print('Zoom in/out with N/M keys')
 
-# Bucle principal
+# Create objects
+axis = create_axes(AXES_LENGTH)  # Axis
+camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Spheric camera
+
+# Main loop
 while True:
     clock.tick(FPS)
     clearBuffer()
@@ -46,35 +50,33 @@ while True:
     else:
         glCallList(axis)
 
-    # Se comprueban eventos
+    # Check events
     for event in pygame.event.get():
-        if event.type == QUIT:  # Cierra la aplicación
+        if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):  # Close app
             exit()
-        elif event.type == KEYDOWN:
-            if event.key == K_ESCAPE:  # Cierra la aplicación
-                exit()
 
-    # Comprueba las teclas presionadas
+    # Check pressed keys
     keys = pygame.key.get_pressed()
 
+    # Rotate camera around X axis
     if keys[K_w]:
         camera.rotateX(CAMERA_ROT_VEL)
     elif keys[K_s]:
         camera.rotateX(-CAMERA_ROT_VEL)
 
-    # Rotar la cámara en el eje Y
+    # Rotate camera around Y axis
     if keys[K_a]:
         camera.rotateY(-CAMERA_ROT_VEL)
     elif keys[K_d]:
         camera.rotateY(CAMERA_ROT_VEL)
 
-    # Rotar la cámara en el eje Z
+    # Rotate camera around Z axis
     if keys[K_q]:
         camera.rotateZ(-CAMERA_ROT_VEL)
     elif keys[K_e]:
         camera.rotateZ(CAMERA_ROT_VEL)
 
-    # Acerca / aleja la cámara
+    # Close / Far camera
     if keys[K_n]:
         camera.close()
     elif keys[K_m]:
