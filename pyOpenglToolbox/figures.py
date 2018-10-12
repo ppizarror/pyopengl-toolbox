@@ -549,7 +549,6 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
         raise Exception('Latitude and longitude of the figure must be greater than 3')
 
 
-# noinspection PyBroadException
 def create_cube_solid(color=None):
     """
     Create a solid cube
@@ -562,21 +561,24 @@ def create_cube_solid(color=None):
     glNewList(obj, GL_COMPILE)
     glPushMatrix()
     glColor4fv(color)
+    # noinspection PyBroadException
     try:
         glutSolidCube(1.0)
     except:
         if not _ERRS[3]:
-            printGLError(
-                "la version actual de OpenGL no posee la funcion glutSolidCube")
+            printGLError('OpenGL actual version does not support glutSolidCube function')
         _ERRS[3] = True
     glPopMatrix()
     glEndList()
     return obj
 
 
-# noinspection PyBroadException,PyArgumentEqualDefault
-def create_piramid(color=None):
-    """Crea una pirámide de base cuadrada"""
+def create_pyramid(color=None):
+    """
+    Creates a pyramid
+    :param color:
+    :return:
+    """
     if color is None:
         color = COLOR_WHITE
     arista = 2.0
@@ -604,9 +606,12 @@ def create_piramid(color=None):
     return obj
 
 
-# noinspection PyBroadException,PyArgumentEqualDefault
-def create_piramid_textured(texture_list):
-    """Crea una pirámide de base cuadrada con texturas"""
+def create_pyramid_textured(texture_list):
+    """
+    Create a textured pyramid
+    :param texture_list:
+    :return:
+    """
     arista = 2.0
     a = Point3(-0.5, -0.5, -0.333) * arista
     b = Point3(0.5, -0.5, -0.333) * arista
@@ -642,7 +647,11 @@ def create_piramid_textured(texture_list):
 
 # noinspection PyBroadException,PyArgumentEqualDefault
 def create_diamond(color=None):
-    """Crea un rombo de base cuadrada"""
+    """
+    Creates a diamond
+    :param color:
+    :return:
+    """
     if color is None:
         color = COLOR_WHITE
     a = Point3(-1.0, -1.0, 0.0)
@@ -673,7 +682,11 @@ def create_diamond(color=None):
 
 # noinspection PyBroadException
 def create_teapot(color=None):
-    """Crea un teapot de OpenGL"""
+    """
+    Create a OpenGl teapot
+    :param color:
+    :return:
+    """
     if color is None:
         color = COLOR_WHITE
     obj = glGenLists(1)
@@ -685,8 +698,7 @@ def create_teapot(color=None):
         glutSolidTeapot(1.0)
     except:
         if not _ERRS[4]:
-            printGLError(
-                "la version actual de OpenGL no posee la funcion glutSolidTeapot")
+            printGLError('OpenGL actual version doest not support glutSolidTeapot function')
         _ERRS[4] = True
     glPopMatrix()
     glEndList()
@@ -695,7 +707,11 @@ def create_teapot(color=None):
 
 # noinspection PyBroadException
 def create_teapot_textured(texture_list):
-    """Crea un teapot con texturas"""
+    """
+    Creates a teapot
+    :param texture_list:
+    :return:
+    """
     obj = glGenLists(1)
     glNewList(obj, GL_COMPILE)
     glPushMatrix()
@@ -708,8 +724,7 @@ def create_teapot_textured(texture_list):
         glutSolidTeapot(1.0)
     except:
         if not _ERRS[4]:
-            printGLError(
-                "la version actual de OpenGL no posee la funcion glutSolidTeapot")
+            printGLError('OpenGL actual version does not support glutSolidTeapot function')
         _ERRS[4] = True
     for _i in range(len(texture_list)):
         glActiveTexture(GL_TEXTURE0 + _i)
@@ -719,7 +734,6 @@ def create_teapot_textured(texture_list):
     return obj
 
 
-# noinspection PyBroadException,PyTypeChecker,PyTypeChecker,PyArgumentEqualDefault
 def create_pyramid_vbo(edge=1.0):
     """
     Creates a VBO pyramid for shader using

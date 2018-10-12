@@ -46,7 +46,7 @@ NUM_LIGHTS = 2
 WINDOW_SIZE = [800, 600]
 
 # Init window
-initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 3', centered=True)
+init_pygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 3', centered_window=True)
 initGl(transparency=False, materialcolor=False, normalized=True, lighting=True,
        numlights=NUM_LIGHTS, perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
        texture=True, verbose=False)

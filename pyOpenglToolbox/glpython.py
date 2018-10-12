@@ -1,7 +1,7 @@
 # coding=utf-8
 """
-GLPYTHON
-Funciones utilitarias para manejar PyOpenGL.
+PYOPENGL-TOOLBOX GLPYTHON
+Utilitary function to manage PyOpenGL.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# Importación de librerías
+# Library imports
 from __future__ import print_function
 import pygame
 from pygame.locals import *
@@ -35,21 +35,19 @@ import os
 _DEFAULT_CAPTION = 'Program title'
 
 
-def initPygame(w, h, caption=_DEFAULT_CAPTION, center_mouse=False, icon=None,
-               centered=False):
+def init_pygame(w, h, caption=_DEFAULT_CAPTION, icon=None, center_mouse=False, centered_window=False):
     """
-    Inicia Pygame
-
-    :param w: Ancho de la ventana (px)
-    :param h: Alto de la ventana (px)
-    :param caption: Título de la ventana
-    :param center_mouse: Indica si el mouse está centrado
-    :param icon: Indica el ícono de la ventana
-    :param centered: Indica si la ventana está centrada
+    Init pygame
+    :param w: Window width (px)
+    :param h: Window height (px)
+    :param caption: Window title
+    :param icon: Window icon
+    :param center_mouse: Centered mouse
+    :param centered_window: Centered window
     :return: None
     """
     pygame.init()
-    if centered:
+    if centered_window:
         os.environ['SDL_VIDEO_CENTERED'] = '1'
     pygame.display.set_mode((w, h), OPENGLBLIT | DOUBLEBUF)
     pygame.display.set_caption(caption)
@@ -59,14 +57,19 @@ def initPygame(w, h, caption=_DEFAULT_CAPTION, center_mouse=False, icon=None,
         pygame.display.set_icon(icon)
 
 
-# noinspection PyBroadException,PyUnresolvedReferences
-def loadPythonImage(path, convert=False):
-    """Carga una imagen en pygame"""
+def load_image(path, convert=False):
+    """
+    Loads an image
+    :param path: Imagepath
+    :param convert: Convert alpha
+    :return:
+    """
+    # noinspection PyBroadException
     try:
         image = pygame.image.load(path)
         if convert:
             image = image.convert_alpha()
         return image
     except:
-        print('fail')
+        print('Error when loading <' + path + '> image')
         return None

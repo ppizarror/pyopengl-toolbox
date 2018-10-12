@@ -41,7 +41,7 @@ FPS = 60
 WINDOW_SIZE = [800, 600]
 
 # Init window
-initPygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 1', centered=True)
+init_pygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 1', centered_window=True)
 initGl(transparency=False, materialcolor=False, normalized=True, lighting=True,
        numlights=1, perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
        texture=True, verbose=False)
