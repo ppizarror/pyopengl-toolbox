@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 PYOPENGL-TOOLBOX PARTICLES
-Particle classes.
+Particle class.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
@@ -27,8 +27,8 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-from utils import *
 import types
+from pyOpenGLtoolbox.utils_math import cos, sin, Point3, Vector3
 
 # Constants
 OPERATOR_ADD = 0x0f60
@@ -44,7 +44,9 @@ PARTICLES_ROUND = 3
 
 
 class Particle:
-    """Partícula"""
+    """
+    Particle
+    """
 
     def __init__(self, posx=0.0, posy=0.0, posz=0.0):
         """Función constructora"""

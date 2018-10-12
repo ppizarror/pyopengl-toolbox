@@ -26,9 +26,10 @@ SOFTWARE.
 """
 
 # Library imports
-from OpenGL.GL import *
-from OpenGL.GLU import *
-from utils_math import *
+from OpenGL.GL import glLoadIdentity
+from OpenGL.GLU import gluLookAt
+from pyOpenGLtoolbox.utils_math import Point3, Vector3, cos, sin, xyz_to_spr, spr_to_xyz
+import math as _math
 
 # Constants
 CAMERA_CENTER_LIMIT_Z_DOWN = -3500
@@ -391,7 +392,7 @@ class CameraXYZ(_Camera):
         :param angle: Rotation angle
         :return:
         """
-        rad = math.sqrt(self.pos.get_x() ** 2 + self.pos.get_y() ** 2)
+        rad = _math.sqrt(self.pos.get_x() ** 2 + self.pos.get_y() ** 2)
         self.pos.set_x(rad * cos(self.angle))
         self.pos.set_y(rad * sin(self.angle))
 

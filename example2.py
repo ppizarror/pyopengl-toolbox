@@ -32,6 +32,7 @@ from pyOpenGLtoolbox.camera import *
 from pyOpenGLtoolbox.particles import *
 from pyOpenGLtoolbox.figures import *
 from pyOpenGLtoolbox.materials import *
+from pyOpenGLtoolbox import create_axes
 
 # Constants
 AXES_LENGTH = 700

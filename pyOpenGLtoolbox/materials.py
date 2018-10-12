@@ -26,7 +26,7 @@ SOFTWARE.
 """
 
 # Library imports
-from OpenGL.GL import *
+from OpenGL.GL import glMaterialfv, GL_FRONT_AND_BACK, GL_SPECULAR, GL_SHININESS, GL_AMBIENT, GL_DIFFUSE, GL_EMISSION
 
 # Constants
 AMBIENT_COLOR_GREEN = [0.0, 0.403, 0.0]

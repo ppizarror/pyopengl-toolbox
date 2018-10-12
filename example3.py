@@ -34,6 +34,7 @@ from pyOpenGLtoolbox.opengl_lib import *
 from pyOpenGLtoolbox.particles import *
 from pyOpenGLtoolbox.shader import *
 from pyOpenGLtoolbox.textures import *
+from pyOpenGLtoolbox import create_axes
 
 # Constants
 AXES_LENGTH = 700

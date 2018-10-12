@@ -36,7 +36,7 @@ FRAGMENT = 0x01
 VERTEX = 0x02
 
 
-class Shader(object):
+class Shader:
     """Permite cargar y compilar shaders"""
 
     # noinspection PyShadowingBuiltins
@@ -127,13 +127,12 @@ class Shader(object):
             s = 'compiled'
         return 'File: {0}\nType: {1}\nStatus: {2}\n'.format(self.get_path(), t, s)
 
-    def printShader(self):
+    def print_shader(self):
         """Imprime el codigo fuente del shader"""
         print(self.file)
 
 
-# noinspection PyShadowingNames,PyCallingNonCallable,PyTypeChecker
-class ShaderProgram(object):
+class ShaderProgram:
     """Permite la creacion de un programa que ejecutara shaders en segundo plano"""
 
     # noinspection PyShadowingBuiltins
@@ -213,9 +212,9 @@ class ShaderProgram(object):
         """Retorna el nombre del programa"""
         return self.name
 
-    def set_name(self, name):
+    def set_name(self, n):
         """Define el nombre del programa"""
-        self.name = name
+        self.name = n
 
     def __str__(self):
         """Retorna el estado del programa"""
@@ -268,28 +267,29 @@ class ShaderProgram(object):
         """Retorna si el shader esta activado o desactivado"""
         return self.enabled
 
-    def uniformf(self, name, *vals):
+    def uniformf(self, n, *vals):
         """Carga un numero flotante al programa"""
         if len(vals) in range(1, 5) and self.get_status():
             {1: glUniform1f,
              2: glUniform2f,
              3: glUniform3f,
              4: glUniform4f
-             }[len(vals)](glGetUniformLocation(self.program, name), *vals)
+             }[len(vals)](glGetUniformLocation(self.program, n), *vals)
 
-    def uniformi(self, name, *vals):
+    def uniformi(self, n, *vals):
         """Carga un numero entero al programa"""
         if len(vals) in range(1, 5) and self.get_status():
             {1: glUniform1i,
              2: glUniform2i,
              3: glUniform3i,
              4: glUniform4i
-             }[len(vals)](glGetUniformLocation(self.program, name), *vals)
+             }[len(vals)](glGetUniformLocation(self.program, n), *vals)
 
-    def uniform_matrixf(self, name, mat):
+    def uniform_matrixf(self, n, mat):
         """Carga una matriz uniforme al programa"""
         if self.get_status():
-            loc = glGetUniformLocation(self.program, name)
+            loc = glGetUniformLocation(self.program, n)
+            # noinspection PyCallingNonCallable,PyTypeChecker
             glUniformMatrix4fv(loc, 1, False, (ctypes.c_float * 16)(*mat))
 
 

@@ -27,8 +27,10 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-from OpenGL.GL import *
 import numpy
+from OpenGL.GL import glGenTextures, GL_UNPACK_ALIGNMENT, glPixelStorei, glBindTexture, GL_TEXTURE_2D, glTexParameterf, \
+    GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T, GL_TEXTURE_MAG_FILTER, GL_REPEAT, GL_CLAMP, GL_LINEAR, GL_TEXTURE_MIN_FILTER, \
+    GL_RGB, glTexImage2D, GL_UNSIGNED_BYTE, glTexEnvf, GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE
 
 try:
     from PIL import Image
@@ -36,7 +38,7 @@ except ImportError:
     print('[ERR] Error al importar la libreria, probando Image')
     # noinspection PyBroadException
     try:
-        # noinspection PyUnresolvedReferences
+        # noinspection PyUnresolvedReferences,PyPackageRequirements
         import Image
     except:
         print('[ERR] Error al importar Image, esta aplicacion requiere de PIL')

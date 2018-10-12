@@ -26,9 +26,14 @@ SOFTWARE.
 """
 
 # Library imports
-from OpenGL.arrays import vbo
 from numpy import array
-from utils import *
+from OpenGL.arrays import vbo
+from OpenGL.GL import *
+from OpenGL.GLUT import *
+from pyOpenGLtoolbox.utils import print_gl_error
+from pyOpenGLtoolbox.utils_geometry import *
+from pyOpenGLtoolbox.utils_math import Point3, cos, sin, Point2
+import math
 
 # Constants
 COLOR_BLACK = [0.0, 0.0, 0.0, 1.0]
@@ -43,7 +48,7 @@ for i in range(10):
     _ERRS.append(False)
 
 
-class VboObject:
+class VBObject:
     """
     VBO object that can load and draw elements using shaders
     """
@@ -336,11 +341,11 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
 
     vertex, norm, avgnorm = load(modelfile, scale, float(dx), float(dy), float(dz))
     if avg:
-        return VboObject(vbo.VBO(array(vertex, 'f')),
-                         vbo.VBO(array(avgnorm, 'f')), len(vertex), texture)
+        return VBObject(vbo.VBO(array(vertex, 'f')),
+                        vbo.VBO(array(avgnorm, 'f')), len(vertex), texture)
     else:
-        return VboObject(vbo.VBO(array(vertex, 'f')), vbo.VBO(array(norm, 'f')),
-                         len(vertex), texture)
+        return VBObject(vbo.VBO(array(vertex, 'f')), vbo.VBO(array(norm, 'f')),
+                        len(vertex), texture)
 
 
 def create_sphere(lat=10, lng=10, color=None):
@@ -422,6 +427,7 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
     if color is None:
         color = COLOR_WHITE
     if lat >= 3 and lng >= 10:
+        # noinspection PyArgumentEqualDefault
         circlebase = create_circle(base - 0.05, 0.1, [0.0, 0.0, -1.0], color)
         obj = glGenLists(1)
         glNewList(obj, GL_COMPILE)
@@ -586,6 +592,7 @@ def create_pyramid(color=None):
     b = Point3(0.5, -0.5, -0.333) * arista
     c = Point3(0.5, 0.5, -0.333) * arista
     d = Point3(-0.5, 0.5, -0.333) * arista
+    # noinspection PyArgumentEqualDefault
     e = Point3(0.0, 0.0, 0.666) * arista
 
     obj = glGenLists(1)
@@ -617,6 +624,7 @@ def create_pyramid_textured(texture_list):
     b = Point3(0.5, -0.5, -0.333) * arista
     c = Point3(0.5, 0.5, -0.333) * arista
     d = Point3(-0.5, 0.5, -0.333) * arista
+    # noinspection PyArgumentEqualDefault
     e = Point3(0.0, 0.0, 0.666) * arista
     t_list = [Point2(0, 0), Point2(1, 0), Point2(1, 1), Point2(0, 1)]
     t_list_face = [Point2(0, 0), Point2(0.5, 1.0), Point2(1, 0)]
@@ -742,6 +750,11 @@ def create_pyramid_vbo(edge=1.0):
     """
 
     def ex(element):
+        """
+        Export element to list
+        :param element:
+        :return:
+        """
         return element.export_to_list()
 
     # Create points
@@ -749,6 +762,7 @@ def create_pyramid_vbo(edge=1.0):
     b = Point3(0.5, -0.5, -0.333) * edge
     c = Point3(0.5, 0.5, -0.333) * edge
     d = Point3(-0.5, 0.5, -0.333) * edge
+    # noinspection PyArgumentEqualDefault
     e = Point3(0.0, 0.0, 0.666) * edge
 
     # Create normals
@@ -766,7 +780,7 @@ def create_pyramid_vbo(edge=1.0):
                     n5, n5, n5]
 
     # Return VBO Object
-    return VboObject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')), len(vertex_array))
+    return VBObject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')), len(vertex_array))
 
 
 def create_tetrahedron_vbo(edge=1.0):
@@ -777,12 +791,19 @@ def create_tetrahedron_vbo(edge=1.0):
     """
 
     def ex(element):
+        """
+        Export element to list
+        :param element:
+        :return:
+        """
         return element.export_to_list()
 
     # Create points
     a = Point3(-0.5, -0.288675, -0.288675) * edge
     b = Point3(0.5, -0.288675, -0.288675) * edge
+    # noinspection PyArgumentEqualDefault
     c = Point3(0.0, 0.577350, -0.288675) * edge
+    # noinspection PyArgumentEqualDefault
     d = Point3(0.0, 0.0, 0.57735) * edge
 
     # Create normals
@@ -797,8 +818,8 @@ def create_tetrahedron_vbo(edge=1.0):
     normal_array = [n1, n1, n1, n2, n2, n2, n3, n3, n3, n4, n4, n4]
 
     # Return VBO
-    return VboObject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')),
-                     len(vertex_array))
+    return VBObject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')),
+                    len(vertex_array))
 
 
 def create_tetrahedron():

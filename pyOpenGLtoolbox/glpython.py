@@ -27,9 +27,9 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-import pygame
 from pygame.locals import *
 import os
+import pygame
 
 # Constantes
 _DEFAULT_CAPTION = 'Program title'
