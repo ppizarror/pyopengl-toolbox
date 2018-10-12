@@ -1,7 +1,7 @@
 # coding=utf-8
 """
-OPENGL_LIB
-Permite cargar las librerías de opengl y iniciar el sistema.
+PYOPENGL-TOOLBOX OPENGL_LIB
+Manage OpenGl libraries, init system.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
@@ -25,12 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# Importación de liberías
+# Library imports
 from __future__ import print_function
 from OpenGL.GLU import *
 from utils import *
 
-# Definición de constantes
+# Constants
 _OPENGL_CONFIGS = [False]
 DEFAULT_AMBIENT_COLOR = [0.2, 0.2, 0.2, 1.0]
 DEFAULT_BGCOLOR = [0.0, 0.0, 0.0, 1.0]
@@ -47,9 +47,9 @@ SPOT_DIRECTION_ALL = [1.0, 1.0, 1.0, 1.0]
 
 
 # noinspection PyGlobalUndefined
-def initGl(**kwargs):
-    """Inicia opengl
-    Parametros válidos:
+def init_gl(**kwargs):
+    """
+    Init opengl, params
 
     antialiasing=true/false (activa el antialiasing, true por defecto)
     bgcolor=color de fondo
@@ -71,138 +71,146 @@ def initGl(**kwargs):
 
     global verbose
 
-    def isTrue(value):
-        """Indica si el valor es true o false"""
+    def is_true(value):
+        """
+        Value is true or not
+        :param value:
+        :return:
+        """
         if kwargs.get(value) is not None:
             return kwargs.get(value)
         else:
             return False
 
     # Se define el verbose
-    if isTrue("verbose"):
+    if is_true('verbose'):
         verbose = True
     else:
         verbose = False
 
     def log(msg):
-        """Imprime un mensaje en pantalla"""
+        """
+        Print a message on screen
+        :param msg:
+        :return:
+        """
         if verbose:
-            print("[GL] {0}".format(msg))
+            print('[GL] {0}'.format(msg))
 
-    def logInfo(msg):
-        """Imprime una informacion en pantalla"""
+    def log_info(msg):
+        """
+        Print information on screen
+        :param msg:
+        :return:
+        """
         print('[GL-INFO] {0}'.format(msg))
 
-    log("Iniciando OPENGL")
+    log('Init OPENGL')
 
-    # Imprime la version de opengl
-    if isTrue("version"):
-        logInfo("GPU {0}".format(glGetString(GL_VENDOR)))
-        logInfo("Renderer {0}".format(glGetString(GL_RENDERER)))
-        logInfo("OpenGL version {0}".format(glGetString(GL_VERSION)))
-        logInfo(
-            "SLSL version {0}".format(glGetString(GL_SHADING_LANGUAGE_VERSION)))
-        logInfo("Extensions {0}".format(glGetString(GL_EXTENSIONS)))
+    # Print OpenGL version
+    if is_true('version'):
+        log_info('GPU {0}'.format(glGetString(GL_VENDOR)))
+        log_info('Renderer {0}'.format(glGetString(GL_RENDERER)))
+        log_info('OpenGL version {0}'.format(glGetString(GL_VERSION)))
+        log_info('SLSL version {0}'.format(glGetString(GL_SHADING_LANGUAGE_VERSION)))
+        log_info('Extensions {0}'.format(glGetString(GL_EXTENSIONS)))
 
-    # Se define el color de dibujo
-    if kwargs.get("bgcolor") is not None:
-        log("Se definio el color de fondo: {0}".format(kwargs.get("bgcolor")))
-        glClearColor(*kwargs.get("bgcolor"))
+    # Set background clear color
+    if kwargs.get('bgcolor') is not None:
+        log('Clear color set: {0}'.format(kwargs.get('bgcolor')))
+        glClearColor(*kwargs.get('bgcolor'))
     else:
-        log("Se definio el color de fondo por defecto")
+        log('Clear color set default')
         glClearColor(*DEFAULT_BGCOLOR)
 
-    # Se define la profundidad del color de fondo
-    if kwargs.get("bgdepth") is not None:
-        log("Se definio la profundidad de color en: {0}".format(
-            kwargs.get("bgdepth")))
-        glClearDepth(kwargs.get("bgdepth"))
+    # Set clear depth color
+    if kwargs.get('bgdepth') is not None:
+        log('Clear depth color set: {0}'.format(kwargs.get("bgdepth")))
+        glClearDepth(kwargs.get('bgdepth'))
     else:
-        log("Se definio la profundidad de color por defecto")
+        log('Clear depth color set default')
         glClearDepth(DEFAULT_BGDEPTH)
 
-    # Se activa la transparencia
-    if isTrue("transparency"):
-        log("Se activo la transparencia")
+    # Enable transparency
+    if is_true('transparency'):
+        log('Transparency enabled')
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     else:
-        log("Transparencia desactivada")
+        log('Transparency disabled')
 
-    # Se activan los rellenos suaves
-    if isTrue("smooth"):
-        log("Se activa el modo de shading SMOOTH")
+    # Smooth
+    if is_true('smooth'):
+        log('Enable SMOOTH shade model')
         glShadeModel(GL_SMOOTH)
     else:
-        log("Se desactivan los rellenos suaves")
+        log('SMOOTH shade model disabled')
 
-    # Se activa el depth test
-    if isTrue("depth"):
-        log("Se activa el deph test")
+    # Depth test
+    if is_true('depth'):
+        log('Enable depth test')
         glEnable(GL_DEPTH_TEST)
         glDepthFunc(GL_LEQUAL)
     else:
-        log("Se desactiva el deph test")
+        log('Depth test disabled')
 
-    # Se activa el antialiasing
-    if isTrue("antialiasing"):
-        log("Se activa el antialiasing")
+    # Antialiasing
+    if is_true('antialiasing'):
+        log('Antialiasing enabled')
         glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST)
     else:
-        log("Se desactiva el antialiasing")
+        log('Antialiasing disabled')
 
-    # Se activa el normalizado de normales
-    if isTrue("normalized"):
-        log("Se activa el normalizado de normales")
+    # Enabled normalized normal
+    if is_true('normalized'):
+        log('Normalized normal enabled')
         glEnable(GL_NORMALIZE)
     else:
-        log("Se desactiva el normalizado de normales")
+        log('Normalized normal disabled')
 
-    # Se activa el rellenado de superficies
-    if isTrue("surffill"):
-        log("Se activa el relleno de superficies")
+    # Enable offset fill
+    if is_true('surffill'):
+        log('Enabled polygon offset fill')
         glEnable(GL_POLYGON_OFFSET_FILL)
     else:
-        log("Se desactiva el relleno de superficies")
+        log('Disabled polygon offset fill')
 
-    # Se activa la iluminacion
-    if kwargs.get("lighting") is not None and kwargs.get("lighting"):
-        log("Se activa la iluminacion")
+    # Enable lighting
+    if kwargs.get('lighting') is not None and kwargs.get('lighting'):
+        log('Enable lighting')
         glEnable(GL_LIGHTING)
-
-        # Se activan las luces
-        if kwargs.get("numlights") is not None:
-            total = int(kwargs.get("numlights"))
+        if kwargs.get('numlights') is not None:
+            total = int(kwargs.get('numlights'))
             for light in range(total):
-                log("Luz {0} activada".format(light))
-                eval("glEnable(GL_LIGHT{0})".format(light))
+                log('Light {0} enabled'.format(light))
+                eval('glEnable(GL_LIGHT{0})'.format(light))
         _OPENGL_CONFIGS[0] = True
     else:
-        log("Se desactiva la iluminacion")
+        log('Lighting disabled')
 
-    # Modo de pintado
-    if isTrue("polygonfillmode"):
-        log("Se activa el relleno poligonal por ambas caras")
+    # Polygon fill mode
+    if is_true('polygonfillmode'):
+        log('Enabled polygoon fill by both sides')
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
     else:
         log("Se activa el relleno poligonal en una sola cara")
 
     # Se activa el color de los materiales
-    if isTrue("materialcolor"):
+    if is_true("materialcolor"):
         log("Se activa el color de materiales")
         glEnable(GL_COLOR_MATERIAL)
     else:
         log("Se desactiva el color de materiales")
 
     # Se activa la correccion de la matriz de perspectiva
-    if isTrue("perspectivecorr"):
+    if is_true("perspectivecorr"):
         log("Se activa la correccion de perspectivas")
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
     else:
         log("Se desactiva la correccion de perspectivas")
 
     # Se activan las texturas
-    if isTrue("textures"):
+    if is_true("textures"):
         log("Se activan las texturas")
         glEnable(GL_TEXTURE_2D)
         glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR)
@@ -212,7 +220,7 @@ def initGl(**kwargs):
     log("Ha terminado la configuracion de OPENGL")
 
 
-def clearBuffer():
+def clear_buffer():
     """Borra el buffer"""
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
@@ -235,7 +243,7 @@ def reshape(w, h, fov=60, nearplane=300.0, farplane=20000.0):
 
 
 # noinspection PyUnusedLocal
-def initLight(light=GL_LIGHT0, *args, **kwargs):
+def init_light(light=GL_LIGHT0, *args, **kwargs):
     """Define las propiedades de iluminacion, forma de uso
     light: luz a iniciar, del tipo GL_LIGHTn con n=0..8
 
@@ -307,6 +315,6 @@ def initLight(light=GL_LIGHT0, *args, **kwargs):
                   DEFAULT_QUADRATIC_ATTENUATION)
 
 
-def islightEnabled():
+def is_light_enabled():
     """Retorna true/false si la luz esta activada o desactivada"""
     return _OPENGL_CONFIGS[0]

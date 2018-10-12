@@ -25,18 +25,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# Importación de liberías
+# Library imports
 from __future__ import print_function
 from OpenGL.GLUT import *
 from utils_geometry import *
+import os
 
-# Definicion de constantes
+# Constants
 COLOR_BLACK = [0, 0, 0]
 COLOR_WHITE = [1, 1, 1]
 _ERRS = [False]
 
 
-def printGLError(err_msg):
+def print_gl_error(err_msg):
     """Imprime un error en consola"""
     print('[GL-ERROR] {0}'.format(err_msg))
 
@@ -115,9 +116,11 @@ def create_axes(s, both=False, text=True):
 
 
 # noinspection PyBroadException
-def draw_text(text, pos, color=COLOR_WHITE, font=GLUT_BITMAP_TIMES_ROMAN_24,
+def draw_text(text, pos, color=None, font='GLUT_BITMAP_TIMES_ROMAN_24',
               linespace=20):
     """Dibuja un texto en una posicon dada por un punto point3"""
+    if color is None:
+        color = COLOR_WHITE
     glColor3fv(color)
     if isinstance(pos, Point3):
         x = pos.get_x()
@@ -133,8 +136,7 @@ def draw_text(text, pos, color=COLOR_WHITE, font=GLUT_BITMAP_TIMES_ROMAN_24,
                     glutBitmapCharacter(font, ord(char))
                 except:
                     if not _ERRS[0]:
-                        printGLError(
-                            'la version actual de OpenGL no posee la funcion glutBitmapCharacter')
+                        print_gl_error('Actual OpenGL version doest not support glutBitmapCharacter function')
                     _ERRS[0] = True
     else:
         raise Exception("el punto debe ser del tipo point3")

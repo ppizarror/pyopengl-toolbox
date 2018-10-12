@@ -44,11 +44,11 @@ WINDOW_SIZE = [800, 600]
 
 # Init window
 init_pygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 2', centered_window=True)
-initGl(transparency=False, materialcolor=False, normalized=True, lighting=True,
-       numlights=1, perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
-       texture=True, verbose=False)
+init_gl(transparency=False, materialcolor=False, normalized=True, lighting=True,
+        numlights=1, perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
+        texture=True, verbose=False)
 reshape(*WINDOW_SIZE)
-initLight(GL_LIGHT0)
+init_light(GL_LIGHT0)
 clock = pygame.time.Clock()
 
 # Display help on console
@@ -76,9 +76,9 @@ light.add_property('MATERIAL', material_silver)
 # Main loop
 while True:
     clock.tick(FPS)
-    clearBuffer()
+    clear_buffer()
     camera.place()
-    if islightEnabled():
+    if is_light_enabled():
         glDisable(GL_LIGHTING)
         glCallList(axis)
         glEnable(GL_LIGHTING)

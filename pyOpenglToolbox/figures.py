@@ -363,7 +363,7 @@ def create_sphere(lat=10, lng=10, color=None):
             glutSolidSphere(1.0, lat, lng)
         except:
             if not _ERRS[0]:
-                printGLError('OpenGL actual version does not support glutSolidSphere function')
+                print_gl_error('OpenGL actual version does not support glutSolidSphere function')
             _ERRS[0] = True
         glPopMatrix()
         glEndList()
@@ -432,7 +432,7 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
             glutSolidCone(base, height, lat, lng)
         except:
             if not _ERRS[3]:
-                printGLError('OpenGL actual version does not support glutSolidCone function')
+                print_gl_error('OpenGL actual version does not support glutSolidCone function')
             _ERRS[3] = True
         glCallList(circlebase)
         glPopMatrix()
@@ -540,7 +540,7 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
             glutSolidTorus(minr, maxr, lat, lng)
         except:
             if not _ERRS[2]:
-                printGLError('OpenGL actual version does not support glutSolidTorus function')
+                print_gl_error('OpenGL actual version does not support glutSolidTorus function')
             _ERRS[2] = True
         glPopMatrix()
         glEndList()
@@ -566,7 +566,7 @@ def create_cube_solid(color=None):
         glutSolidCube(1.0)
     except:
         if not _ERRS[3]:
-            printGLError('OpenGL actual version does not support glutSolidCube function')
+            print_gl_error('OpenGL actual version does not support glutSolidCube function')
         _ERRS[3] = True
     glPopMatrix()
     glEndList()
@@ -698,7 +698,7 @@ def create_teapot(color=None):
         glutSolidTeapot(1.0)
     except:
         if not _ERRS[4]:
-            printGLError('OpenGL actual version doest not support glutSolidTeapot function')
+            print_gl_error('OpenGL actual version doest not support glutSolidTeapot function')
         _ERRS[4] = True
     glPopMatrix()
     glEndList()
@@ -724,7 +724,7 @@ def create_teapot_textured(texture_list):
         glutSolidTeapot(1.0)
     except:
         if not _ERRS[4]:
-            printGLError('OpenGL actual version does not support glutSolidTeapot function')
+            print_gl_error('OpenGL actual version does not support glutSolidTeapot function')
         _ERRS[4] = True
     for _i in range(len(texture_list)):
         glActiveTexture(GL_TEXTURE0 + _i)
@@ -814,7 +814,7 @@ def create_tetrahedron():
         glutSolidTetrahedron()
     except:
         if not _ERRS[5]:
-            printGLError('OpenGL actual version does not support glutSolidTetrahedron function')
+            print_gl_error('OpenGL actual version does not support glutSolidTetrahedron function')
         _ERRS[5] = True
     glPopMatrix()
     glEndList()
@@ -834,7 +834,7 @@ def create_dodecahedron():
         glutSolidDodecahedron()
     except:
         if not _ERRS[6]:
-            printGLError('OpenGL actual version dost not support glutSolidDodecahedron function')
+            print_gl_error('OpenGL actual version dost not support glutSolidDodecahedron function')
         _ERRS[6] = True
     glPopMatrix()
     glEndList()
@@ -854,7 +854,7 @@ def create_octahedron():
         glutSolidOctahedron()
     except:
         if not _ERRS[7]:
-            printGLError('OpenGL actual version does not support glutSolidOctahedron function')
+            print_gl_error('OpenGL actual version does not support glutSolidOctahedron function')
         _ERRS[7] = True
     glPopMatrix()
     glEndList()
@@ -874,7 +874,7 @@ def create_icosahedron():
         glutSolidIcosahedron()
     except:
         if not _ERRS[8]:
-            printGLError('OpenGL actual version does not support glutSolidIcosahedron function')
+            print_gl_error('OpenGL actual version does not support glutSolidIcosahedron function')
         _ERRS[8] = True
     glPopMatrix()
     glEndList()

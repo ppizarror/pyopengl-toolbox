@@ -47,13 +47,13 @@ WINDOW_SIZE = [800, 600]
 
 # Init window
 init_pygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 3', centered_window=True)
-initGl(transparency=False, materialcolor=False, normalized=True, lighting=True,
-       numlights=NUM_LIGHTS, perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
-       texture=True, verbose=False)
+init_gl(transparency=False, materialcolor=False, normalized=True, lighting=True,
+        numlights=NUM_LIGHTS, perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
+        texture=True, verbose=False)
 reshape(*WINDOW_SIZE)
-initLight(GL_LIGHT0)
-initLight(GL_LIGHT1, ambient=AMBIENT_COLOR_RED, diffuse=DIFFUSE_COLOR_RED,
-          specular=SPECULAR_COLOR_RED)
+init_light(GL_LIGHT0)
+init_light(GL_LIGHT1, ambient=AMBIENT_COLOR_RED, diffuse=DIFFUSE_COLOR_RED,
+           specular=SPECULAR_COLOR_RED)
 clock = pygame.time.Clock()
 
 # Display help on console
@@ -100,14 +100,14 @@ while True:
 
     # Creatos counter, clears buffer
     clock.tick(FPS)
-    clearBuffer()
+    clear_buffer()
     camera.place()
 
     # Rotate light
     light.rotate_x(0.5)
     light.rotate_y(-0.5)
     light.rotate_z(0.5)
-    if islightEnabled():
+    if is_light_enabled():
         glDisable(GL_LIGHTING)
         glCallList(axis)
         glEnable(GL_LIGHTING)

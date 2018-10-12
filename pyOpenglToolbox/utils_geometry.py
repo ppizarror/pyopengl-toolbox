@@ -52,7 +52,7 @@ def drawVertexListNormal(normal, vertex_list):
         else:
             raise Exception("la normal debe ser del tipo vector3")
     else:
-        raise Exceptiom("vertices insucifientes")
+        raise Exception("vertices insucifientes")
 
 
 def drawVertexListCreateNormal(vertex_list):
@@ -61,7 +61,7 @@ def drawVertexListCreateNormal(vertex_list):
         normal = normal3points(vertex_list[0], vertex_list[1], vertex_list[2])
         drawVertexListNormal(normal, vertex_list)
     else:
-        raise Exceptiom("vertices insucifientes")
+        raise Exception("vertices insucifientes")
 
 
 def drawVertexList_textured(vertex_list, tvertex_list):

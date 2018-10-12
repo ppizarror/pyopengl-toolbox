@@ -462,7 +462,7 @@ class Particle(object):
         """Imprime las propiedades de la partícula y sus valores"""
         print('Properties of: {0}'.format(self.get_name()))
         for prop in self._get_prop_name():
-            if isinstance(prop, types.IntType):
+            if type(prop) is int:
                 print('\t{0} => {1}'.format(prop, self.get_property(prop)))
             else:
                 print('\t\'{0}\' => {1}'.format(prop, self.get_property(prop)))

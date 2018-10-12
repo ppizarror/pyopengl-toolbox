@@ -1,7 +1,7 @@
 # coding=utf-8
 """
-MATERIALS
-Provee funciones para aplicar distintos materiales.
+PYOPENGL-TOOLBOX MATERIALS
+Material definitions.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.

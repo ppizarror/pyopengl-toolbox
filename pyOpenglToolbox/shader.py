@@ -118,15 +118,14 @@ class Shader(object):
     def __str__(self):
         """Retorna el estado del shader"""
         if self.get_type() == FRAGMENT:
-            t = "FRAGMENT"
+            t = 'FRAGMENT'
         else:
-            t = "VERTEX"
+            t = 'VERTEX'
         if not self.is_compiled():
-            s = "not compiled"
+            s = 'not compiled'
         else:
-            s = "compiled"
-        return 'file: {0}\ntype: {1}\nstatus: {2}\n'.format(self.get_path(), t,
-                                                            s)
+            s = 'compiled'
+        return 'File: {0}\nType: {1}\nStatus: {2}\n'.format(self.get_path(), t, s)
 
     def printShader(self):
         """Imprime el codigo fuente del shader"""
