@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 PYOPENGL-TOOLBOX SHADER
-Provee funciones para el manejo de shaders.
+Shader management.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
@@ -25,12 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# Importación de librerías
+# Library imports
 from __future__ import print_function
 from OpenGL.GL import *
 import ctypes
 
-# Constantes
+# Constants
 DEFAULT_PROGRAM = 0
 FRAGMENT = 0x01
 VERTEX = 0x02

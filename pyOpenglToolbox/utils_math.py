@@ -1,33 +1,40 @@
 # coding=utf-8
 """
 PYOPENGL-TOOLBOX UTILS MATH
-Herramientas matemáticas utilitarias.
+Utilitary math tools.
 
-Copyright (C) 2017 Pablo Pizarro @ppizarror
+MIT License
+Copyright (c) 2018 Pablo Pizarro R.
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 """
 
-# Importación de librerías
+# Library imports
 from __future__ import print_function
 import math
-import types
 
-# Constantes
-POINT_2 = "util-point-2"
-POINT_3 = "util-point-3"
+# Constants
+POINT_2 = 'util-point-2'
+POINT_3 = 'util-point-3'
 
 
-# noinspection PyMethodFirstArgAssignment
-class Point3(object):
+class Point3:
     """
     Punto de 3 componentes.
     """
@@ -84,15 +91,15 @@ class Point3(object):
 
     def __add__(self, other):
         """Sumar el punto con otro"""
-        return self._vecto_point(self._point.__add__(self._point_to_vec(other)))
+        return self._vec_to_point(self._point.__add__(self._point_to_vec(other)))
 
     def __sub__(self, other):
         """Restar el punto con otro"""
-        return self._vecto_point(self._point.__sub__(self._point_to_vec(other)))
+        return self._vec_to_point(self._point.__sub__(self._point_to_vec(other)))
 
     def __mul__(self, other):
         """Multiplicar el punto por otro"""
-        return self._vecto_point(self._point.__mul__(self._point_to_vec(other)))
+        return self._vec_to_point(self._point.__mul__(self._point_to_vec(other)))
 
     def __str__(self, mantise=1, **kwargs):
         """Retornar el string del punto"""
@@ -100,30 +107,34 @@ class Point3(object):
 
     def __div__(self, other):
         """Dividir el punto por otro"""
-        return self._vecto_point(self._point.__div__(self._point_to_vec(other)))
+        return self._vec_to_point(self._point.__div__(self._point_to_vec(other)))
 
     def __abs__(self):
         """Retornar el valor absoluto del punto"""
-        return self._vecto_point(self._point.__abs__())
+        return self._vec_to_point(self._point.__abs__())
 
+    # noinspection PyMethodFirstArgAssignment
     def __iadd__(self, other):
         """Suma el mismo punto con other"""
-        self = self._vecto_point(self._point.__iadd__(other))
+        self = self._vec_to_point(self._point.__iadd__(other))
         return self
 
+    # noinspection PyMethodFirstArgAssignment
     def __isub__(self, other):
         """Resta el mismo punto con other"""
-        self = self._vecto_point(self._point.__isub__(other))
+        self = self._vec_to_point(self._point.__isub__(other))
         return self
 
+    # noinspection PyMethodFirstArgAssignment
     def __imul__(self, other):
         """Multiplica el mismo punto con other"""
-        self = self._vecto_point(self._point.__imul__(other))
+        self = self._vec_to_point(self._point.__imul__(other))
         return self
 
+    # noinspection PyMethodFirstArgAssignment
     def __idiv__(self, other):
         """Divide el mismo punto con other"""
-        self = self._vecto_point(self._point.__iadd__(other))
+        self = self._vec_to_point(self._point.__iadd__(other))
         return self
 
     # noinspection PyMethodMayBeStatic,PyShadowingNames
@@ -135,7 +146,7 @@ class Point3(object):
             return point
 
     # noinspection PyMethodMayBeStatic
-    def _vecto_point(self, vec):
+    def _vec_to_point(self, vec):
         """Convierte un vector a un punto"""
         if isinstance(vec, Vector3):
             return Point3(vec.get_x(), vec.get_y(), vec.get_z())
@@ -163,7 +174,7 @@ class Point2(Point3):
             return point
 
     # noinspection PyMethodMayBeStatic
-    def _vecto_point(self, vec):
+    def _vec_to_point(self, vec):
         """Convierte un vector a un punto"""
         if isinstance(vec, Vector3):
             return Point2(vec.get_x(), vec.get_y())
@@ -202,7 +213,7 @@ class Vector3(object):
 
     def get_module(self):
         """Retorna el modulo del vector"""
-        return self.distancewith(Vector3(0, 0, 0))
+        return self.distance_with(Vector3(0, 0, 0))
 
     def set_x(self, x):
         """Define la coordenada x"""
@@ -230,12 +241,12 @@ class Vector3(object):
 
     def ponderate(self, a=1):
         """Pondera el vector por un numero"""
-        if isinstance(a, types.FloatType) or isinstance(a, types.IntType):
+        if type(a) is float or type(a) is int:
             self.x *= a
             self.y *= a
             self.z *= a
         else:
-            self.throwError(2, "ponderate")
+            self.throw_error(2, 'ponderate')
             return self
 
     def __add__(self, other):
@@ -243,13 +254,12 @@ class Vector3(object):
         if isinstance(other, Vector3):
             return Vector3(self.x + other.get_x(), self.y + other.get_y(),
                            self.z + other.get_z())
-        elif isinstance(other, types.TupleType) or isinstance(other,
-                                                              types.ListType):
+        elif type(other) is tuple or type(other) is list:
             if len(other) == 3:
                 return Vector3(self.x + other[0], self.y + other[1],
                                self.z + other[2])
         else:
-            self.throwError(2, "__add__")
+            self.throw_error(2, '__add__')
             return self
 
     def __sub__(self, other):
@@ -257,13 +267,12 @@ class Vector3(object):
         if isinstance(other, Vector3):
             return Vector3(self.x - other.get_x(), self.y - other.get_y(),
                            self.z - other.get_z())
-        elif isinstance(other, types.TupleType) or isinstance(other,
-                                                              types.ListType):
+        elif type(other) is tuple or type(other) is list:
             if len(other) == 3:
                 return Vector3(self.x - other[0], self.y - other[1],
                                self.z - other[2])
         else:
-            self.throwError(2, "__sub__")
+            self.throw_error(2, '__sub__')
             return self
 
     def __mod__(self, other):
@@ -277,15 +286,13 @@ class Vector3(object):
             return Vector3(self.x * other.get_x(), self.y * other.get_y(),
                            self.z * other.get_z())
         else:
-            if isinstance(other, types.ListType) or isinstance(other,
-                                                               types.TupleType):
+            if type(other) is list or type(other) is tuple:
                 return Vector3(self.x * other[0], self.y * other[1],
                                self.z * other[2])
-            elif isinstance(other, types.IntType) or isinstance(other,
-                                                                types.FloatType):
+            elif type(other) is int or type(other) is float:
                 return Vector3(self.x * other, self.y * other, self.z * other)
             else:
-                self.throwError(2, "__mul__")
+                self.throw_error(2, '__mul__')
                 return self
 
     def __abs__(self):
@@ -298,11 +305,10 @@ class Vector3(object):
             return Vector3(self.x / other.get_x(), self.y / other.get_y(),
                            self.z / other.get_z())
         else:
-            if isinstance(other, types.IntType) or isinstance(other,
-                                                              types.FloatType):
+            if type(other) is int or type(other) is float:
                 return Vector3(self.x / other, self.y / other, self.z / other)
             else:
-                self.throwError(2, "__div__")
+                self.throw_error(2, '__div__')
                 return self
 
     def __invert__(self, other):
@@ -334,7 +340,7 @@ class Vector3(object):
                 z = 0
             return Vector3(x, y, z)
         else:
-            self.throwError(2, "__and__")
+            self.throw_error(2, "__and__")
             return Vector3()
 
     def __or__(self, other):
@@ -354,7 +360,7 @@ class Vector3(object):
                 z = 0
             return Vector3(x, y, z)
         else:
-            self.throwError(2, "__or__")
+            self.throw_error(2, "__or__")
             return Vector3()
 
     def __int__(self):
@@ -407,7 +413,7 @@ class Vector3(object):
                 self.z += other[2]
                 return self
         else:
-            self.throwError(2, '__iadd__')
+            self.throw_error(2, '__iadd__')
             return self
 
     def __isub__(self, other):
@@ -417,15 +423,14 @@ class Vector3(object):
             self.y -= other.get_y()
             self.z -= other.get_z()
             return self
-        elif isinstance(other, types.TupleType) or isinstance(other,
-                                                              types.ListType):
+        elif type(other) is tuple or type(other) is list:
             if len(other) == 3:
                 self.x -= other[0]
                 self.y -= other[1]
                 self.z -= other[2]
                 return self
         else:
-            self.throwError(2, "__isub__")
+            self.throw_error(2, '__isub__')
             return self
 
     def __imul__(self, other):
@@ -436,20 +441,18 @@ class Vector3(object):
             self.z *= other.get_z()
             return self
         else:
-            if isinstance(other, types.ListType) or isinstance(other,
-                                                               types.TupleType):
+            if type(other) is list or type(other) is tuple:
                 self.x *= other[0]
                 self.y *= other[1]
                 self.z *= other[2]
                 return self
-            elif isinstance(other, types.IntType) or isinstance(other,
-                                                                types.FloatType):
+            elif type(other) is int or type(other) is float:
                 self.x *= other
                 self.y *= other
                 self.z *= other
                 return self
             else:
-                self.throwError(2, "__imul__")
+                self.throw_error(2, '__imul__')
                 return self
 
     def __idiv__(self, other):
@@ -460,33 +463,31 @@ class Vector3(object):
             self.z /= other.get_z()
             return self
         else:
-            if isinstance(other, types.ListType) or isinstance(other,
-                                                               types.TupleType):
+            if type(other) is list or type(other) is tuple:
                 self.x /= other[0]
                 self.y /= other[1]
                 self.z /= other[2]
                 return self
-            elif isinstance(other, types.IntType) or isinstance(other,
-                                                                types.FloatType):
+            elif type(other) is int or type(other) is float:
                 self.x /= other
                 self.y /= other
                 self.z /= other
                 return self
             else:
-                self.throwError(2, "__idiv__")
+                self.throw_error(2, '__idiv__')
                 return self
 
     @staticmethod
-    def throwError(err_num, err_func):
+    def throw_error(err_num, err_func):
         """Imprime un error en pantalla"""
 
-        def _printError(error):
+        def _print_error(error):
             print('Error :: {0} ~ {1}'.format(error, err_func))
 
         if err_num == 1:
-            _printError("La mantisa es menor a 1")
+            _print_error("La mantisa es menor a 1")
         elif err_num == 2:
-            _printError("Tipo invalido")
+            _print_error("Tipo invalido")
 
     # override
     def echo(self, mantise=1, **kwargs):
@@ -511,11 +512,10 @@ class Vector3(object):
             j = self.z * other.get_x() - self.x * other.get_z()
             k = self.x * other.get_y() - self.y * other.get_x()
             return Vector3(i, j, k)
-        elif isinstance(other, types.TupleType) or isinstance(other,
-                                                              types.ListType):
+        elif type(other) is tuple or type(other) is list:
             return self.cross(Vector3(*other))
         else:
-            self.throwError(2, "cross")
+            self.throw_error(2, 'cross')
             return self
 
     def crosswith(self, other):
@@ -525,18 +525,17 @@ class Vector3(object):
         self.y = cross.get_y()
         self.z = cross.get_z()
 
-    def distancewith(self, other):
+    def distance_with(self, other):
         """Retorna la distancia a otro vector"""
         if isinstance(other, Vector3):
             return math.sqrt(
                 (self.x - other.get_x()) ** 2 + (
                         self.y - other.get_y()) ** 2 + (
                         self.z - other.get_y()) ** 2)
-        elif isinstance(other, types.ListType) or isinstance(other,
-                                                             types.TupleType):
-            return self.distancewith(Vector3(*other))
+        elif type(other) is list or type(other) is tuple:
+            return self.distance_with(Vector3(*other))
         else:
-            self.throwError(2, "distance")
+            self.throw_error(2, "distance")
             return 0.0
 
     def __str__(self, mantise=1, **kwargs):
@@ -554,7 +553,7 @@ class Vector3(object):
                                   round(self.y, mantise),
                                   round(self.z, mantise))
         else:
-            self.throwError(1, "echo")
+            self.throw_error(1, "echo")
 
     def export_to_list(self):
         """Exportar el vector a una lista"""
@@ -565,7 +564,7 @@ class Vector3(object):
         return self.x, self.y, self.z
 
 
-def normal3points(a, b, c):
+def normal_3_points(a, b, c):
     """Retorna el vector normal dado tres puntos a, b, c"""
     if type(a) is list or type(a) is tuple:
         a = Vector3(*a)

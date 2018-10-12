@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 PYOPENGL-TOOLBOX UTILS GEOMETRY
-Provee funciones para dibujar planos y objetos de forma sencilla mediante opengl.
+Utilitary geometry functions.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# Importación de librerías
+# Library imports
 from OpenGL.GL import *
 from utils_math import *
 
@@ -58,7 +58,7 @@ def draw_vertex_list_normal(normal, vertex_list):
 def draw_vertex_list_create_normal(vertex_list):
     """Dibuja una lista de puntos point2/point3 creando una normal"""
     if len(vertex_list) >= 3:
-        normal = normal3points(vertex_list[0], vertex_list[1], vertex_list[2])
+        normal = normal_3_points(vertex_list[0], vertex_list[1], vertex_list[2])
         draw_vertex_list_normal(normal, vertex_list)
     else:
         raise Exception("vertices insucifientes")
@@ -102,7 +102,7 @@ def draw_vertex_list_create_normal_textured(vertex_list, tvertex_list):
     """Dibuja una lista de puntos point3 con una lista Point2 de aristas para modelos
     texturados creando una normal"""
     if len(vertex_list) >= 3:
-        normal = normal3points(vertex_list[0], vertex_list[1], vertex_list[2])
+        normal = normal_3_points(vertex_list[0], vertex_list[1], vertex_list[2])
         draw_vertex_list_normal_textured(normal, vertex_list, tvertex_list)
     else:
         raise Exception("vertices insuficientes")
@@ -110,7 +110,7 @@ def draw_vertex_list_create_normal_textured(vertex_list, tvertex_list):
 
 def draw_list(lista, pos=None, angle=0.0, rot=None, sz=None, rgb=None):
     """
-    Dibuja una lista de OpenGl
+    Dibuja una lista de OpenGL
 
     :param lista: Lista OpenGL
     :param pos: Posición

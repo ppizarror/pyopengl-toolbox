@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 PYOPENGL-TOOLBOX PARTICLES
-Provee funciones para manejar partículas.
+Particle classes.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
@@ -25,25 +25,25 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# Importación de librerías
+# Library imports
 from __future__ import print_function
 from utils import *
+import types
 
-# Definicion de constantes
-OPERATOR_ADD = 0x0f60  # Operador de suma
-OPERATOR_AND = 0x0f61  # Operador and
-OPERATOR_DIFF = 0x0f62  # Operador de resta
-OPERATOR_DIV = 0x0f63  # Operador de division
-OPERATOR_MOD = 0x0f64  # Operador de modulo
-OPERATOR_MULT = 0x0f65  # Operador de multiplicacion
-OPERATOR_OR = 0x0f66  # Operador or
-OPERATOR_POW = 0x0f67  # Operador de elevacion
-OPERATOR_XOR = 0x0f68  # Operador xor
-PARTICLES_ROUND = 2  # Número de decimales
+# Constants
+OPERATOR_ADD = 0x0f60
+OPERATOR_AND = 0x0f61
+OPERATOR_DIFF = 0x0f62
+OPERATOR_DIV = 0x0f63
+OPERATOR_MOD = 0x0f64
+OPERATOR_MULT = 0x0f65
+OPERATOR_OR = 0x0f66
+OPERATOR_POW = 0x0f67
+OPERATOR_XOR = 0x0f68
+PARTICLES_ROUND = 3
 
 
-# noinspection PyShadowingNames,PyShadowingBuiltins,PyDefaultArgument,PyMissingOrEmptyDocstring
-class Particle(object):
+class Particle:
     """Partícula"""
 
     def __init__(self, posx=0.0, posy=0.0, posz=0.0):
@@ -328,24 +328,26 @@ class Particle(object):
         if self.has_movement_z():
             self.move_z(self.posvel.get_z())
         f_count = 0
-        for func in self.functions:
+        for fun in self.functions:
             if self.functionUpdate[f_count]:
-                func(*self.functionArguments[f_count])
+                fun(*self.functionArguments[f_count])
             f_count += 1
 
     def get_name(self):
         """Retorna el nombre de la partícula"""
         return self._name
 
-    def set_name(self, name):
+    def set_name(self, n):
         """Define el nombre de la partícula"""
-        self._name = name
+        self._name = n
 
-    def bind(self, function, exec_on_update=True, arguments=[]):
+    def bind(self, fun, exec_on_update=True, arguments=None):
         """Agrega una función a la partícula la cual puede ejecutarse en cada update o ejecutarse separadamente
         llamando a execFunc"""
-        if isinstance(function, types.FunctionType):
-            self.functions.append(function)
+        if arguments is None:
+            arguments = []
+        if isinstance(fun, types.FunctionType):
+            self.functions.append(fun)
             self.functionArguments.append(arguments)
             self.functionUpdate.append(exec_on_update)
         else:
@@ -358,20 +360,20 @@ class Particle(object):
     def get_binded_names(self):
         """Retorna el nombre de las funciones bindeadas a la partícula"""
         names = []
-        for function in self.functions:
-            names.append(function.__name__)
+        for fun in self.functions:
+            names.append(fun.__name__)
         return ", ".join(names)
 
     def exec_func(self, funcname):
         """Ejecuta una función"""
         if funcname in self.get_binded_names():
             f_count = 0
-            for func in self.functions:
-                if funcname == func.__name__:
+            for fun in self.functions:
+                if funcname == fun.__name__:
                     if type(self.functionArguments[f_count]) is tuple:
-                        func(*self.functionArguments[f_count])
+                        fun(*self.functionArguments[f_count])
                     else:
-                        func(self.functionArguments[f_count])
+                        fun(self.functionArguments[f_count])
                 f_count += 1
         else:
             raise Exception("la función {0} no existe".format(funcname))
@@ -412,7 +414,8 @@ class Particle(object):
             raise Exception("la propiedad {0} no existe".format(propname))
 
     def modify_property(self, propname, newvalue, operator=None):
-        """Modifica el valor de una propiedad, recibe como parametro el nombre de la propiedad, un valor y una operacion, operadores aceptados:
+        """Modifica el valor de una propiedad, recibe como parametro el nombre de la propiedad, un valor y una operacion,
+        operadores aceptados:
 
         OPERATOR_ADD: Sumar con otro valor
         OPERATOR_AND: Calcular el operador logico and
@@ -431,8 +434,7 @@ class Particle(object):
                 if operator == OPERATOR_ADD:
                     self.properties[propname] += newvalue
                 elif operator == OPERATOR_AND:
-                    self.properties[propname] = self.properties[
-                                                    propname] and newvalue
+                    self.properties[propname] = self.properties[propname] and newvalue
                 elif operator == OPERATOR_DIFF:
                     self.properties[propname] -= newvalue
                 elif operator == OPERATOR_DIV:
@@ -440,15 +442,13 @@ class Particle(object):
                 elif operator == OPERATOR_MOD:
                     self.properties[propname] %= newvalue
                 elif operator == OPERATOR_OR:
-                    self.properties[propname] = self.properties[
-                                                    propname] or newvalue
+                    self.properties[propname] = self.properties[propname] or newvalue
                 elif operator == OPERATOR_POW:
-                    self.properties[propname] = self.properties[
-                                                    propname] ** newvalue
+                    self.properties[propname] = self.properties[propname] ** newvalue
                 elif operator == OPERATOR_XOR:
-                    p = self.properties[propname]
-                    q = newvalue
-                    self.properties[propname] = (p and not q) or (not p and q)
+                    _p = self.properties[propname]
+                    _q = newvalue
+                    self.properties[propname] = (_p and not _q) or (not _p and _q)
                 else:
                     raise Exception("operacion incorrecta")
         else:
@@ -481,16 +481,24 @@ class Particle(object):
             else:
                 return "off"
 
-        def getPropList():
+        def get_prop_list():
+            """
+            Return properties list
+            :return:
+            """
             s = []
             for prop in self._get_prop_name():
                 s.append(str(prop))
             return ", ".join(s)
 
-        def getFunctList():
+        def get_funct_list():
+            """
+            Get function list
+            :return:
+            """
             s = self.get_binded_names()
-            if s == "":
-                s = "None"
+            if s == '':
+                s = 'None'
             return s
 
         msg = 'Particle: {15}\nXYZ position: ({0},{1},{2})\nAngular velocity: ({3},{4},{5}); ({9},{10},{11})\nLinear ' \
@@ -510,4 +518,4 @@ class Particle(object):
                           onoff(self.has_movement_x()),
                           onoff(self.has_movement_y()),
                           onoff(self.has_movement_z()), self.get_name(),
-                          getFunctList(), getPropList())
+                          get_funct_list(), get_prop_list())

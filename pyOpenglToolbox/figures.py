@@ -752,11 +752,11 @@ def create_pyramid_vbo(edge=1.0):
     e = Point3(0.0, 0.0, 0.666) * edge
 
     # Create normals
-    n1 = ex(normal3points(a, b, e))
-    n2 = ex(normal3points(b, c, e))
-    n3 = ex(normal3points(c, d, e))
-    n4 = ex(normal3points(d, a, e))
-    n5 = ex(normal3points(c, b, a))
+    n1 = ex(normal_3_points(a, b, e))
+    n2 = ex(normal_3_points(b, c, e))
+    n3 = ex(normal_3_points(c, d, e))
+    n4 = ex(normal_3_points(d, a, e))
+    n5 = ex(normal_3_points(c, b, a))
 
     # Create point list
     vertex_array = [ex(b), ex(e), ex(a), ex(b), ex(c), ex(e), ex(c), ex(d),
@@ -786,10 +786,10 @@ def create_tetrahedron_vbo(edge=1.0):
     d = Point3(0.0, 0.0, 0.57735) * edge
 
     # Create normals
-    n1 = ex(normal3points(a, b, d))
-    n2 = ex(normal3points(b, c, d))
-    n3 = ex(normal3points(c, a, d))
-    n4 = ex(normal3points(c, b, a))
+    n1 = ex(normal_3_points(a, b, d))
+    n2 = ex(normal_3_points(b, c, d))
+    n3 = ex(normal_3_points(c, a, d))
+    n4 = ex(normal_3_points(c, b, a))
 
     # Create triangles
     vertex_array = [ex(a), ex(b), ex(d), ex(b), ex(c), ex(d), ex(c), ex(a),

@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 PYOPENGL-TOOLBOX TEXTURES
-Provee funciones utilitarias para el manejo de texturas.
+Texture functions.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
@@ -25,7 +25,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# Importación de librerías
+# Library imports
 from __future__ import print_function
 from OpenGL.GL import *
 import numpy

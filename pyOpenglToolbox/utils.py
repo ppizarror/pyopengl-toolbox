@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 PYOPENGL-TOOLBOX UTILS
-Funciones utilitarias generales.
+General purpouse functions.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
