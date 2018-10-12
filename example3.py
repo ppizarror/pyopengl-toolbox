@@ -153,21 +153,21 @@ while True:
 
     # Rotate camera around X axis
     if keys[K_w]:
-        camera.rotateX(CAMERA_ROT_VEL)
+        camera.rotate_x(CAMERA_ROT_VEL)
     elif keys[K_s]:
-        camera.rotateX(-CAMERA_ROT_VEL)
+        camera.rotate_x(-CAMERA_ROT_VEL)
 
     # Rotate camera around Y axis
     if keys[K_a]:
-        camera.rotateY(-CAMERA_ROT_VEL)
+        camera.rotate_y(-CAMERA_ROT_VEL)
     elif keys[K_d]:
-        camera.rotateY(CAMERA_ROT_VEL)
+        camera.rotate_y(CAMERA_ROT_VEL)
 
     # Rotate camera around Z axis
     if keys[K_q]:
-        camera.rotateZ(-CAMERA_ROT_VEL)
+        camera.rotate_z(-CAMERA_ROT_VEL)
     elif keys[K_e]:
-        camera.rotateZ(CAMERA_ROT_VEL)
+        camera.rotate_z(CAMERA_ROT_VEL)
 
     # Close / Far camera
     if keys[K_n]:

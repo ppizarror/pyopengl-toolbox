@@ -1,7 +1,7 @@
 # coding=utf-8
 """
-CAMERA
-Provee clases para manejar una cámara.
+PYOPENGL-TOOLBOX CAMERA
+Camera classes.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
@@ -25,12 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# Importación de librerías
+# Library imports
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from utils_math import *
 
-# Constantes
+# Constants
 CAMERA_CENTER_LIMIT_Z_DOWN = -3500
 CAMERA_CENTER_LIMIT_Z_UP = 3500
 CAMERA_CENTER_VEL = 10
@@ -45,42 +45,77 @@ CAMERA_XYZ = 0x0fa
 
 # noinspection PyMethodMayBeStatic
 class _Camera(object):
-    """Clase abstracta"""
+    """
+    Abstract class
+    """
 
     def __init__(self):
-        """Funcion constructora void"""
+        """
+        Void constructor
+        """
         pass
 
     def place(self):
-        """Ubica la cámara en el mundo"""
+        """
+        Place camera in world
+        :return:
+        """
         pass
 
     def move_x(self, direction=CAMERA_POSITIVE):
-        """Mueve la posición de la cámara en el eje x"""
+        """
+        Moves camera to x-position
+        :param direction: X-axis position
+        :return:
+        """
         pass
 
     def move_y(self, direction=CAMERA_POSITIVE):
-        """Mueve la posición de la cámara en el eje y"""
+        """
+        Moves camera to y-position
+        :param direction: Y-axis position
+        :return:
+        """
         pass
 
     def move_z(self, direction=CAMERA_POSITIVE):
-        """Mueve la posición de la cámara en el eje z"""
+        """
+        Moves camera to z-position
+        :param direction: Z-axis position
+        :return:
+        """
         pass
 
     def set_vel_move_x(self, vel):
-        """Define la velocidad de movimiento de la cámara en el eje x"""
+        """
+        Defines x-axis movement velocity
+        :param vel: X-axis velocity
+        :return:
+        """
         pass
 
     def set_vel_move_y(self, vel):
-        """Define la velocidad de movimiento de la cámara en el eje y"""
+        """
+        Defines Y-axis movement velocity
+        :param vel: X-axis velocity
+        :return:
+        """
         pass
 
     def set_vel_move_z(self, vel):
-        """Define la velocidad de movimiento de la cámara en el eje z"""
+        """
+        Defines Z-axis movement velocity
+        :param vel: Z-axis velocity
+        :return:
+        """
         pass
 
     def set_center_vel(self, vel):
-        """Define la velocidad de acercamiento/alejamiento de la cámara"""
+        """
+        Defines zoom in/out velocity
+        :param vel:
+        :return: Camera zoom velocity
+        """
         pass
 
     def move_center_x(self, dist):
@@ -96,53 +131,87 @@ class _Camera(object):
         pass
 
     def rotate_center_z(self, angle):
-        """Rota la posición en el eje z"""
+        """
+        Rotate camera around z-axis
+        :param angle: Rotation angle
+        :return:
+        """
         pass
 
     def far(self):
-        """Aleja la posición de la cámara"""
+        """
+        Camera zoom-out
+        :return:
+        """
         pass
 
     def close(self):
-        """Acerca la posición de la cámara"""
+        """
+        Camera zoom-in
+        :return:
+        """
         pass
 
-    def setRvel(self, vel):
-        """Define la velocidad radial con la que la cámara se mueve"""
+    def set_r_vel(self, vel):
+        """
+        Defines radial velocity
+        :param vel: Velocity
+        :return:
+        """
         pass
 
-    # noinspection PyRedeclaration
-    def place(self):
-        """Ubica la camara en el mundo"""
+    def rotate_x(self, angle):
+        """
+        Rotate eye position in x-axis
+        :param angle: Rotation angle
+        :return:
+        """
         pass
 
-    def rotateX(self, angle):
-        """Rota la posición eye en el eje X cartesiano"""
+    def rotate_y(self, angle):
+        """
+        Rotate eye position in y-axis
+        :param angle: Rotation angle
+        :return:
+        """
         pass
 
-    def rotateY(self, angle):
-        """Rota la posición eye en el eje Y cartesiano"""
-        pass
-
-    def rotateZ(self, angle):
-        """Rota la posición eye en el eje Z cartesiano"""
+    def rotate_z(self, angle):
+        """
+        Rotate eye position in z-axis
+        :param angle: Rotation angle
+        :return:
+        """
         pass
 
     def convert_to_xyz(self):
-        """Convierte el sistema esférico a cartesiano"""
+        """
+        Convert spheric to cartesian
+        :return:
+        """
         pass
 
     def __str__(self):
-        """Retorna el estado de la cámara"""
+        """
+        Return camera status
+        :return:
+        """
         pass
 
     def get_name(self):
-        """Retorna el nombre de la cámara"""
+        """
+        Returns camera name
+        :return:
+        """
         pass
 
     # noinspection PyShadowingNames
     def set_name(self, name):
-        """Define el nombre de la cámara"""
+        """
+        Set camera name
+        :param name: Camera name
+        :return:
+        """
         pass
 
 
@@ -205,7 +274,7 @@ class CameraXYZ(_Camera):
         """Define la velocidad de acercamiento/alejamiento de la cámara"""
         self.centervel = Vector3(abs(vel), abs(vel), abs(vel))
 
-    def rotateX(self, ang):
+    def rotate_x(self, ang):
         """Rota la posición con respecto al eje X"""
         x = self.pos.get_x()
         y = self.pos.get_y() * cos(ang) - self.pos.get_z() * sin(ang)
@@ -214,7 +283,7 @@ class CameraXYZ(_Camera):
         self.pos.set_y(y)
         self.pos.set_z(z)
 
-    def rotateY(self, ang):
+    def rotate_y(self, ang):
         """Rota la posición de la cámara con respecto al eje Y"""
         x = self.pos.get_x() * cos(ang) + self.pos.get_z() * sin(ang)
         y = self.pos.get_y()
@@ -223,7 +292,7 @@ class CameraXYZ(_Camera):
         self.pos.set_y(y)
         self.pos.set_z(z)
 
-    def rotateZ(self, ang):
+    def rotate_z(self, ang):
         """Rota la posición de la cámara con respecto al eje Z"""
         x = self.pos.get_x() * cos(ang) - self.pos.get_y() * sin(ang)
         y = self.pos.get_x() * sin(ang) + self.pos.get_y() * cos(ang)
@@ -300,7 +369,7 @@ class CameraR(_Camera):
         else:
             raise Exception("center_point debe ser del tipo point3")
 
-    def setRvel(self, vel):
+    def set_r_vel(self, vel):
         """Define la velocidad radial con la que la camara se mueve"""
         if vel > 0:
             self.rvel = vel
@@ -339,7 +408,7 @@ class CameraR(_Camera):
         """Aleja la cámara"""
         self.r -= self.rvel
 
-    def rotateX(self, angle):
+    def rotate_x(self, angle):
         """Rota la posición eye en el eje X cartesiano"""
         # Convierto a (x,y,z)
         x, y, z = self.convert_to_xyz()
@@ -353,11 +422,11 @@ class CameraR(_Camera):
         self.phi = phi
         self.theta = theta
 
-    def rotateY(self, angle):
+    def rotate_y(self, angle):
         """Rota la posición eye en el eje Y cartesiano"""
         self.theta = min(max(self.theta + angle, CAMERA_MIN_THETA_VALUE), 180)
 
-    def rotateZ(self, angle):
+    def rotate_z(self, angle):
         """Rota la posición eye en el eje Z cartesiano"""
         self.phi = (self.phi + angle) % 360
 
@@ -388,26 +457,26 @@ class CameraR(_Camera):
         """Define el nombre de la cámara"""
         self._name = name
 
-    def getRadius(self):
+    def get_radius(self):
         """Retorna el radio de la cámara"""
         return self.r
 
-    def setRadius(self, r):
+    def set_radius(self, r):
         """Define el radio de la cámara"""
         self.r = r
 
-    def getPhi(self):
+    def get_phi(self):
         """Retorna el angulo phi"""
         return self.phi
 
-    def setPhi(self, phi):
+    def set_phi(self, phi):
         """Define el angulo phi"""
         self.phi = phi
 
-    def getTheta(self):
+    def get_theta(self):
         """Retorna el angulo theta"""
         return self.theta
 
-    def setTheta(self, theta):
+    def set_theta(self, theta):
         """Define el angulo theta"""
         self.theta = theta

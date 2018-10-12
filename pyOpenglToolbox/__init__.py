@@ -1,7 +1,7 @@
 # coding=utf-8
 """
-PYGLTOOLBOX
-Herramientas para el uso de PyOpenGL de manera sencilla.
+PYOPENGL-TOOLBOX
+Toolbox for PyOpenGL.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
