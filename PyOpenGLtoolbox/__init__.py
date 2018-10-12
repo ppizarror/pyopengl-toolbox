@@ -71,5 +71,5 @@ from PyOpenGLtoolbox.utils_math import Point3, Point2, Vector3
 __author__ = 'Pablo Pizarro @ppizarror.com'
 __description__ = 'PyOpenGL toolbox'
 __email__ = 'pablo.pizarro@ing.uchile.cl'
-__version__ = 'v1.5.3gs'
+__version__ = 'v1.5.3'
 __url__ = 'https://github.com/ppizarror/pyopengl-toolbox'
