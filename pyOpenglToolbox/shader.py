@@ -29,7 +29,6 @@ SOFTWARE.
 from __future__ import print_function
 from OpenGL.GL import *
 import ctypes
-import types
 
 # Constantes
 DEFAULT_PROGRAM = 0
@@ -50,7 +49,7 @@ class Shader(object):
             self.path = path
             self.compiled = False
             if formatlist is not None:
-                if isinstance(formatlist, types.ListType):
+                if type(formatlist) is list:
                     num = 0
                     for f in formatlist:
                         key = '{' + str(num) + '}'
