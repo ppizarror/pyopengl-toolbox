@@ -97,7 +97,7 @@ class _Camera(object):
     def set_vel_move_y(self, vel):
         """
         Defines Y-axis movement velocity
-        :param vel: X-axis velocity
+        :param vel: Y-axis velocity
         :return:
         """
         pass
@@ -112,27 +112,39 @@ class _Camera(object):
 
     def set_center_vel(self, vel):
         """
-        Defines zoom in/out velocity
+        Defines center movement velocity
         :param vel:
-        :return: Camera zoom velocity
+        :return: Center movement velocity
         """
         pass
 
     def move_center_x(self, dist):
-        """Mueve la coorenada x del centro de visión"""
+        """
+        Moves center x coordinate
+        :param dist: X-distance
+        :return:
+        """
         pass
 
     def move_center_y(self, dist):
-        """Mueve la coorenada y del centro de visión"""
+        """
+        Moves center y coordinate
+        :param dist: Y-distance
+        :return:
+        """
         pass
 
     def move_center_z(self, dist):
-        """Mueve la coorenada z del centro de visión"""
+        """
+        Moves center z coordinate
+        :param dist: Z-distance
+        :return:
+        """
         pass
 
     def rotate_center_z(self, angle):
         """
-        Rotate camera around z-axis
+        Rotate center around z
         :param angle: Rotation angle
         :return:
         """
@@ -215,31 +227,37 @@ class _Camera(object):
         pass
 
 
-# Clase que maneja la camara
 class CameraXYZ(_Camera):
-    """Cámara en XYZ, pos es del tipo (x,y,z), permite rotación en z"""
+    """
+    Camera in XYZ, position (x,y,z), can rotate around z
+    """
 
     def __init__(self, pos, center, up=Point3(0, 0, 1)):
-        """Función constructora"""
+        """
+        Constructor
+        :param pos: Position
+        :param center: Center coordinate
+        :param up: Up vector
+        """
         _Camera.__init__(self)
-        if isinstance(pos, Point3) and isinstance(center,
-                                                  Point3) and isinstance(up,
-                                                                         Point3):
+        if isinstance(pos, Point3) and isinstance(center, Point3) and isinstance(up, Point3):
             self.pos = Vector3(*pos.export_to_list())
             self.center = Vector3(*center.export_to_list())
             self.up = Vector3(*up.export_to_list())
         else:
-            raise Exception("pos, center y up deben ser del tipo Point3")
+            raise Exception('pos, center y up must be Point3 type')
         self.cameraVel = Vector3(1.0, 1.0, 1.0)
         self.viewVel = Vector3(1.0, 1.0, 1.0)
         self.angle = 45.0
         self.centerangle = 0.0
-        self.centervel = Vector3(CAMERA_CENTER_VEL, CAMERA_CENTER_VEL,
-                                 CAMERA_CENTER_VEL)
-        self._name = "unnamed"
+        self.centervel = Vector3(CAMERA_CENTER_VEL, CAMERA_CENTER_VEL, CAMERA_CENTER_VEL)
+        self._name = 'unnamed'
 
     def place(self):
-        """Ubica la cámara en el mundo"""
+        """
+        Place camera in world
+        :return:
+        """
         glLoadIdentity()
         gluLookAt(self.pos.get_x(), self.pos.get_y(), self.pos.get_z(),
                   self.center.get_x(), self.center.get_y(),
@@ -247,87 +265,148 @@ class CameraXYZ(_Camera):
                   self.up.get_z())
 
     def move_x(self, direction=CAMERA_POSITIVE):
-        """Mueve la posición de la cámara en el eje x"""
+        """
+        Moves camera to x-position
+        :param direction: X-axis position
+        :return:
+        """
         self.pos.set_x(self.pos.get_x() + self.cameraVel.get_x() * direction)
 
     def move_y(self, direction=CAMERA_POSITIVE):
-        """Mueve la posición de la cámara en el eje y"""
+        """
+        Moves camera to y-position
+        :param direction: Y-axis position
+        :return:
+        """
         self.pos.set_y(self.pos.get_y() + self.cameraVel.get_y() * direction)
 
     def move_z(self, direction=CAMERA_POSITIVE):
-        """Mueve la posición de la cámara en el eje z"""
+        """
+        Moves camera to z-position
+        :param direction: Z-axis position
+        :return:
+        """
         self.pos.set_z(self.pos.get_z() + self.cameraVel.get_z() * direction)
 
     def set_vel_move_x(self, vel):
-        """Define la velocidad de movimiento de la camara en el eje x"""
+        """
+        Defines x-axis movement velocity
+        :param vel: X-axis velocity
+        :return:
+        """
         self.cameraVel.set_x(vel)
 
     def set_vel_move_y(self, vel):
-        """Define la velocidad de movimiento de la cámara en el eje y"""
+        """
+        Defines Y-axis movement velocity
+        :param vel: Y-axis velocity
+        :return:
+        """
         self.cameraVel.set_y(vel)
 
     def set_vel_move_z(self, vel):
-        """Define la velocidad de movimiento de la cámara en el eje z"""
+        """
+        Defines Z-axis movement velocity
+        :param vel: Z-axis velocity
+        :return:
+        """
         self.cameraVel.set_z(vel)
 
     def set_center_vel(self, vel):
-        """Define la velocidad de acercamiento/alejamiento de la cámara"""
+        """
+        Defines center movement velocity
+        :param vel:
+        :return: Center movement velocity
+        """
         self.centervel = Vector3(abs(vel), abs(vel), abs(vel))
 
-    def rotate_x(self, ang):
-        """Rota la posición con respecto al eje X"""
+    def rotate_x(self, angle):
+        """
+        Rotate eye position in x-axis
+        :param angle: Rotation angle
+        :return:
+        """
         x = self.pos.get_x()
-        y = self.pos.get_y() * cos(ang) - self.pos.get_z() * sin(ang)
-        z = self.pos.get_y() * sin(ang) + self.pos.get_z() * cos(ang)
+        y = self.pos.get_y() * cos(angle) - self.pos.get_z() * sin(angle)
+        z = self.pos.get_y() * sin(angle) + self.pos.get_z() * cos(angle)
         self.pos.set_x(x)
         self.pos.set_y(y)
         self.pos.set_z(z)
 
-    def rotate_y(self, ang):
-        """Rota la posición de la cámara con respecto al eje Y"""
-        x = self.pos.get_x() * cos(ang) + self.pos.get_z() * sin(ang)
+    def rotate_y(self, angle):
+        """
+        Rotate eye position in y-axis
+        :param angle: Rotation angle
+        :return:
+        """
+        x = self.pos.get_x() * cos(angle) + self.pos.get_z() * sin(angle)
         y = self.pos.get_y()
-        z = -self.pos.get_x() * sin(ang) + self.pos.get_z() * cos(ang)
+        z = -self.pos.get_x() * sin(angle) + self.pos.get_z() * cos(angle)
         self.pos.set_x(x)
         self.pos.set_y(y)
         self.pos.set_z(z)
 
-    def rotate_z(self, ang):
-        """Rota la posición de la cámara con respecto al eje Z"""
-        x = self.pos.get_x() * cos(ang) - self.pos.get_y() * sin(ang)
-        y = self.pos.get_x() * sin(ang) + self.pos.get_y() * cos(ang)
+    def rotate_z(self, angle):
+        """
+        Rotate eye position in z-axis
+        :param angle: Rotation angle
+        :return:
+        """
+        x = self.pos.get_x() * cos(angle) - self.pos.get_y() * sin(angle)
+        y = self.pos.get_x() * sin(angle) + self.pos.get_y() * cos(angle)
         z = self.pos.get_z()
         self.pos.set_x(x)
         self.pos.set_y(y)
         self.pos.set_z(z)
 
     def move_center_x(self, dist):
-        """Mueve la coorenada x del centro de visión"""
+        """
+        Moves center x coordinate
+        :param dist: X-distance
+        :return:
+        """
         self.center.set_x(self.center.get_x() + dist)
 
     def move_center_y(self, dist):
-        """Mueve la coorenada y del centro de visión"""
+        """
+        Moves center y coordinate
+        :param dist: Y-distance
+        :return:
+        """
         self.center.set_y(self.center.get_y() + dist)
 
     def move_center_z(self, dist):
-        """Mueve la coorenada z del centro de visión"""
+        """
+        Moves center z coordinate
+        :param dist: Z-distance
+        :return:
+        """
         if (CAMERA_CENTER_LIMIT_Z_DOWN <= self.center.get_z() and dist < 0) or \
                 (self.center.get_z() <= CAMERA_CENTER_LIMIT_Z_UP and dist > 0):
             self.center.set_z(self.center.get_z() + dist)
 
     def rotate_center_z(self, angle):
-        """Rota la posición en el eje z"""
+        """
+        Rotate center around z
+        :param angle: Rotation angle
+        :return:
+        """
         rad = math.sqrt(self.pos.get_x() ** 2 + self.pos.get_y() ** 2)
         self.pos.set_x(rad * cos(self.angle))
         self.pos.set_y(rad * sin(self.angle))
 
     def far(self):
-        """Aleja la posición de la cámara
-        @deprecated"""
+        """
+        Camera zoom-out
+        :return:
+        """
         self.center += self.centervel
 
     def close(self):
-        """Acerca la posicion de la camara"""
+        """
+        Camera zoom-in
+        :return:
+        """
         self.center -= self.centervel
 
     def get_name(self):
@@ -336,17 +415,29 @@ class CameraXYZ(_Camera):
 
     # noinspection PyShadowingNames
     def set_name(self, name):
-        """Define el nombre de la cámara"""
+        """
+        Set camera name
+        :param name: Camera name
+        :return:
+        """
         self._name = name
 
 
-# noinspection PyUnresolvedReferences
 class CameraR(_Camera):
-    """Cámara en coordenadas esféricas, recibe un radio R, y angulos phi y theta"""
+    """
+    Camera in spheric coordinates
+    """
 
     def __init__(self, r=1.0, phi=45, theta=45, center_point=Point3(),
                  up_vector=Vector3(0, 0, 1)):
-        """Función constructora"""
+        """
+        Constructor
+        :param r: Radius
+        :param phi: Phi angle
+        :param theta: Theta angle
+        :param center_point: Center point
+        :param up_vector: Up vector
+        """
         _Camera.__init__(self)
         if isinstance(center_point, Point3):
             if isinstance(up_vector, Vector3):
@@ -358,26 +449,32 @@ class CameraR(_Camera):
                         self.center = center_point
                         self.up = up_vector
                         self.rvel = CAMERA_DEFAULT_RVEL
-                        self._name = "unnamed"
+                        self._name = 'unnamed'
                     else:
-                        raise Exception(
-                            "el angulo phi debe variar entre 0 y 360, theta debe variar entre 0 y 180")
+                        raise Exception('Phi angle must be between 0 and 360 degrees, theta must be between 0 and 180')
                 else:
-                    raise Exception("El radio debe ser mayor a cero""")
+                    raise Exception('Radius must be greater than zero')
             else:
-                raise Exception("up_vector debe ser del tipo vector3")
+                raise Exception('up_vector must be Vector3 type')
         else:
-            raise Exception("center_point debe ser del tipo point3")
+            raise Exception('center_point must be Point3 type')
 
     def set_r_vel(self, vel):
-        """Define la velocidad radial con la que la camara se mueve"""
+        """
+        Defines radial velocity
+        :param vel: Velocity
+        :return:
+        """
         if vel > 0:
             self.rvel = vel
         else:
-            raise Exception("la velocidad debe ser mayor a cero")
+            raise Exception('Velocity must be greater than zero')
 
     def place(self):
-        """Ubica la cámara en el mundo"""
+        """
+        Place camera in world
+        :return:
+        """
         glLoadIdentity()
         gluLookAt(self.r * sin(self.theta) * cos(self.phi),
                   self.r * sin(self.theta) * sin(self.phi),
@@ -401,82 +498,144 @@ class CameraR(_Camera):
                           round(self.up.get_z(), r), self.get_name())
 
     def far(self):
-        """Aleja la cámara"""
+        """
+        Camera zoom-out
+        :return:
+        """
         self.r += self.rvel
 
     def close(self):
-        """Aleja la cámara"""
+        """
+        Camera zoom-in
+        :return:
+        """
         self.r -= self.rvel
 
     def rotate_x(self, angle):
-        """Rota la posición eye en el eje X cartesiano"""
-        # Convierto a (x,y,z)
+        """
+        Rotate eye position in x-axis
+        :param angle: Rotation angle
+        :return:
+        """
+        # Converts to (x,y,z)
         x, y, z = self.convert_to_xyz()
-        # Roto las componentes (x,y,z) segun x en
+        # Rotate (x,y,z) by x
         xr = x
         yr = y * cos(angle) - z * sin(angle)
         zr = y * sin(angle) + z * cos(angle)
-        # Convierto a componentes esfericas y se guardan
+        # Convert to spheric
         r, phi, theta = xyz_to_spr(xr, yr, zr)
         self.r = r
         self.phi = phi
         self.theta = theta
 
     def rotate_y(self, angle):
-        """Rota la posición eye en el eje Y cartesiano"""
+        """
+        Rotate eye position in y-axis
+        :param angle: Rotation angle
+        :return:
+        """
         self.theta = min(max(self.theta + angle, CAMERA_MIN_THETA_VALUE), 180)
 
     def rotate_z(self, angle):
-        """Rota la posición eye en el eje Z cartesiano"""
+        """
+        Rotate eye position in z-axis
+        :param angle: Rotation angle
+        :return:
+        """
         self.phi = (self.phi + angle) % 360
 
     def convert_to_xyz(self):
-        """Convierte el sistema esférico a cartesiano"""
+        """
+        Convert spheric to cartesian
+        :return:
+        """
         return spr_to_xyz(self.r, self.phi, self.theta)
 
     def move_center_x(self, dist):
-        """Mueve la coorenada x del centro de visión"""
+        """
+        Moves center x coordinate
+        :param dist: X-distance
+        :return:
+        """
         self.center.set_x(self.center.get_x() + dist)
 
     def move_center_y(self, dist):
-        """Mueve la coorenada y del centro de visión"""
+        """
+        Moves center y coordinate
+        :param dist: Y-distance
+        :return:
+        """
         self.center.set_y(self.center.get_y() + dist)
 
     def move_center_z(self, dist):
-        """Mueve la coorenada z del centro de visión"""
+        """
+        Moves center z coordinate
+        :param dist: Z-distance
+        :return:
+        """
         if (CAMERA_CENTER_LIMIT_Z_DOWN <= self.center.get_z() and dist < 0) or \
                 (self.center.get_z() <= CAMERA_CENTER_LIMIT_Z_UP and dist > 0):
             self.center.set_z(self.center.get_z() + dist)
 
     def get_name(self):
-        """Retorna el nombre de la cámara"""
+        """
+        Returns camera name
+        :return:
+        """
         return self._name
 
     # noinspection PyShadowingNames
     def set_name(self, name):
-        """Define el nombre de la cámara"""
+        """
+        Set camera name
+        :param name: Camera name
+        :return:
+        """
         self._name = name
 
     def get_radius(self):
-        """Retorna el radio de la cámara"""
+        """
+        Get camera radius
+        :return:
+        """
         return self.r
 
     def set_radius(self, r):
-        """Define el radio de la cámara"""
+        """
+        Set camera radius
+        :param r: Camera radius
+        :return:
+        """
         self.r = r
 
     def get_phi(self):
-        """Retorna el angulo phi"""
+        """
+        Get camera phi
+        :return: Phi angle
+        """
         return self.phi
 
     def set_phi(self, phi):
+        """
+        Set camera phi
+        :param phi: Phi angle
+        :return:
+        """
         """Define el angulo phi"""
         self.phi = phi
 
     def get_theta(self):
-        """Retorna el angulo theta"""
+        """
+        Returns theta angle
+        :return: Theta angle
+        """
         return self.theta
 
     def set_theta(self, theta):
-        """Define el angulo theta"""
+        """
+        Set theta angle
+        :param theta: Theta angle
+        :return:
+        """
         self.theta = theta
