@@ -30,9 +30,9 @@ from numpy import array
 from OpenGL.arrays import vbo
 from OpenGL.GL import *
 from OpenGL.GLUT import *
-from pyOpenGLtoolbox.utils import print_gl_error
-from pyOpenGLtoolbox.utils_geometry import *
-from pyOpenGLtoolbox.utils_math import Point3, cos, sin, Point2
+from PyOpenGLtoolbox.utils import print_gl_error
+from PyOpenGLtoolbox.utils_geometry import *
+from PyOpenGLtoolbox.utils_math import Point3, cos, sin, Point2
 import math
 
 # Constants

@@ -28,7 +28,7 @@ SOFTWARE.
 # Library imports
 from OpenGL.GL import glVertex2fv, glVertex3fv, glNormal3fv, glTexCoord2fv, glPushMatrix, glTranslate, glScale, \
     glColor4fv, glRotatef, glCallList, glPopMatrix
-from pyOpenGLtoolbox.utils_math import POINT_2, POINT_3, Vector3, normal_3_points
+from PyOpenGLtoolbox.utils_math import POINT_2, POINT_3, Vector3, normal_3_points
 
 
 def draw_vertex_list(vertex_list):

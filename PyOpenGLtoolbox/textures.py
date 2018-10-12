@@ -41,7 +41,7 @@ except ImportError:
         # noinspection PyUnresolvedReferences,PyPackageRequirements
         import Image
     except:
-        print('[ERR] Error importing Image, this pyOpenGLtoolbox needs Pillow')
+        print('[ERR] Error importing Image, this PyOpenGLtoolbox needs Pillow')
         exit()
 
 

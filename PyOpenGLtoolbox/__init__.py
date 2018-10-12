@@ -26,46 +26,46 @@ SOFTWARE.
 """
 
 # noinspection PyUnresolvedReferences
-from pyOpenGLtoolbox.camera import CameraR, CameraXYZ
+from PyOpenGLtoolbox.camera import CameraR, CameraXYZ
 
 # noinspection PyUnresolvedReferences
-from pyOpenGLtoolbox.figures import VBObject, load_obj_model, load_gmsh_model, load_gmsh_model, create_circle, \
+from PyOpenGLtoolbox.figures import VBObject, load_obj_model, load_gmsh_model, load_gmsh_model, create_circle, \
     create_cone, create_cube, create_cube_solid, create_cube_textured, create_diamond, create_dodecahedron, \
     create_icosahedron, create_octahedron, create_pyramid, create_pyramid_textured, create_pyramid_vbo, create_sphere, \
     create_teapot, create_teapot_textured, create_tetrahedron, create_tetrahedron_vbo, create_torus
 
 # noinspection PyUnresolvedReferences
-from pyOpenGLtoolbox.glpython import init_pygame, load_image
+from PyOpenGLtoolbox.glpython import init_pygame, load_image
 
 # noinspection PyUnresolvedReferences
-from pyOpenGLtoolbox.materials import material_black_plastic, material_black_rubber, material_brass, material_bronze, \
+from PyOpenGLtoolbox.materials import material_black_plastic, material_black_rubber, material_brass, material_bronze, \
     material_chrome, material_copper, material_cyan_plastic, material_cyan_rubber, material_emerald, material_gold, \
     material_green_plastic, material_green_rubber, material_jade, material_natural_white, material_obsidian, \
     material_pearl, material_red_plastic, material_red_rubber, material_ruby, material_silver, material_turquoise, \
     material_white_plastic, material_white_rubber, material_yellow_plastic, material_yellow_rubber
 
 # noinspection PyUnresolvedReferences
-from pyOpenGLtoolbox.opengl_lib import init_gl, init_light, clear_buffer, reshape, is_light_enabled
+from PyOpenGLtoolbox.opengl_lib import init_gl, init_light, clear_buffer, reshape, is_light_enabled
 
 # noinspection PyUnresolvedReferences
-from pyOpenGLtoolbox.particles import Particle
+from PyOpenGLtoolbox.particles import Particle
 
 # noinspection PyUnresolvedReferences
-from pyOpenGLtoolbox.shader import Shader, ShaderProgram
+from PyOpenGLtoolbox.shader import Shader, ShaderProgram
 
 # noinspection PyUnresolvedReferences
-from pyOpenGLtoolbox.textures import load_texture
+from PyOpenGLtoolbox.textures import load_texture
 
 # noinspection PyUnresolvedReferences
-from pyOpenGLtoolbox.utils import create_axes, draw_text
+from PyOpenGLtoolbox.utils import create_axes, draw_text
 
 # noinspection PyUnresolvedReferences
-from pyOpenGLtoolbox.utils_geometry import draw_vertex_list, draw_vertex_list_create_normal, draw_list, \
+from PyOpenGLtoolbox.utils_geometry import draw_vertex_list, draw_vertex_list_create_normal, draw_list, \
     draw_vertex_list_create_normal_textured, draw_vertex_list_normal, draw_vertex_list_normal_textured, \
     draw_vertex_list_textured
 
 # noinspection PyUnresolvedReferences
-from pyOpenGLtoolbox.utils_math import Point3, Point2, Vector3
+from PyOpenGLtoolbox.utils_math import Point3, Point2, Vector3
 
 # Metadata
 __author__ = 'Pablo Pizarro @ppizarror.com'

@@ -26,15 +26,15 @@ SOFTWARE.
 """
 
 # Library imports
-from pyOpenGLtoolbox.camera import *
-from pyOpenGLtoolbox.figures import *
-from pyOpenGLtoolbox.glpython import *
-from pyOpenGLtoolbox.materials import *
-from pyOpenGLtoolbox.opengl_lib import *
-from pyOpenGLtoolbox.particles import *
-from pyOpenGLtoolbox.shader import *
-from pyOpenGLtoolbox.textures import *
-from pyOpenGLtoolbox import create_axes
+from PyOpenGLtoolbox.camera import *
+from PyOpenGLtoolbox.figures import *
+from PyOpenGLtoolbox.glpython import *
+from PyOpenGLtoolbox.materials import *
+from PyOpenGLtoolbox.opengl_lib import *
+from PyOpenGLtoolbox.particles import *
+from PyOpenGLtoolbox.shader import *
+from PyOpenGLtoolbox.textures import *
+from PyOpenGLtoolbox import create_axes
 
 # Constants
 AXES_LENGTH = 700

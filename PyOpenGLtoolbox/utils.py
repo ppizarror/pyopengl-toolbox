@@ -30,8 +30,8 @@ from __future__ import print_function
 from OpenGL.GL import glColor3fv, glRasterPos3f, glColor4fv, glGenLists, glNewList, GL_COMPILE, GL_LINES, glBegin, \
     glEnd, glEndList
 from OpenGL.GLUT import *
-from pyOpenGLtoolbox.utils_math import Point3
-from pyOpenGLtoolbox.utils_geometry import draw_vertex_list
+from PyOpenGLtoolbox.utils_math import Point3
+from PyOpenGLtoolbox.utils_geometry import draw_vertex_list
 
 # Constants
 COLOR_BLACK = [0, 0, 0]

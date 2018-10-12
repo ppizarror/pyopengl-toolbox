@@ -26,7 +26,7 @@ SOFTWARE.
 
 # Library imports
 from setuptools import setup
-from pyOpenGLtoolbox import __author__, __description__, __email__, __url__, __version__
+from PyOpenGLtoolbox import __author__, __description__, __email__, __url__, __version__
 
 with open('README.rst') as f:
     long_description = f.read()
@@ -45,8 +45,8 @@ setup(
     install_requires=['numpy', 'Pillow', 'pygame'],
     license='MIT',
     long_description=long_description,
-    name='pyOpenGL-toolbox',
-    packages=['pyOpenGLtoolbox'],
+    name='PyOpenGL-toolbox',
+    packages=['PyOpenGLtoolbox'],
     url=__url__,
     version=__version__
 )

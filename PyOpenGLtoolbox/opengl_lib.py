@@ -29,7 +29,7 @@ SOFTWARE.
 from __future__ import print_function
 from OpenGL.GL import *
 from OpenGL.GLU import *
-from pyOpenGLtoolbox.utils import print_gl_error
+from PyOpenGLtoolbox.utils import print_gl_error
 
 # Constants
 _OPENGL_CONFIGS = [False]
