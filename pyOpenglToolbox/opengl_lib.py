@@ -136,44 +136,32 @@ def init_gl(**kwargs):
         log('Transparency enabled')
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-    else:
-        log('Transparency disabled')
 
     # Smooth
     if is_true('smooth'):
         log('Enable SMOOTH shade model')
         glShadeModel(GL_SMOOTH)
-    else:
-        log('SMOOTH shade model disabled')
 
     # Depth test
     if is_true('depth'):
         log('Enable depth test')
         glEnable(GL_DEPTH_TEST)
         glDepthFunc(GL_LEQUAL)
-    else:
-        log('Depth test disabled')
 
     # Antialiasing
     if is_true('antialiasing'):
         log('Antialiasing enabled')
         glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST)
-    else:
-        log('Antialiasing disabled')
 
     # Enabled normalized normal
     if is_true('normalized'):
         log('Normalized normal enabled')
         glEnable(GL_NORMALIZE)
-    else:
-        log('Normalized normal disabled')
 
     # Enable offset fill
     if is_true('surffill'):
         log('Enabled polygon offset fill')
         glEnable(GL_POLYGON_OFFSET_FILL)
-    else:
-        log('Disabled polygon offset fill')
 
     # Enable lighting
     if kwargs.get('lighting') is not None and kwargs.get('lighting'):
@@ -185,69 +173,71 @@ def init_gl(**kwargs):
                 log('Light {0} enabled'.format(light))
                 eval('glEnable(GL_LIGHT{0})'.format(light))
         _OPENGL_CONFIGS[0] = True
-    else:
-        log('Lighting disabled')
 
     # Polygon fill mode
     if is_true('polygonfillmode'):
         log('Enabled polygoon fill by both sides')
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
-    else:
-        log("Se activa el relleno poligonal en una sola cara")
 
-    # Se activa el color de los materiales
-    if is_true("materialcolor"):
-        log("Se activa el color de materiales")
+    # Enable color material
+    if is_true('materialcolor'):
+        log('Enabled color material')
         glEnable(GL_COLOR_MATERIAL)
-    else:
-        log("Se desactiva el color de materiales")
 
-    # Se activa la correccion de la matriz de perspectiva
-    if is_true("perspectivecorr"):
-        log("Se activa la correccion de perspectivas")
+    # Enable perspective correction
+    if is_true('perspectivecorr'):
+        log('Enabled pespective correction')
         glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
-    else:
-        log("Se desactiva la correccion de perspectivas")
 
-    # Se activan las texturas
+    # Enable textures
     if is_true("textures"):
-        log("Se activan las texturas")
+        log('Textures enabled')
         glEnable(GL_TEXTURE_2D)
         glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR)
-    else:
-        log("Se desactivan las texturas")
 
-    log("Ha terminado la configuracion de OPENGL")
+    log('OpenGL init finished')
 
 
 def clear_buffer():
-    """Borra el buffer"""
+    """
+    Clear buffer
+    :return:
+    """
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
 
 def reshape(w, h, fov=60, nearplane=300.0, farplane=20000.0):
-    """Maneja la pantalla de OPENGL"""
+    """
+    Reshape OpenGL window
+    :param w: Window width
+    :param h: Window height
+    :param fov: Field of view
+    :param nearplane: Near plane
+    :param farplane: Far plane
+    :return:
+    """
     h = max(h, 1)
     glLoadIdentity()
 
-    # Se crea el viewport
+    # Create viewport
     glViewport(0, 0, w, h)
     glMatrixMode(GL_PROJECTION)
 
-    # Se deja la camara en perspectiva
+    # Create perspective camera
     gluPerspective(fov, float(w) / float(h), nearplane, farplane)
 
-    # Se deja el modo en modelo
+    # Set model mode
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
 
 
 # noinspection PyUnusedLocal
-def init_light(light=GL_LIGHT0, *args, **kwargs):
-    """Define las propiedades de iluminacion, forma de uso
-    light: luz a iniciar, del tipo GL_LIGHTn con n=0..8
+def init_light(light=None, *args, **kwargs):
+    """
+    Set light properties
+    light: light to init, type GL_LIGHTn, n=0..8
 
-    parametros validos:
+    Valid parameters:
     ambient: color ambiente rgba
     diffuse: color difuso rgba
     specular: color especular rgba
@@ -259,62 +249,67 @@ def init_light(light=GL_LIGHT0, *args, **kwargs):
     quad_att: atenuacion cuadratica
     """
 
-    # Se define el color ambiente
-    if kwargs.get("ambient") is not None:
-        glLightfv(light, GL_AMBIENT, kwargs.get("ambient"))
+    if light is None:
+        print_gl_error('Light cannot be None')
+
+    # Ambient color
+    if kwargs.get('ambient') is not None:
+        glLightfv(light, GL_AMBIENT, kwargs.get('ambient'))
     else:
         glLightfv(light, GL_AMBIENT, DEFAULT_AMBIENT_COLOR)
 
-    # Se define el color difuso
-    if kwargs.get("diffuse") is not None:
-        glLightfv(light, GL_DIFFUSE, kwargs.get("diffuse"))
+    # Diffuse color
+    if kwargs.get('diffuse') is not None:
+        glLightfv(light, GL_DIFFUSE, kwargs.get('diffuse'))
     else:
         glLightfv(light, GL_DIFFUSE, DEFAULT_DIFFUSE_COLOR)
 
-    # Se define el color especular
-    if kwargs.get("specular") is not None:
-        glLightfv(light, GL_SPECULAR, kwargs.get("specular"))
+    # Specular color
+    if kwargs.get('specular') is not None:
+        glLightfv(light, GL_SPECULAR, kwargs.get('specular'))
     else:
         glLightfv(light, GL_SPECULAR, DEFAULT_SPECULAR_COLOR)
 
-    # Se define el angulo de enfoque
-    if kwargs.get("spot_cutoff") is not None:
-        glLightfv(light, GL_SPOT_CUTOFF, kwargs.get("spot_cutoff"))
+    # Cutoff
+    if kwargs.get('spot_cutoff') is not None:
+        glLightfv(light, GL_SPOT_CUTOFF, kwargs.get('spot_cutoff'))
     else:
         glLightfv(light, GL_SPOT_CUTOFF, DEFAULT_SPOT_CUTOFF)
 
-    # Se define el exponente
-    if kwargs.get("spot_exponent") is not None:
-        glLightfv(light, GL_SPOT_EXPONENT, kwargs.get("spot_exponent"))
+    # Exponent
+    if kwargs.get('spot_exponent') is not None:
+        glLightfv(light, GL_SPOT_EXPONENT, kwargs.get('spot_exponent'))
     else:
         glLightfv(light, GL_SPOT_EXPONENT, DEFAULT_SPOT_EXPONENT)
 
-    # Se define la direccion de enfoque
-    if kwargs.get("spot_direction") is not None:
-        glLightfv(light, GL_SPOT_DIRECTION, kwargs.get("spot_direction"))
+    # Spot direction
+    if kwargs.get('spot_direction') is not None:
+        glLightfv(light, GL_SPOT_DIRECTION, kwargs.get('spot_direction'))
     else:
         glLightfv(light, GL_SPOT_DIRECTION, DEFAULT_SPOT_DIRECTION)
 
-    # Se define la atenuacion constante
-    if kwargs.get("constant_att") is not None:
-        glLightfv(light, GL_CONSTANT_ATTENUATION, kwargs.get("constant_att"))
+    # Constant attenuation factor
+    if kwargs.get('constant_att') is not None:
+        glLightfv(light, GL_CONSTANT_ATTENUATION, kwargs.get('constant_att'))
     else:
         glLightfv(light, GL_CONSTANT_ATTENUATION, DEFAULT_CONSTANT_ATTENUATION)
 
-    # Se define la atenuacion lineal
-    if kwargs.get("linear_att") is not None:
-        glLightfv(light, GL_LINEAR_ATTENUATION, kwargs.get("linear_att"))
+    # Lineal attenuation factor
+    if kwargs.get('linear_att') is not None:
+        glLightfv(light, GL_LINEAR_ATTENUATION, kwargs.get('linear_att'))
     else:
         glLightfv(light, GL_LINEAR_ATTENUATION, DEFAULT_LINEAR_ATTENUATION)
 
-    # Se define la atenuacion cuadratica
-    if kwargs.get("quad_att") is not None:
-        glLightfv(light, GL_QUADRATIC_ATTENUATION, kwargs.get("quad_att"))
+    # Quadratic attenuation
+    if kwargs.get('quad_att') is not None:
+        glLightfv(light, GL_QUADRATIC_ATTENUATION, kwargs.get('quad_att'))
     else:
-        glLightfv(light, GL_QUADRATIC_ATTENUATION,
-                  DEFAULT_QUADRATIC_ATTENUATION)
+        glLightfv(light, GL_QUADRATIC_ATTENUATION, DEFAULT_QUADRATIC_ATTENUATION)
 
 
 def is_light_enabled():
-    """Retorna true/false si la luz esta activada o desactivada"""
+    """
+    Check if lights are enabled
+    :return:
+    """
     return _OPENGL_CONFIGS[0]

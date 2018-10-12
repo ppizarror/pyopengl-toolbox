@@ -1,6 +1,6 @@
 # coding=utf-8
 """
-UTILS MATH
+PYOPENGL-TOOLBOX UTILS MATH
 Herramientas matemáticas utilitarias.
 
 Copyright (C) 2017 Pablo Pizarro @ppizarror
@@ -385,10 +385,6 @@ class Vector3(object):
         """Genera un vector complejo"""
         return Vector3(complex(self.x), complex(self.y), complex(self.z))
 
-    def __long__(self):
-        """Genera un vector long"""
-        return Vector3(long(self.x), long(self.y), long(self.z))
-
     def __hex__(self):
         """Genera un vector hex"""
         return Vector3(hex(self.x), hex(self.y), hex(self.z))
@@ -404,15 +400,14 @@ class Vector3(object):
             self.y += other.get_y()
             self.z += other.get_z()
             return self
-        elif isinstance(other, types.TupleType) or isinstance(other,
-                                                              types.ListType):
+        elif type(other) is tuple or type(other) is list:
             if len(other) == 3:
                 self.x += other[0]
                 self.y += other[1]
                 self.z += other[2]
                 return self
         else:
-            self.throwError(2, "__iadd__")
+            self.throwError(2, '__iadd__')
             return self
 
     def __isub__(self, other):

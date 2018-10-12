@@ -1,6 +1,6 @@
 # coding=utf-8
 """
-PARTICLES
+PYOPENGL-TOOLBOX PARTICLES
 Provee funciones para manejar partículas.
 
 MIT License

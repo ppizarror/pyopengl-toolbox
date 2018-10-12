@@ -1,6 +1,6 @@
 # coding=utf-8
 """
-UTILS
+PYOPENGL-TOOLBOX UTILS
 Funciones utilitarias generales.
 
 MIT License
@@ -71,11 +71,11 @@ def create_axes(s, both=False, text=True):
         glBegin(GL_LINES)
 
         glColor4fv([1, 0, 0, 1])
-        drawVertexList([o, x])
+        draw_vertex_list([o, x])
         glColor4fv([0, 1, 0, 1])
-        drawVertexList([o, y])
+        draw_vertex_list([o, y])
         glColor4fv([0, 0, 1, 1])
-        drawVertexList([o, z])
+        draw_vertex_list([o, z])
 
         if both:  # Se dibujan los ejes en ambos sentidos
             x = Point3(-s, 0, 0)
@@ -83,11 +83,11 @@ def create_axes(s, both=False, text=True):
             z = Point3(0, 0, -s)
 
             glColor4fv([1, 0, 0, 1])
-            drawVertexList([o, x])
+            draw_vertex_list([o, x])
             glColor4fv([0, 1, 0, 1])
-            drawVertexList([o, y])
+            draw_vertex_list([o, y])
             glColor4fv([0, 0, 1, 1])
-            drawVertexList([o, z])
+            draw_vertex_list([o, z])
 
         glEnd()
 
@@ -115,7 +115,6 @@ def create_axes(s, both=False, text=True):
         raise Exception("la dimension de los ejes debe ser mayor a cero")
 
 
-# noinspection PyBroadException
 def draw_text(text, pos, color=None, font='GLUT_BITMAP_TIMES_ROMAN_24',
               linespace=20):
     """Dibuja un texto en una posicon dada por un punto point3"""
@@ -132,6 +131,7 @@ def draw_text(text, pos, color=None, font='GLUT_BITMAP_TIMES_ROMAN_24',
                 y += linespace
                 glRasterPos3f(x, y, z)
             else:
+                # noinspection PyBroadException
                 try:
                     glutBitmapCharacter(font, ord(char))
                 except:

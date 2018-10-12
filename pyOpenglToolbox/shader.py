@@ -1,6 +1,6 @@
 # coding=utf-8
 """
-SHADER
+PYOPENGL-TOOLBOX SHADER
 Provee funciones para el manejo de shaders.
 
 MIT License

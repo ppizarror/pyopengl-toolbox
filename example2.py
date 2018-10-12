@@ -100,11 +100,13 @@ while True:
     # Draw lights
     light.exec_property_func('MATERIAL')
     glLightfv(GL_LIGHT0, GL_POSITION, light.get_position_list())
+    # noinspection PyArgumentEqualDefault
     draw_list(light.get_property('GLLIST'), light.get_position_list(), 0, None,
-              light.get_property('SIZE'), None)
+              light.get_property('SIZE'))
 
     # Draw models
     cube.exec_property_func('MATERIAL')
+    # noinspection PyArgumentEqualDefault
     draw_list(cube.get_property('GLLIST'), cube.get_position_list(), 0, None,
               cube.get_property('SIZE'), None)
 

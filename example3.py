@@ -52,8 +52,7 @@ init_gl(transparency=False, materialcolor=False, normalized=True, lighting=True,
         texture=True, verbose=False)
 reshape(*WINDOW_SIZE)
 init_light(GL_LIGHT0)
-init_light(GL_LIGHT1, ambient=AMBIENT_COLOR_RED, diffuse=DIFFUSE_COLOR_RED,
-           specular=SPECULAR_COLOR_RED)
+init_light(GL_LIGHT1, ambient=AMBIENT_COLOR_RED, diffuse=DIFFUSE_COLOR_RED, specular=SPECULAR_COLOR_RED)
 clock = pygame.time.Clock()
 
 # Display help on console
@@ -130,11 +129,13 @@ while True:
     # Draw lights
     light.exec_property_func('MATERIAL')
     glLightfv(GL_LIGHT0, GL_POSITION, light.get_position_list())
+    # noinspection PyArgumentEqualDefault
     draw_list(light.get_property('GLLIST'), light.get_position_list(), 0, None,
               light.get_property('SIZE'), None)
 
     static_light.exec_property_func('MATERIAL')
     glLightfv(GL_LIGHT1, GL_POSITION, static_light.get_position_list())
+    # noinspection PyArgumentEqualDefault
     draw_list(static_light.get_property('GLLIST'), static_light.get_position_list(), 0,
               None, static_light.get_property('SIZE'), None)
 
@@ -146,6 +147,7 @@ while True:
     cube.get_property('MATERIAL')()
     for i in range(3):
         program.uniformi('texture[{0}]'.format(i), i)
+    # noinspection PyArgumentEqualDefault
     draw_list(cube.get_property('GLLIST'), cube.get_position_list(), 0, None,
               cube.get_property('SIZE'), None)
     program.stop()

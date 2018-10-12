@@ -1,6 +1,6 @@
 # coding=utf-8
 """
-TEXTURES
+PYOPENGL-TOOLBOX TEXTURES
 Provee funciones utilitarias para el manejo de texturas.
 
 MIT License
