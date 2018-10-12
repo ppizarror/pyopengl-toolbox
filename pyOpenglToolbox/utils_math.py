@@ -535,8 +535,8 @@ class Vector3(object):
         if isinstance(other, Vector3):
             return math.sqrt(
                 (self.x - other.get_x()) ** 2 + (
-                    self.y - other.get_y()) ** 2 + (
-                    self.z - other.get_y()) ** 2)
+                        self.y - other.get_y()) ** 2 + (
+                        self.z - other.get_y()) ** 2)
         elif isinstance(other, types.ListType) or isinstance(other,
                                                              types.TupleType):
             return self.distancewith(Vector3(*other))
@@ -572,7 +572,7 @@ class Vector3(object):
 
 def normal3points(a, b, c):
     """Retorna el vector normal dado tres puntos a, b, c"""
-    if isinstance(a, types.ListType) or isinstance(a, types.TupleType):
+    if type(a) is list or type(a) is tuple:
         a = Vector3(*a)
         b = Vector3(*b)
         c = Vector3(*c)
