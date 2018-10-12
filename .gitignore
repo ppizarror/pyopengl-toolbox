@@ -1,11 +1,16 @@
-# Se añade entrada de PyCharm
+# Pycharm files
 .idea/
+.ropeproject/
 
-# Archivos compilados de python
-*.pyc
-
-# Archivos zip
+# Zip files
 *.zip
 
-# Se agrega contador de líneas
-lc.py
+# Compiled python files
+*/__pycache__
+*.pyc
+
+# Distribution files
+*.egg-info
+build/*
+dist
+build.bat

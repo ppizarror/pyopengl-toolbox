@@ -25,5 +25,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+# Metadata
 __author__ = 'Pablo Pizarro @ppizarror.com'
+__description__ = 'PyOpenGL toolbox'
+__email__ = 'pablo.pizarro@ing.uchile.cl'
 __version__ = 'v1.3'
+__url__ = 'https://github.com/ppizarror/pyopengl-toolbox'
