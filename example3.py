@@ -104,8 +104,8 @@ while True:
     camera.place()
 
     # Rotate light
-    light.rotate_x(1)
-    light.rotate_y(-1)
+    light.rotate_x(0.5)
+    light.rotate_y(-0.5)
     light.rotate_z(0.5)
     if islightEnabled():
         glDisable(GL_LIGHTING)
@@ -136,8 +136,7 @@ while True:
     static_light.exec_property_func('MATERIAL')
     glLightfv(GL_LIGHT1, GL_POSITION, static_light.get_position_list())
     draw_list(static_light.get_property('GLLIST'), static_light.get_position_list(), 0,
-              None, static_light.get_property('SIZE'),
-              None)
+              None, static_light.get_property('SIZE'), None)
 
     # Draw model
     program.start()

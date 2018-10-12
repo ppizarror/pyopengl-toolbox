@@ -1,7 +1,7 @@
 # coding=utf-8
 """
-FIGURES
-Funciones utilitarias para adminsitrar figuras en PyOpenGL.
+PYOPENGL-TOOLBOX FIGURES
+Utilitary functions to draw figures in PyOpenGL.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
@@ -25,12 +25,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# Importación de librerías
+# Library imports
 from OpenGL.arrays import vbo
 from numpy import array
 from utils import *
 
-# Constantes
+# Constants
 COLOR_BLACK = [0.0, 0.0, 0.0, 1.0]
 COLOR_BLUE = [0.0, 0.0, 1.0, 1.0]
 COLOR_RED = [1.0, 0.0, 0.0, 1.0]
@@ -43,14 +43,21 @@ for i in range(10):
     _ERRS.append(False)
 
 
-# noinspection PyDefaultArgument
-class VboObject(object):
-    """Objeto del tipo VBO el cual permite cargar y dibujar elementos usando shaders"""
+class VboObject:
+    """
+    VBO object that can load and draw elements using shaders
+    """
 
     def __init__(self, vertex, fragment, total_vertex, texture=None):
-        """Funcion constructora"""
+        """
+        Constructor
+        :param vertex: Vertex shader
+        :param fragment: Fragment shader
+        :param total_vertex: Total vertex (int)
+        :param texture: Texture file
+        """
         if isinstance(vertex, vbo.VBO) and isinstance(fragment, vbo.VBO):
-            if isinstance(total_vertex, types.IntType):
+            if type(total_vertex) is int:
                 self.vertex = vertex
                 self.fragment = fragment
                 self.totalVertex = total_vertex
@@ -60,57 +67,71 @@ class VboObject(object):
                 else:
                     self.texlen = len(self.texture)
             else:
-                raise Exception("total_vertex debe ser del tipo int")
+                raise Exception('total_vertex must be int type')
         else:
-            raise Exception(
-                "vertex y fragment deben ser del tipo VBO (OpenGL.arrays.vbo)")
+            raise Exception('vertex y fragment must be VBO type (OpenGL.arrays.vbo)')
 
-    def draw(self, pos=[0.0, 0.0, 0.0], rgb=None):
-        """Dibuja el objeto"""
+    def draw(self, pos=None, rgb=None):
+        """
+        Draw the object
+        :param pos: Position
+        :param rgb: Color
+        :return:
+        """
+
+        if pos is None:
+            pos = [0.0, 0.0, 0.0]
         try:
+
+            # Create new matrix
             glPushMatrix()
 
-            # Se hace un bind entre los vbos y el programa del shader
+            # Make bind between vbos and shader program
             self.vertex.bind()
             glVertexPointerf(self.vertex)
             self.fragment.bind()
             glNormalPointerf(self.fragment)
 
-            # Se activan los vbos
+            # Enable vbos
             glEnableClientState(GL_VERTEX_ARRAY)
             glEnableClientState(GL_NORMAL_ARRAY)
 
-            # Se activan las transformaciones
+            # Enable transform
             if rgb is not None:
                 glColor4fv(rgb)
             glTranslate(pos[0], pos[1], pos[2])
 
-            # Se activan las texturas
+            # Enable textures
             for _i in range(self.texlen):
                 glActiveTexture(GL_TEXTURE0 + _i)
                 glEnable(GL_TEXTURE_2D)
                 glBindTexture(GL_TEXTURE_2D, self.texture[_i])
 
-            # Se dibujan los triangulos cada 3 elementos de los vbo
+            # Draw triangles each 3 elements of vbo
             glDrawArrays(GL_TRIANGLES, 0, self.totalVertex)
 
-            # Se desactivan las texturas
+            # Dsiable textures
             for _i in range(self.texlen):
                 glActiveTexture(GL_TEXTURE0 + _i)
                 glDisable(GL_TEXTURE_2D)
 
-            # Se desactivan los vbos
+            # Disable vbox
             glDisableClientState(GL_VERTEX_ARRAY)
             glDisableClientState(GL_NORMAL_ARRAY)
 
+            # Pop matrix
             glPopMatrix()
 
         except:
-            raise Exception("error al dibujar el objeto vbo")
+            raise Exception('VBO draw error')
 
 
-def loadOBJModel(file_name):
-    """Carga un modelo almacenado en un archivo .obj"""
+def load_obj_model(file_name):
+    """
+    Load an OBJ file
+    :param file_name: File name
+    :return:
+    """
     file_text = open(file_name)
     text = file_text.readlines()
     vertex = []
@@ -120,43 +141,65 @@ def loadOBJModel(file_name):
     faces_normal = []
     faces_uv = []
     for line in text:
-        info = line.split(" ")
-        if info[0] == "v":
+        info = line.split(' ')
+        if info[0] == 'v':
             vertex.append(
                 (float(info[1]), float(info[2]) - 0.1, float(info[3])))
-        elif info[0] == "vn":
+        elif info[0] == 'vn':
             normals.append((float(info[1]), float(info[2]), float(info[3])))
-        elif info[0] == "vt":
+        elif info[0] == 'vt':
             uv.append((float(info[1]), float(info[2])))
-        elif info[0] == "f":
-            p1 = info[1].split("/")
-            p2 = info[2].split("/")
-            p3 = info[3].split("/")
+        elif info[0] == 'f':
+            p1 = info[1].split('/')
+            p2 = info[2].split('/')
+            p3 = info[3].split('/')
             faces_vertex.append((int(p1[0]), int(p2[0]), int(p3[0])))
             faces_uv.append((int(p1[1]), int(p2[1]), int(p3[1])))
             faces_normal.append((int(p1[2]), int(p2[2]), int(p3[2])))
     return vertex, normals, uv, faces_vertex, faces_normal, faces_uv
 
 
-def loadGMSHModel(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
-                  neg_normal=False, texture=None):
-    """Carga un modelo .msh o .gmsh almacenado en file y lo retorna en un objeto vboObject escalado en 'scale',
-    por defecto las normales se promedian, para desactivar pruebe con avg=False. El modeo adicionalmente puede
-    desplazarse en (dx, dy, dz), y revertir las normales si neg_normal es igual a True """
+def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
+                    neg_normal=False, texture=None):
+    """
+    Loads an .MSH or .GMSH file and returns an vboObject scaled as 'scale', by default
+    normal are average, to disable use avg=False. The model also can be displaced by
+    (dx,dy,dz) and reverse the normals if neg_normal is True.
+    :param modelfile: File name
+    :param scale: Scale parameter
+    :param dx: X-displacement
+    :param dy: Y-displacement
+    :param dz: Z-displacement
+    :param avg: Normal-avg
+    :param neg_normal: Reverse normal
+    :param texture: Texture file
+    :return:
+    """
 
-    # noinspection PyPep8Naming,PyUnboundLocalVariable,PyShadowingNames,PyUnusedLocal
-    def load(gmshfile, scale, dx, dy, dz):
-        """Carga un archivo gmsh y retorna 3 listas, una lista de vertices, otra de normales y otra de normales promedio. \n
-        Toma como argumento el archivo, una escala y la posicion (dx,dy,dz)"""
+    def load(gmshfile, _scale, _dx, _dy, _dz):
+        """
+        Load an GMSH file and returns 3 lists, one for vertex, one for normals and another for
+        normal averages. Takes file, scale and displacement.
+        :param gmshfile: GMSH file
+        :param _scale: Scale parameter
+        :param _dx: X-displacement
+        :param _dy: Y-displacement
+        :param _dz: Z-displacement
+        :return:
+        """
 
-        # noinspection PyPep8Naming,PyShadowingNames
-        def getAveNormals(nodes, elems):
-            """Calcula las normales promedio por cada vertice"""
+        def getAveNormals(_nodes, _elems):
+            """
+            Calculate normal average for each vertex
+            :param _nodes:
+            :param _elems:
+            :return:
+            """
             nodetrilist = []
-            for nodenum in range(len(nodes)):
+            for nodenum in range(len(_nodes)):
                 nodetrilist.append([])
-                for elemnum in range(len(elems)):
-                    if nodenum in elems[elemnum]:
+                for elemnum in range(len(_elems)):
+                    if nodenum in _elems[elemnum]:
                         nodetrilist[nodenum].append(elemnum)
             avenorms = []
             for tri in nodetrilist:
@@ -165,12 +208,12 @@ def loadGMSHModel(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
                 aveNk = 0.0
                 denom = max(float(len(tri)), 1)
                 for elem in tri:
-                    vert1 = [nodes[elems[elem][0]][0], nodes[elems[elem][0]][1],
-                             nodes[elems[elem][0]][2]]
-                    vert2 = [nodes[elems[elem][1]][0], nodes[elems[elem][1]][1],
-                             nodes[elems[elem][1]][2]]
-                    vert3 = [nodes[elems[elem][2]][0], nodes[elems[elem][2]][1],
-                             nodes[elems[elem][2]][2]]
+                    vert1 = [_nodes[_elems[elem][0]][0], _nodes[_elems[elem][0]][1],
+                             _nodes[_elems[elem][0]][2]]
+                    vert2 = [_nodes[_elems[elem][1]][0], _nodes[_elems[elem][1]][1],
+                             _nodes[_elems[elem][1]][2]]
+                    vert3 = [_nodes[_elems[elem][2]][0], _nodes[_elems[elem][2]][1],
+                             _nodes[_elems[elem][2]][2]]
                     normals = getNormals(vert1, vert2, vert3)
                     aveNi += normals[0]
                     aveNj += normals[1]
@@ -212,6 +255,7 @@ def loadGMSHModel(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
             raise Exception("el archivo del modelo no existe")
 
         # Crea el modeo
+        nodes = []
         try:
             gmshlines = infile.readlines()
             readnodes = False
@@ -219,34 +263,33 @@ def loadGMSHModel(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
             skipline = 0
             elems = []
             lnum = 0
-            nnodes = 0
             for line in gmshlines:
-                if "$Nodes" in line:
+                if '$Nodes' in line:
                     readnodes = True
                     skipline = 2
                     nnodes = int(gmshlines[lnum + 1].strip())
                     nodes = []
-                    for i in range(nnodes):
+                    for _i in range(nnodes):
                         nodes.append(99999.9)
-                elif "$EndNodes" in line:
+                elif '$EndNodes' in line:
                     readnodes = False
                     skipline = 1
-                elif "$Elements" in line:
+                elif '$Elements' in line:
                     readelems = True
                     skipline = 2
-                elif "$EndElements" in line:
+                elif '$EndElements' in line:
                     readelems = False
                     skipline = 1
                 if skipline < 1:
                     if readnodes:
-                        nXYZ = line.strip().split()
-                        nodenum = int(nXYZ[0]) - 1
-                        nX = float(nXYZ[1]) * scale + dx
-                        nY = float(nXYZ[2]) * scale + dy
-                        nZ = float(nXYZ[3]) * scale + dz
+                        n_xyz = line.strip().split()
+                        nodenum = int(n_xyz[0]) - 1
+                        n_x = float(n_xyz[1]) * _scale + _dx
+                        n_y = float(n_xyz[2]) * _scale + _dy
+                        n_z = float(n_xyz[3]) * _scale + _dz
                         if neg_normal:
-                            nZ *= -1
-                        nodes[nodenum] = [nX, nY, nZ]
+                            n_z *= -1
+                        nodes[nodenum] = [n_x, n_y, n_z]
                     elif readelems:
                         n123 = line.split()
                         if n123[1] == "2":
@@ -284,10 +327,9 @@ def loadGMSHModel(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
             return triarray, normarray, avenorms
 
         except:
-            raise Exception("error al cargar el modelo")
+            raise Exception('Error load model')
 
-    vertex, norm, avgnorm = load(modelfile, scale, float(dx), float(dy),
-                                 float(dz))
+    vertex, norm, avgnorm = load(modelfile, scale, float(dx), float(dy), float(dz))
     if avg:
         return VboObject(vbo.VBO(array(vertex, 'f')),
                          vbo.VBO(array(avgnorm, 'f')), len(vertex), texture)
@@ -297,8 +339,10 @@ def loadGMSHModel(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
 
 
 # noinspection PyBroadException
-def create_sphere(lat=10, lng=10, color=COLOR_WHITE):
+def create_sphere(lat=10, lng=10, color=None):
     """Crea una esfera con latitud y longitud definidos de radio 1.0"""
+    if color is None:
+        color = COLOR_WHITE
     if lat >= 3 and lng >= 10:
         obj = glGenLists(1)
         glNewList(obj, GL_COMPILE)
@@ -347,8 +391,10 @@ def create_circle(rad=1.0, diff=0.1, normal=[0.0, 0.0, 1.0], color=COLOR_WHITE):
 
 
 # noinspection PyBroadException,PyArgumentEqualDefault
-def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=COLOR_WHITE):
+def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
     """Crea un cono de base y altura de radio 1.0"""
+    if color is None:
+        color = COLOR_WHITE
     if lat >= 3 and lng >= 10:
         circlebase = create_circle(base - 0.05, 0.1, [0.0, 0.0, -1.0], color)
         obj = glGenLists(1)
@@ -371,8 +417,10 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=COLOR_WHITE):
             "La latitud y longitud de la figura deben ser mayores a 3")
 
 
-def create_cube(color=COLOR_WHITE):
+def create_cube(color=None):
     """Crea un cubo de arista 1.0"""
+    if color is None:
+        color = COLOR_WHITE
     a = Point3(-1.0, -1.0, -1.0)
     b = Point3(1.0, -1.0, -1.0)
     c = Point3(1.0, -1.0, 1.0)
@@ -435,8 +483,10 @@ def create_cube_textured(texture_list):
 
 
 # noinspection PyBroadException
-def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=COLOR_WHITE):
+def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
     """Crea un toro de radio menor minr y radio mayor maxr"""
+    if color is None:
+        color = COLOR_WHITE
     if lat >= 3 and lng >= 3:
         obj = glGenLists(1)
         glNewList(obj, GL_COMPILE)
@@ -458,8 +508,10 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=COLOR_WHITE):
 
 
 # noinspection PyBroadException
-def create_cube_solid(color=COLOR_WHITE):
+def create_cube_solid(color=None):
     """Crea un cubo solido de arista 1.0"""
+    if color is None:
+        color = COLOR_WHITE
     obj = glGenLists(1)
     glNewList(obj, GL_COMPILE)
     glPushMatrix()
@@ -477,8 +529,10 @@ def create_cube_solid(color=COLOR_WHITE):
 
 
 # noinspection PyBroadException,PyArgumentEqualDefault
-def create_piramid(color=COLOR_WHITE):
+def create_piramid(color=None):
     """Crea una pirámide de base cuadrada"""
+    if color is None:
+        color = COLOR_WHITE
     arista = 2.0
     a = Point3(-0.5, -0.5, -0.333) * arista
     b = Point3(0.5, -0.5, -0.333) * arista
@@ -541,8 +595,10 @@ def create_piramid_textured(texture_list):
 
 
 # noinspection PyBroadException,PyArgumentEqualDefault
-def create_diamond(color=COLOR_WHITE):
+def create_diamond(color=None):
     """Crea un rombo de base cuadrada"""
+    if color is None:
+        color = COLOR_WHITE
     a = Point3(-1.0, -1.0, 0.0)
     b = Point3(1.0, -1.0, 0.0)
     c = Point3(1.0, 1.0, 0.0)
@@ -570,8 +626,10 @@ def create_diamond(color=COLOR_WHITE):
 
 
 # noinspection PyBroadException
-def create_teapot(color=COLOR_WHITE):
+def create_teapot(color=None):
     """Crea un teapot de OpenGL"""
+    if color is None:
+        color = COLOR_WHITE
     obj = glGenLists(1)
     glNewList(obj, GL_COMPILE)
     glPushMatrix()
