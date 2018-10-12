@@ -65,7 +65,7 @@ from pyOpenGLtoolbox.utils_geometry import draw_vertex_list, draw_vertex_list_cr
     draw_vertex_list_textured
 
 # noinspection PyUnresolvedReferences
-from utils_math import Point3, Point2, Vector3
+from pyOpenGLtoolbox.utils_math import Point3, Point2, Vector3
 
 # Metadata
 __author__ = 'Pablo Pizarro @ppizarror.com'
