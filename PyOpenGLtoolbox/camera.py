@@ -59,8 +59,6 @@ class _Camera:
     def place(self):
         """
         Place camera in world.
-
-        :return:
         """
         pass
 
@@ -70,7 +68,6 @@ class _Camera:
 
         :param direction: X-axis position
         :type direction: float, int
-        :return:
         """
         pass
 
@@ -80,7 +77,6 @@ class _Camera:
 
         :param direction: Y-axis position
         :type direction: float, int
-        :return:
         """
         pass
 
@@ -90,7 +86,6 @@ class _Camera:
 
         :param direction: Z-axis position
         :type direction: float, int
-        :return:
         """
         pass
 
@@ -100,7 +95,6 @@ class _Camera:
 
         :param vel: X-axis velocity
         :type vel: float, int
-        :return:
         """
         pass
 
@@ -110,7 +104,6 @@ class _Camera:
 
         :param vel: Y-axis velocity
         :type vel: float, int
-        :return:
         """
         pass
 
@@ -120,7 +113,6 @@ class _Camera:
 
         :param vel: Z-axis velocity
         :type vel: float, int
-        :return:
         """
         pass
 
@@ -130,7 +122,6 @@ class _Camera:
 
         :param vel: Center velocity
         :type vel: float, int
-        :return:
         """
         pass
 
@@ -140,7 +131,6 @@ class _Camera:
 
         :param dist: X-distance
         :type dist: float, int
-        :return:
         """
         pass
 
@@ -150,7 +140,6 @@ class _Camera:
 
         :param dist: Y-distance
         :type dist: float, int
-        :return:
         """
         pass
 
@@ -160,7 +149,6 @@ class _Camera:
 
         :param dist: Z-distance
         :type dist: float, int
-        :return:
         """
         pass
 
@@ -170,23 +158,18 @@ class _Camera:
 
         :param angle: Rotation angle
         :type angle: float, int
-        :return:
         """
         pass
 
     def far(self):
         """
         Camera zoom-out.
-
-        :return:
         """
         pass
 
     def close(self):
         """
         Camera zoom-in.
-
-        :return:
         """
         pass
 
@@ -196,7 +179,6 @@ class _Camera:
 
         :param vel: Velocity
         :type vel: float, int
-        :return:
         """
         pass
 
@@ -206,7 +188,6 @@ class _Camera:
 
         :param angle: Rotation angle
         :type angle: float, int
-        :return:
         """
         pass
 
@@ -216,7 +197,6 @@ class _Camera:
 
         :param angle: Rotation angle
         :type angle: float, int
-        :return:
         """
         pass
 
@@ -226,31 +206,24 @@ class _Camera:
 
         :param angle: Rotation angle
         :type angle: float, int
-        :return:
         """
         pass
 
     def convert_to_xyz(self):
         """
         Convert spheric to cartesian.
-
-        :return:
         """
         pass
 
     def __str__(self):
         """
         Return camera status.
-
-        :return:
         """
         pass
 
     def get_name(self):
         """
         Returns camera name.
-
-        :return:
         """
         pass
 
@@ -258,7 +231,6 @@ class _Camera:
         """
         Set camera name
         :param n: Camera name
-        :return:
         """
         pass
 
@@ -296,8 +268,6 @@ class CameraXYZ(_Camera):
     def place(self):
         """
         Place camera in world.
-
-        :return:
         """
         glLoadIdentity()
         gluLookAt(self.pos.get_x(), self.pos.get_y(), self.pos.get_z(),
@@ -311,7 +281,6 @@ class CameraXYZ(_Camera):
 
         :param direction: X-axis position
         :type direction: float, int
-        :return:
         """
         self.pos.set_x(self.pos.get_x() + self.cameraVel.get_x() * direction)
 
@@ -321,7 +290,6 @@ class CameraXYZ(_Camera):
 
         :param direction: Y-axis position
         :type direction: float, int
-        :return:
         """
         self.pos.set_y(self.pos.get_y() + self.cameraVel.get_y() * direction)
 
@@ -331,7 +299,6 @@ class CameraXYZ(_Camera):
 
         :param direction: Z-axis position
         :type direction: float, int
-        :return:
         """
         self.pos.set_z(self.pos.get_z() + self.cameraVel.get_z() * direction)
 
@@ -341,7 +308,6 @@ class CameraXYZ(_Camera):
 
         :param vel: X-axis velocity
         :type vel: float, int
-        :return:
         """
         self.cameraVel.set_x(vel)
 
@@ -351,7 +317,6 @@ class CameraXYZ(_Camera):
 
         :param vel: Y-axis velocity
         :type vel: float, int
-        :return:
         """
         self.cameraVel.set_y(vel)
 
@@ -360,7 +325,6 @@ class CameraXYZ(_Camera):
         Defines z-axis movement velocity.
 
         :param vel: Z-axis velocity
-        :return:
         """
         self.cameraVel.set_z(vel)
 
@@ -370,7 +334,6 @@ class CameraXYZ(_Camera):
 
         :param vel: Center velocity
         :type vel: float, int
-        :return:
         """
         self.centervel = Vector3(abs(vel), abs(vel), abs(vel))
 
@@ -380,7 +343,6 @@ class CameraXYZ(_Camera):
 
         :param angle: Rotation angle
         :type angle: float, int
-        :return:
         """
         x = self.pos.get_x()
         y = self.pos.get_y() * _cos(angle) - self.pos.get_z() * _sin(angle)
@@ -395,7 +357,6 @@ class CameraXYZ(_Camera):
 
         :param angle: Rotation angle
         :type angle: float, int
-        :return:
         """
         x = self.pos.get_x() * _cos(angle) + self.pos.get_z() * _sin(angle)
         y = self.pos.get_y()
@@ -406,9 +367,10 @@ class CameraXYZ(_Camera):
 
     def rotate_z(self, angle):
         """
-        Rotate eye position in z-axis
+        Rotate eye position in z-axis.
+
         :param angle: Rotation angle
-        :return:
+        :type angle: float, int
         """
         x = self.pos.get_x() * _cos(angle) - self.pos.get_y() * _sin(angle)
         y = self.pos.get_x() * _sin(angle) + self.pos.get_y() * _cos(angle)
@@ -419,25 +381,28 @@ class CameraXYZ(_Camera):
 
     def move_center_x(self, dist):
         """
-        Moves center x coordinate
+        Moves center x coordinate.
+
         :param dist: X-distance
-        :return:
+        :type dist: float, int
         """
         self.center.set_x(self.center.get_x() + dist)
 
     def move_center_y(self, dist):
         """
-        Moves center y coordinate
+        Moves center y coordinate.
+
         :param dist: Y-distance
-        :return:
+        :type dist: float, int
         """
         self.center.set_y(self.center.get_y() + dist)
 
     def move_center_z(self, dist):
         """
-        Moves center z coordinate
+        Moves center z coordinate.
+
         :param dist: Z-distance
-        :return:
+        :type dist: float, int
         """
         if (_CAMERA_CENTER_LIMIT_Z_DOWN <= self.center.get_z() and dist < 0) or \
                 (self.center.get_z() <= _CAMERA_CENTER_LIMIT_Z_UP and dist > 0):
@@ -445,9 +410,10 @@ class CameraXYZ(_Camera):
 
     def rotate_center_z(self, angle):
         """
-        Rotate center around z
+        Rotate center around z.
+
         :param angle: Rotation angle
-        :return:
+        :type angle: float, int
         """
         rad = _math.sqrt(self.pos.get_x() ** 2 + self.pos.get_y() ** 2)
         self.pos.set_x(rad * _cos(self.angle))
@@ -455,20 +421,23 @@ class CameraXYZ(_Camera):
 
     def far(self):
         """
-        Camera zoom-out
-        :return:
+        Camera zoom-out.
         """
         self.center += self.centervel
 
     def close(self):
         """
-        Camera zoom-in
-        :return:
+        Camera zoom-in.
         """
         self.center -= self.centervel
 
     def get_name(self):
-        """Retorna el nombre de la cámara"""
+        """
+        Returns camera name.
+
+        :return: Camera name
+        :rtype: basestring
+        """
         return self._name
 
     # noinspection PyShadowingNames

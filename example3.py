@@ -28,9 +28,9 @@ SOFTWARE.
 # Library imports
 from PyOpenGLtoolbox.camera import *
 from PyOpenGLtoolbox.figures import *
-from PyOpenGLtoolbox.glpython import *
+from PyOpenGLtoolbox.pyopengl import *
 from PyOpenGLtoolbox.materials import *
-from PyOpenGLtoolbox.opengl_lib import *
+from PyOpenGLtoolbox.opengl import *
 from PyOpenGLtoolbox.particles import *
 from PyOpenGLtoolbox.shader import *
 from PyOpenGLtoolbox.textures import *

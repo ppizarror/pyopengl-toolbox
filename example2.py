@@ -26,8 +26,8 @@ SOFTWARE.
 """
 
 # Library imports
-from PyOpenGLtoolbox.glpython import *
-from PyOpenGLtoolbox.opengl_lib import *
+from PyOpenGLtoolbox.pyopengl import *
+from PyOpenGLtoolbox.opengl import *
 from PyOpenGLtoolbox.camera import *
 from PyOpenGLtoolbox.particles import *
 from PyOpenGLtoolbox.figures import *

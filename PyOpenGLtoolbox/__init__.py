@@ -35,7 +35,7 @@ from PyOpenGLtoolbox.figures import VBObject, load_obj_model, load_gmsh_model, l
     create_teapot, create_teapot_textured, create_tetrahedron, create_tetrahedron_vbo, create_torus
 
 # noinspection PyUnresolvedReferences
-from PyOpenGLtoolbox.glpython import init_pygame, load_image
+from PyOpenGLtoolbox.pyopengl import init_pygame, load_image
 
 # noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.materials import material_black_plastic, material_black_rubber, material_brass, material_bronze, \
@@ -45,7 +45,7 @@ from PyOpenGLtoolbox.materials import material_black_plastic, material_black_rub
     material_white_plastic, material_white_rubber, material_yellow_plastic, material_yellow_rubber
 
 # noinspection PyUnresolvedReferences
-from PyOpenGLtoolbox.opengl_lib import init_gl, init_light, clear_buffer, reshape, is_light_enabled
+from PyOpenGLtoolbox.opengl import init_gl, init_light, clear_buffer, reshape, is_light_enabled
 
 # noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.particles import Particle
