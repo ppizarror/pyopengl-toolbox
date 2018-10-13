@@ -14,3 +14,6 @@
 build/*
 dist
 build.bat
+
+# Test files
+test.py
