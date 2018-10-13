@@ -26,9 +26,11 @@ SOFTWARE.
 """
 
 # Library imports
-from OpenGL.GL import glLoadIdentity
-from OpenGL.GLU import gluLookAt
-from PyOpenGLtoolbox.utils_math import Point3, Vector3, _cos, _sin, _xyz_to_spr, _spr_to_xyz
+from OpenGL.GL import glLoadIdentity as _glLoadIdentity
+from OpenGL.GLU import gluLookAt as _gluLookAt
+from PyOpenGLtoolbox.utils_math import _cos, _sin, _xyz_to_spr, _spr_to_xyz
+from PyOpenGLtoolbox.utils_math import Point3 as _Point3
+from PyOpenGLtoolbox.utils_math import Vector3 as _Vector3
 import math as _math
 
 # Constants
@@ -240,7 +242,7 @@ class CameraXYZ(_Camera):
     Camera in XYZ, position (x,y,z), can rotate around z.
     """
 
-    def __init__(self, pos, center, up=Point3(0, 0, 1)):
+    def __init__(self, pos, center, up=_Point3(0, 0, 1)):
         """
         Constructor.
 
@@ -252,28 +254,28 @@ class CameraXYZ(_Camera):
         :type up: float, int
         """
         _Camera.__init__(self)
-        if isinstance(pos, Point3) and isinstance(center, Point3) and isinstance(up, Point3):
-            self._center = Vector3(*center.export_to_list())
-            self._pos = Vector3(*pos.export_to_list())
-            self._up = Vector3(*up.export_to_list())
+        if isinstance(pos, _Point3) and isinstance(center, _Point3) and isinstance(up, _Point3):
+            self._center = _Vector3(*center.export_to_list())
+            self._pos = _Vector3(*pos.export_to_list())
+            self._up = _Vector3(*up.export_to_list())
         else:
             raise Exception('pos, center and up must be Point3 type')
         self._angle = 45.0
-        self._cameraVel = Vector3(1.0, 1.0, 1.0)
+        self._cameraVel = _Vector3(1.0, 1.0, 1.0)
         self._centerAngle = 0.0
-        self._centerVel = Vector3(_CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL)
+        self._centerVel = _Vector3(_CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL)
         self._name = 'unnamed'
-        self._viewVel = Vector3(1.0, 1.0, 1.0)
+        self._viewVel = _Vector3(1.0, 1.0, 1.0)
 
     def place(self):
         """
         Place camera in world.
         """
-        glLoadIdentity()
-        gluLookAt(self._pos.get_x(), self._pos.get_y(), self._pos.get_z(),
-                  self._center.get_x(), self._center.get_y(),
-                  self._center.get_z(), self._up.get_x(), self._up.get_y(),
-                  self._up.get_z())
+        _glLoadIdentity()
+        _gluLookAt(self._pos.get_x(), self._pos.get_y(), self._pos.get_z(),
+                   self._center.get_x(), self._center.get_y(),
+                   self._center.get_z(), self._up.get_x(), self._up.get_y(),
+                   self._up.get_z())
 
     def move_x(self, direction=_CAMERA_POSITIVE):
         """
@@ -335,7 +337,7 @@ class CameraXYZ(_Camera):
         :param vel: Center velocity
         :type vel: float, int
         """
-        self._centerVel = Vector3(abs(vel), abs(vel), abs(vel))
+        self._centerVel = _Vector3(abs(vel), abs(vel), abs(vel))
 
     def rotate_x(self, angle):
         """
@@ -455,7 +457,7 @@ class CameraR(_Camera):
     Camera in spheric coordinates.
     """
 
-    def __init__(self, r=1.0, phi=45, theta=45, center_point=Point3(), up_vector=Vector3(0, 0, 1)):
+    def __init__(self, r=1.0, phi=45, theta=45, center_point=_Point3(), up_vector=_Vector3(0, 0, 1)):
         """
         Constructor.
 
@@ -471,8 +473,8 @@ class CameraR(_Camera):
         :type up_vector: Point3
         """
         _Camera.__init__(self)
-        if isinstance(center_point, Point3):
-            if isinstance(up_vector, Vector3):
+        if isinstance(center_point, _Point3):
+            if isinstance(up_vector, _Vector3):
                 if r > 0:
                     if 0 <= phi <= 360 and 0 <= theta <= 180:
                         self._center = center_point
@@ -507,13 +509,13 @@ class CameraR(_Camera):
         """
         Place camera in world.
         """
-        glLoadIdentity()
-        gluLookAt(self._r * _sin(self._theta) * _cos(self._phi),
-                  self._r * _sin(self._theta) * _sin(self._phi),
-                  self._r * _cos(self._theta),
-                  self._center.get_x(), self._center.get_y(), self._center.get_z(),
-                  self._up.get_x(), self._up.get_y(),
-                  self._up.get_z())
+        _glLoadIdentity()
+        _gluLookAt(self._r * _sin(self._theta) * _cos(self._phi),
+                   self._r * _sin(self._theta) * _sin(self._phi),
+                   self._r * _cos(self._theta),
+                   self._center.get_x(), self._center.get_y(), self._center.get_z(),
+                   self._up.get_x(), self._up.get_y(),
+                   self._up.get_z())
 
     def __str__(self):
         """

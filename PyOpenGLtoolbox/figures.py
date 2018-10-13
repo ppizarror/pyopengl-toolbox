@@ -27,11 +27,12 @@ SOFTWARE.
 
 # Library imports
 from numpy import array
-from OpenGL.arrays import vbo
+from OpenGL.arrays import vbo as _vbo
 from OpenGL.GL import *
 from OpenGL.GLUT import *
 from PyOpenGLtoolbox.utils import print_gl_error
-from PyOpenGLtoolbox.utils_geometry import *
+from PyOpenGLtoolbox.utils_geometry import _normal_3_points, draw_vertex_list_create_normal, \
+    draw_vertex_list_create_normal_textured
 from PyOpenGLtoolbox.utils_math import Point3, _cos, _sin, Point2
 import math
 
@@ -61,7 +62,7 @@ class VBObject:
         :param total_vertex: Total vertex (int)
         :param texture: Texture file
         """
-        if isinstance(vertex, vbo.VBO) and isinstance(fragment, vbo.VBO):
+        if isinstance(vertex, _vbo.VBO) and isinstance(fragment, _vbo.VBO):
             if type(total_vertex) is int:
                 self.vertex = vertex
                 self.fragment = fragment
@@ -341,10 +342,10 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
 
     vertex, norm, avgnorm = load(modelfile, scale, float(dx), float(dy), float(dz))
     if avg:
-        return VBObject(vbo.VBO(array(vertex, 'f')),
-                        vbo.VBO(array(avgnorm, 'f')), len(vertex), texture)
+        return VBObject(_vbo.VBO(array(vertex, 'f')),
+                        _vbo.VBO(array(avgnorm, 'f')), len(vertex), texture)
     else:
-        return VBObject(vbo.VBO(array(vertex, 'f')), vbo.VBO(array(norm, 'f')),
+        return VBObject(_vbo.VBO(array(vertex, 'f')), _vbo.VBO(array(norm, 'f')),
                         len(vertex), texture)
 
 
@@ -780,7 +781,7 @@ def create_pyramid_vbo(edge=1.0):
                     n5, n5, n5]
 
     # Return VBO Object
-    return VBObject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')), len(vertex_array))
+    return VBObject(_vbo.VBO(array(vertex_array, 'f')), _vbo.VBO(array(normal_array, 'f')), len(vertex_array))
 
 
 def create_tetrahedron_vbo(edge=1.0):
@@ -818,7 +819,7 @@ def create_tetrahedron_vbo(edge=1.0):
     normal_array = [n1, n1, n1, n2, n2, n2, n3, n3, n3, n4, n4, n4]
 
     # Return VBO
-    return VBObject(vbo.VBO(array(vertex_array, 'f')), vbo.VBO(array(normal_array, 'f')),
+    return VBObject(_vbo.VBO(array(vertex_array, 'f')), _vbo.VBO(array(normal_array, 'f')),
                     len(vertex_array))
 
 

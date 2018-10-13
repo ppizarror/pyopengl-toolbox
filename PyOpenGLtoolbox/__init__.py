@@ -35,9 +35,6 @@ from PyOpenGLtoolbox.figures import VBObject, load_obj_model, load_gmsh_model, l
     create_teapot, create_teapot_textured, create_tetrahedron, create_tetrahedron_vbo, create_torus
 
 # noinspection PyUnresolvedReferences
-from PyOpenGLtoolbox.pyopengl import init_pygame, load_image
-
-# noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.materials import material_black_plastic, material_black_rubber, material_brass, material_bronze, \
     material_chrome, material_copper, material_cyan_plastic, material_cyan_rubber, material_emerald, material_gold, \
     material_green_plastic, material_green_rubber, material_jade, material_natural_white, material_obsidian, \
@@ -46,6 +43,11 @@ from PyOpenGLtoolbox.materials import material_black_plastic, material_black_rub
 
 # noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.opengl import init_gl, init_light, clear_buffer, reshape, is_light_enabled
+
+# noinspection PyUnresolvedReferences
+from PyOpenGLtoolbox.pyopengl import init_pygame, load_image
+
+from PyOpenGLtoolbox.shader import load_shader
 
 # noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.particles import Particle
@@ -66,6 +68,13 @@ from PyOpenGLtoolbox.utils_geometry import draw_vertex_list, draw_vertex_list_cr
 
 # noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.utils_math import Point3, Point2, Vector3
+
+# Base libraries
+from OpenGL.GL import *
+from OpenGL.GLU import *
+from OpenGL.GLUT import *
+from pygame.locals import *
+import pygame
 
 # Metadata
 __author__ = 'Pablo Pizarro @ppizarror.com'

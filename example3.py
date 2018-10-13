@@ -26,15 +26,7 @@ SOFTWARE.
 """
 
 # Library imports
-from PyOpenGLtoolbox.camera import *
-from PyOpenGLtoolbox.figures import *
-from PyOpenGLtoolbox.pyopengl import *
-from PyOpenGLtoolbox.materials import *
-from PyOpenGLtoolbox.opengl import *
-from PyOpenGLtoolbox.particles import *
-from PyOpenGLtoolbox.shader import *
-from PyOpenGLtoolbox.textures import *
-from PyOpenGLtoolbox import create_axes
+from PyOpenGLtoolbox import *
 
 # Constants
 AXES_LENGTH = 700
@@ -53,7 +45,7 @@ init_gl(transparency=False, materialcolor=False, normalized=True, lighting=True,
         texture=True, verbose=False)
 reshape(*WINDOW_SIZE)
 init_light(GL_LIGHT0)
-init_light(GL_LIGHT1, ambient=AMBIENT_COLOR_RED, diffuse=DIFFUSE_COLOR_RED, specular=SPECULAR_COLOR_RED)
+init_light(GL_LIGHT1, ambient=[0.403, 0.0, 0.0, 1.0], diffuse=[0.556, 0.0, 0.0, 1.0], specular=[0.858, 0.0, 0.0, 1.0])
 clock = pygame.time.Clock()
 
 # Display help on console
