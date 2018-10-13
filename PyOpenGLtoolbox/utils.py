@@ -117,8 +117,8 @@ def create_axes(s, both=False, text=True):
         raise Exception("la dimension de los ejes debe ser mayor a cero")
 
 
-def draw_text(text, pos, color=None, font='GLUT_BITMAP_TIMES_ROMAN_24',
-              linespace=20):
+# noinspection PyUnresolvedReferences
+def draw_text(text, pos, color=None, font=GLUT_BITMAP_TIMES_ROMAN_24, linespace=20):
     """Dibuja un texto en una posicon dada por un punto point3"""
     if color is None:
         color = COLOR_WHITE
@@ -141,7 +141,7 @@ def draw_text(text, pos, color=None, font='GLUT_BITMAP_TIMES_ROMAN_24',
                         print_gl_error('Actual OpenGL version doest not support glutBitmapCharacter function')
                     _ERRS[0] = True
     else:
-        raise Exception("el punto debe ser del tipo point3")
+        raise Exception('Point must be Point3 type')
 
 
 def get_rgb_normalized(r, g, b, a=1.0):

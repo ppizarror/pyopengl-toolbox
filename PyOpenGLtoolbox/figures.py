@@ -28,7 +28,6 @@ SOFTWARE.
 # Library imports
 from numpy import array as _array
 from OpenGL.arrays import vbo as _vbo
-from OpenGL.GLUT import *
 from PyOpenGLtoolbox.utils import print_gl_error
 from PyOpenGLtoolbox.utils_geometry import _normal_3_points, draw_vertex_list_create_normal, \
     draw_vertex_list_create_normal_textured
@@ -37,6 +36,8 @@ import math
 
 # noinspection PyPep8Naming
 import OpenGL.GL as _gl
+# noinspection PyPep8Naming
+import OpenGL.GLUT as _glut
 
 # Constants
 COLOR_BLACK = [0.0, 0.0, 0.0, 1.0]
@@ -53,16 +54,17 @@ for i in range(10):
 
 class VBObject:
     """
-    VBO object that can load and draw elements using shaders
+    VBO object that can load and draw elements using shaders.
     """
 
     def __init__(self, vertex, fragment, total_vertex, texture=None):
         """
-        Constructor
+        Constructor.
+
         :param vertex: Vertex shader
         :param fragment: Fragment shader
         :param total_vertex: Total vertex (int)
-        :param texture: Texture file
+        :param texture: Texture list
         """
         if isinstance(vertex, _vbo.VBO) and isinstance(fragment, _vbo.VBO):
             if type(total_vertex) is int:
@@ -81,10 +83,12 @@ class VBObject:
 
     def draw(self, pos=None, rgb=None):
         """
-        Draw the object
+        Draw the object.
+
         :param pos: Position
         :param rgb: Color
-        :return:
+        :type pos: list
+        :type rgb: list
         """
 
         if pos is None:
@@ -136,9 +140,12 @@ class VBObject:
 
 def load_obj_model(file_name):
     """
-    Load an OBJ file
+    Load an OBJ file.
+
     :param file_name: File name
-    :return:
+    :type file_name: basestring
+    :return: OBJ file tuple
+    :rtype: tuple
     """
     file_text = open(file_name)
     text = file_text.readlines()
@@ -148,6 +155,7 @@ def load_obj_model(file_name):
     faces_vertex = []
     faces_normal = []
     faces_uv = []
+
     for line in text:
         info = line.split(' ')
         if info[0] == 'v':
@@ -164,6 +172,7 @@ def load_obj_model(file_name):
             faces_vertex.append((int(p1[0]), int(p2[0]), int(p3[0])))
             faces_uv.append((int(p1[1]), int(p2[1]), int(p3[1])))
             faces_normal.append((int(p1[2]), int(p2[2]), int(p3[2])))
+
     return vertex, normals, uv, faces_vertex, faces_normal, faces_uv
 
 
@@ -173,6 +182,7 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
     Loads an .MSH or .GMSH file and returns an vboObject scaled as 'scale', by default
     normal are average, to disable use avg=False. The model also can be displaced by
     (dx,dy,dz) and reverse the normals if neg_normal is True.
+
     :param modelfile: File name
     :param scale: Scale parameter
     :param dx: X-displacement
@@ -181,7 +191,15 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
     :param avg: Normal-avg
     :param neg_normal: Reverse normal
     :param texture: Texture file
-    :return:
+    :type modelfile: basestring
+    :type scale: float
+    :type dx: float, int
+    :type dy: float, int
+    :type avg: bool
+    :type neg_normal: bool
+    :type texture: list
+    :return: VBO Object that contains GMSH model
+    :rtype: VBObject
     """
 
     def load(gmshfile, _scale, _dx, _dy, _dz):
@@ -210,6 +228,7 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
                     if _nodenum in _elems[elemnum]:
                         nodetrilist[_nodenum].append(elemnum)
             _avenorms = []
+            
             for tri in nodetrilist:
                 ave_ni = 0.0
                 ave_nj = 0.0
@@ -353,11 +372,15 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
 
 def create_sphere(lat=10, lng=10, color=None):
     """
-    Create an sphere
+    Creates an sphere.
+
     :param lat: Latitude
     :param lng: Longitude
     :param color: Color
-    :return:
+    :type lat: int
+    :type lng: int
+    :type color: list
+    :return: OpenGL list
     """
     if color is None:
         color = COLOR_WHITE
@@ -368,7 +391,7 @@ def create_sphere(lat=10, lng=10, color=None):
         _gl.glColor4fv(color)
         # noinspection PyBroadException
         try:
-            glutSolidSphere(1.0, lat, lng)
+            _glut.glutSolidSphere(1.0, lat, lng)
         except:
             if not _ERRS[0]:
                 print_gl_error('OpenGL actual version does not support glutSolidSphere function')
@@ -382,12 +405,17 @@ def create_sphere(lat=10, lng=10, color=None):
 
 def create_circle(rad=1.0, diff=0.1, normal=None, color=None):
     """
-    Creates a circle
+    Creates a circle.
+
     :param rad: Radius
     :param diff: Difference
     :param normal: Normal
     :param color: Color
-    :return:
+    :type rad: float, int
+    :type diff: float, int
+    :type normal: list
+    :type color: list
+    :return: OpenGL list
     """
     if color is None:
         color = COLOR_WHITE
@@ -419,13 +447,19 @@ def create_circle(rad=1.0, diff=0.1, normal=None, color=None):
 
 def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
     """
-    Creates an cone with base and height, radius 1
-    :param base:
-    :param height:
-    :param lat:
-    :param lng:
-    :param color:
-    :return:
+    Creates an cone with base and height, radius 1.
+
+    :param base: Cone base
+    :param height: Cone height
+    :param lat: Cone latitude
+    :param lng: Cone longitude
+    :param color: Cone color
+    :type base: float, int
+    :type height: float, int
+    :type lat: int
+    :type lng: int
+    :type color: list
+    :return: OpenGL list
     """
     if color is None:
         color = COLOR_WHITE
@@ -438,7 +472,7 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
         _gl.glColor4fv(color)
         # noinspection PyBroadException
         try:
-            glutSolidCone(base, height, lat, lng)
+            _glut.glutSolidCone(base, height, lat, lng)
         except:
             if not _ERRS[3]:
                 print_gl_error('OpenGL actual version does not support glutSolidCone function')
@@ -453,9 +487,11 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
 
 def create_cube(color=None):
     """
-    Cretes a cube
-    :param color:
-    :return:
+    Cretes a cube.
+
+    :param color: Cube color
+    :type color: list
+    :return: OpenGL list
     """
     if color is None:
         color = COLOR_WHITE
@@ -488,9 +524,10 @@ def create_cube(color=None):
 
 def create_cube_textured(texture_list):
     """
-    Create a textured cube
+    Create a textured cube.
+
     :param texture_list: Texture OpenGL list
-    :return:
+    :return: OpenGL list
     """
     a = Point3(-1.0, -1.0, -1.0)
     b = Point3(1.0, -1.0, -1.0)
@@ -505,6 +542,7 @@ def create_cube_textured(texture_list):
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
+
     for _i in range(len(texture_list)):
         _gl.glActiveTexture(_gl.GL_TEXTURE0 + _i)
         _gl.glEnable(_gl.GL_TEXTURE_2D)
@@ -536,7 +574,12 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
     :param lat: Latitude
     :param lng: Longitude
     :param color: Color
-    :return: Object glList
+    :type minr: float, int
+    :type maxr: float, int
+    :type lat: int
+    :type lng: int
+    :type color: list
+    :return: OpenGl list
     """
     if color is None:
         color = COLOR_WHITE
@@ -547,7 +590,7 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
         _gl.glColor4fv(color)
         # noinspection PyBroadException
         try:
-            glutSolidTorus(minr, maxr, lat, lng)
+            _glut.glutSolidTorus(minr, maxr, lat, lng)
         except:
             if not _ERRS[2]:
                 print_gl_error('OpenGL actual version does not support glutSolidTorus function')
@@ -563,9 +606,9 @@ def create_cube_solid(color=None):
     """
     Create a solid cube.
 
-    :param color: Color
+    :param color: Cube color
     :type color: list
-    :return: Object list
+    :return: OpenGL list
     """
     if color is None:
         color = COLOR_WHITE
@@ -575,7 +618,7 @@ def create_cube_solid(color=None):
     _gl.glColor4fv(color)
     # noinspection PyBroadException
     try:
-        glutSolidCube(1.0)
+        _glut.glutSolidCube(1.0)
     except:
         if not _ERRS[3]:
             print_gl_error('OpenGL actual version does not support glutSolidCube function')
@@ -587,9 +630,11 @@ def create_cube_solid(color=None):
 
 def create_pyramid(color=None):
     """
-    Creates a pyramid
-    :param color:
-    :return:
+    Creates a pyramid.
+
+    :param color: Pyramid color
+    :type color: list
+    :return: OpenGL list
     """
     if color is None:
         color = COLOR_WHITE
@@ -624,7 +669,7 @@ def create_pyramid_textured(texture_list):
     Create a textured pyramid.
 
     :param texture_list: Texture OpenGL list
-    :return:
+    :return: OpenGL list
     """
     edge = 2.0
     a = Point3(-0.5, -0.5, -0.333) * edge
@@ -666,7 +711,7 @@ def create_diamond(color=None):
 
     :param color: Diamond color
     :type color: list
-    :return: Object OpenGL list
+    :return: OpenGL list
     """
     if color is None:
         color = COLOR_WHITE
@@ -709,7 +754,7 @@ def create_teapot(color=None):
 
     :param color: Object color
     :type color: list
-    :return: Object list
+    :return: OpenGL list
     """
     if color is None:
         color = COLOR_WHITE
@@ -720,7 +765,7 @@ def create_teapot(color=None):
     _gl.glRotate(90, 1, 0, 0)
     # noinspection PyBroadException
     try:
-        glutSolidTeapot(1.0)
+        _glut.glutSolidTeapot(1.0)
     except:
         if not _ERRS[4]:
             print_gl_error('OpenGL actual version doest not support glutSolidTeapot function')
@@ -747,7 +792,7 @@ def create_teapot_textured(texture_list):
     _gl.glRotate(90, 1, 0, 0)
     # noinspection PyBroadException
     try:
-        glutSolidTeapot(1.0)
+        _glut.glutSolidTeapot(1.0)
     except:
         if not _ERRS[4]:
             print_gl_error('OpenGL actual version does not support glutSolidTeapot function')
@@ -762,16 +807,21 @@ def create_teapot_textured(texture_list):
 
 def create_pyramid_vbo(edge=1.0):
     """
-    Creates a VBO pyramid for shader using
-    :param edge:
-    :return:
+    Creates a VBO pyramid for shaders.
+
+    :param edge: Edge length
+    :type edge: float, int
+    :return: VBO Object
+    :rtype: VBObject
     """
 
     def ex(element):
         """
-        Export element to list
-        :param element:
-        :return:
+        Export element to list.
+
+        :param element: Element
+        :return: List
+        :rtype: list
         """
         return element.export_to_list()
 
@@ -803,16 +853,21 @@ def create_pyramid_vbo(edge=1.0):
 
 def create_tetrahedron_vbo(edge=1.0):
     """
-    Creates a VBO tetrahedron for shaders
-    :param edge:
-    :return:
+    Creates a VBO tetrahedron for shaders.
+
+    :param edge: Edge length
+    :type edge: float, int
+    :return: VBO object
+    :rtype: VBObject
     """
 
     def ex(element):
         """
-        Export element to list
-        :param element:
-        :return:
+        Export element to list.
+
+        :param element: Element
+        :return: List
+        :rtype: list
         """
         return element.export_to_list()
 
@@ -840,17 +895,23 @@ def create_tetrahedron_vbo(edge=1.0):
                     len(vertex_array))
 
 
-def create_tetrahedron():
+def create_tetrahedron(color=None):
     """
-    Creates a tetrahedron
-    :return:
+    Creates a tetrahedron.
+
+    :param color: Tetrahedron color
+    :type color: list
+    :return: OpenGL list
     """
+    if color is None:
+        color = COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
+    _gl.glColor4fv(color)
     # noinspection PyBroadException
     try:
-        glutSolidTetrahedron()
+        _glut.glutSolidTetrahedron()
     except:
         if not _ERRS[5]:
             print_gl_error('OpenGL actual version does not support glutSolidTetrahedron function')
@@ -860,17 +921,23 @@ def create_tetrahedron():
     return obj
 
 
-def create_dodecahedron():
+def create_dodecahedron(color=None):
     """
-    Creates a dodecahedron
-    :return:
+    Creates a dodecahedron.
+
+    :param color: Dodecahedron color
+    :type color: list
+    :return: OpenGL list
     """
+    if color is None:
+        color = COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
+    _gl.glColor4fv(color)
     # noinspection PyBroadException
     try:
-        glutSolidDodecahedron()
+        _glut.glutSolidDodecahedron()
     except:
         if not _ERRS[6]:
             print_gl_error('OpenGL actual version dost not support glutSolidDodecahedron function')
@@ -880,17 +947,23 @@ def create_dodecahedron():
     return obj
 
 
-def create_octahedron():
+def create_octahedron(color=None):
     """
-    Crates an octahedron
-    :return:
+    Crates an octahedron.
+
+    :param color: Octahedron color
+    :type color: list
+    :return: OpenGL list
     """
+    if color is None:
+        color = COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
+    _gl.glColor4fv(color)
     # noinspection PyBroadException
     try:
-        glutSolidOctahedron()
+        _glut.glutSolidOctahedron()
     except:
         if not _ERRS[7]:
             print_gl_error('OpenGL actual version does not support glutSolidOctahedron function')
@@ -900,17 +973,23 @@ def create_octahedron():
     return obj
 
 
-def create_icosahedron():
+def create_icosahedron(color=None):
     """
-    Creates an icosahedron
-    :return:
+    Creates an icosahedron.
+
+    :param color: Icosahedron color
+    :type color: list
+    :return: OpenGL list
     """
+    if color is None:
+        color = COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
+    _gl.glColor4fv(color)
     # noinspection PyBroadException
     try:
-        glutSolidIcosahedron()
+        _glut.glutSolidIcosahedron()
     except:
         if not _ERRS[8]:
             print_gl_error('OpenGL actual version does not support glutSolidIcosahedron function')
