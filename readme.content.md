@@ -1,4 +1,23 @@
-Paquete de herramientas para PyOpenGL, contiene distintas funciones utilitarias para manipular la cámara, los colores, iluminaciones, particulas o objetos. Soporte sólo para Python 2.7
+Toolbox for Pygame+OpenGL, contains libraries for setting Cameras, 
+creating figures, loading textures, load shaders, mathematical libraries
+to create Point, Vectors, etc.
 
-## Licencia
-Este proyecto se encuentra bajo la licencia GPLv3 [https://www.gnu.org/licenses/gpl-3.0.html]
+## Install
+
+PyOpenGL toolbox can be installed via pip. Simply run:
+
+```bash
+pip install PyOpenGL-toolbox
+```
+
+PyOpenGL-toolbox needs pygame, numpy and Pillow.
+
+## Import
+
+Import of this library is similar as PyOpenGL:
+```python
+from PyOpenGLtoolbox import *
+```
+
+## License
+This project is licensed unde MIT [https://opensource.org/licenses/MIT/]
