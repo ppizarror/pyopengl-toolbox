@@ -27,43 +27,51 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-import numpy
-from OpenGL.GL import glGenTextures, GL_UNPACK_ALIGNMENT, glPixelStorei, glBindTexture, GL_TEXTURE_2D, glTexParameterf, \
-    GL_TEXTURE_WRAP_S, GL_TEXTURE_WRAP_T, GL_TEXTURE_MAG_FILTER, GL_REPEAT, GL_CLAMP, GL_LINEAR, GL_TEXTURE_MIN_FILTER, \
-    GL_RGB, glTexImage2D, GL_UNSIGNED_BYTE, glTexEnvf, GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE
+import numpy as _np
+
+# noinspection PyPep8Naming
+import OpenGL.GL as _gl
 
 try:
-    from PIL import Image
+    from PIL import Image as _Image
 except ImportError:
     print('[ERR] Error importing PIL, trying Image')
     # noinspection PyBroadException
     try:
         # noinspection PyUnresolvedReferences,PyPackageRequirements
-        import Image
+        import Image as _Image
     except:
         print('[ERR] Error importing Image, this PyOpenGLtoolbox needs Pillow')
         exit()
 
 
 def load_texture(image_file, repeat=False):
-    """Carga una textura desde un archivo image_file"""
-    img = Image.open(image_file)
-    data = numpy.array(list(img.getdata()), numpy.int8)
+    """
+    Loads an texture from a image file.
 
-    tex = glGenTextures(1)
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
-    glBindTexture(GL_TEXTURE_2D, tex)
+    :param image_file: Image file
+    :param repeat: Repeat image (OPENGL)
+    :type image_file: basestring:
+    :type repeat: bool
+    :return: Image OpenGL object
+    """
+    img = _Image.open(image_file)
+    data = _np.array(list(img.getdata()), _np.int8)
+
+    tex = _gl.glGenTextures(1)
+    _gl.glPixelStorei(_gl.GL_UNPACK_ALIGNMENT, 1)
+    _gl.glBindTexture(_gl.GL_TEXTURE_2D, tex)
 
     if repeat:
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+        _gl.glTexParameterf(_gl.GL_TEXTURE_2D, _gl.GL_TEXTURE_WRAP_S, _gl.GL_REPEAT)
+        _gl.glTexParameterf(_gl.GL_TEXTURE_2D, _gl.GL_TEXTURE_WRAP_T, _gl.GL_REPEAT)
     else:
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
+        _gl.glTexParameterf(_gl.GL_TEXTURE_2D, _gl.GL_TEXTURE_WRAP_S, _gl.GL_CLAMP)
+        _gl.glTexParameterf(_gl.GL_TEXTURE_2D, _gl.GL_TEXTURE_WRAP_T, _gl.GL_CLAMP)
 
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img.size[0], img.size[1], 0, GL_RGB,
-                 GL_UNSIGNED_BYTE, data)
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
+    _gl.glTexParameterf(_gl.GL_TEXTURE_2D, _gl.GL_TEXTURE_MAG_FILTER, _gl.GL_LINEAR)
+    _gl.glTexParameterf(_gl.GL_TEXTURE_2D, _gl.GL_TEXTURE_MIN_FILTER, _gl.GL_LINEAR)
+    _gl.glTexImage2D(_gl.GL_TEXTURE_2D, 0, _gl.GL_RGB, img.size[0], img.size[1], 0, _gl.GL_RGB,
+                     _gl.GL_UNSIGNED_BYTE, data)
+    _gl.glTexEnvf(_gl.GL_TEXTURE_ENV, _gl.GL_TEXTURE_ENV_MODE, _gl.GL_MODULATE)
     return tex

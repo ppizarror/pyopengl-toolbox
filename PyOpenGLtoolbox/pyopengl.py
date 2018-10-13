@@ -33,10 +33,10 @@ import os as _os
 import pygame as _pygame
 
 # Constants
-_DEFAULT_CAPTION = 'Program title'
+_PYOPENGL_DEFAULT_CAPTION = 'Program title'
 
 
-def init_pygame(w, h, caption=_DEFAULT_CAPTION, icon=None, centered_mouse=False, centered_window=True):
+def init_pygame(w, h, caption=_PYOPENGL_DEFAULT_CAPTION, icon=None, centered_mouse=False, centered_window=True):
     """
     Init pygame.
 
