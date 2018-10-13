@@ -186,62 +186,124 @@ class Point2(Point3):
         """Retornar el string del punto"""
         return self._point.__str__(mantise, point2=True)
 
-    # override
     def echo(self, mantise=1):
-        """Imprime el punto"""
+        """
+        Print the point.
+
+        :param mantise: Point mantise
+        :type mantise: int
+        """
         self._point.echo(mantise, point2=True)
 
     def export_to_list(self):
-        """Exportar el punto a una lista"""
+        """
+        Export point to list.
+
+        :return: List
+        :rtype: list
+        """
         return [self._point.get_x(), self._point.get_y()]
 
     def export_to_tuple(self):
-        """Exportar el punto a una tupla"""
+        """
+        Export point to tuple.
+
+        :return: Tuple
+        :rtype: tuple
+        """
         return self._point.get_x(), self._point.get_y()
 
 
-# noinspection PyTypeChecker,PyArgumentList
 class Vector3(object):
     """
-    Vector de 3 componentes, provee funciones matemáticas básicas.
+    3 component Vector.
     """
 
     def __init__(self, x=0.0, y=0.0, z=0.0):
-        """Funcion constructora"""
-        self.x = float(x)
-        self.y = float(y)
-        self.z = float(z)
+        """
+        Constructor.
+
+        :param x: X-coordinate
+        :param y: Y-coordinate
+        :param z: Z-coordinate
+        :type x: float, int, hex, oct, complex
+        :type y: float, int, hex, oct, complex
+        :type z: float, int, hex, oct, complex
+        """
+        self.x = x
+        self.y = y
+        self.z = z
 
     def get_module(self):
-        """Retorna el modulo del vector"""
+        """
+        Returns vector module.
+
+        :return: Module
+        :rtype: float
+        """
         return self.distance_with(Vector3(0, 0, 0))
 
     def set_x(self, x):
-        """Define la coordenada x"""
+        """
+        Set x-coordinate.
+
+        :param x: X-coordinate
+        :type x: float, int, hex, oct, complex
+        """
         self.x = x
 
     def set_y(self, y):
-        """Define la coordenada y"""
+        """
+        Set y-coordinate.
+
+        :param y: Y-coordinate
+        :type y: float, int, hex, oct, complex
+        """
         self.y = y
 
     def set_z(self, z):
-        """Define la coordenada z"""
+        """
+        Set z-coordinate.
+
+        :param z: Z-coordinate
+        :type z: float, int, hex, oct, complex
+        """
         self.z = z
 
     def get_x(self):
-        """Retorna la coordenada x"""
+        """
+        Get x-coordinate
+
+        :return: Coordinate
+        :rtype: float, int, hex, oct, complex
+        """
         return self.x
 
     def get_y(self):
-        """Retorna la coordenada y"""
+        """
+        Get y-coordinate
+
+        :return: Coordinate
+        :rtype: float, int, hex, oct, complex
+        """
         return self.y
 
     def get_z(self):
-        """Retorna la coordenada z"""
+        """
+        Get z-coordinate
+
+        :return: Coordinate
+        :rtype: float, int, hex, oct, complex
+        """
         return self.z
 
-    def ponderate(self, a=1):
-        """Pondera el vector por un numero"""
+    def ponderate(self, a=1.0):
+        """
+        Multiply vector with a number.
+
+        :param a: Number
+        :type a: float, int
+        """
         if type(a) is float or type(a) is int:
             self.x *= a
             self.y *= a
@@ -251,7 +313,14 @@ class Vector3(object):
             return self
 
     def __add__(self, other):
-        """Suma el vector con otro"""
+        """
+        Adds vector with another.
+
+        :param other: Vector
+        :type other: Vector3, tuple, list
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(other, Vector3):
             return Vector3(self.x + other.get_x(), self.y + other.get_y(),
                            self.z + other.get_z())
@@ -264,7 +333,14 @@ class Vector3(object):
             return self
 
     def __sub__(self, other):
-        """Resta el vector con otro"""
+        """
+        Substract vector with another.
+
+        :param other: Vector
+        :type other: Vector3, tuple, list
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(other, Vector3):
             return Vector3(self.x - other.get_x(), self.y - other.get_y(),
                            self.z - other.get_z())
@@ -277,12 +353,24 @@ class Vector3(object):
             return self
 
     def __mod__(self, other):
-        """Calcula el modulo con otro"""
+        """
+        Return module value.
+
+        :return: New vector
+        :rtype: Vector3
+        """
         return Vector3(self.x % other.get_x(), self.y % other.get_y(),
                        self.z % other.get_z())
 
     def __mul__(self, other):
-        """Producto punto o producto por valor"""
+        """
+        Multiply vector with another.
+
+        :param other: Vector or value
+        :type other: Vector3, int, float, hex, complex, oct
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(other, Vector3):
             return Vector3(self.x * other.get_x(), self.y * other.get_y(),
                            self.z * other.get_z())
@@ -297,35 +385,70 @@ class Vector3(object):
                 return self
 
     def __abs__(self):
-        """Valor absoluto"""
+        """
+        Return absolute value.
+
+        :return: New vector
+        :rtype: Vector3
+        """
         return Vector3(abs(self.x), abs(self.y), abs(self.z))
 
     def __div__(self, other):
-        """Dividir por un ector o por un valor"""
+        """
+        Divide vector with another.
+
+        :param other: Vector or value
+        :type other: Vector3, int, float, hex, complex, oct
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(other, Vector3):
             return Vector3(self.x / other.get_x(), self.y / other.get_y(),
                            self.z / other.get_z())
         else:
-            if type(other) is int or type(other) is float:
+            if type(other) is int or type(other) is float or type(other) is hex or type(other) is complex or type(
+                    other) is oct:
                 return Vector3(self.x / other, self.y / other, self.z / other)
             else:
                 self.throw_error(2, '__div__')
                 return self
 
     def __invert__(self, other):
-        """Invertir signo del vector en forma ~"""
+        """
+        Apply positive sign to vector.
+
+        :return: New vector
+        :rtype: Vector3
+        """
         return Vector3(-self.x, -self.y, -self.z)
 
     def __neg__(self):
-        """Invertir signo del vector en forma -"""
+        """
+        Apply negative sign to vector.
+
+        :return: New vector
+        :rtype: Vector3
+        """
         return Vector3(-self.x, -self.y, -self.z)
 
     def __pos__(self):
-        """Aplicar signo positivo"""
+        """
+        Apply positive sign to vector.
+
+        :return: New vector
+        :rtype: Vector3
+        """
         return Vector3(self.x, self.y, self.z)
 
     def __and__(self, other):
-        """Calcula el operador logico and"""
+        """
+        Logic AND operator.
+
+        :param other: Vector
+        :type other: Vector3
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(other, Vector3):
             if self.x > 0 and other.get_x() > 0:
                 x = 1
@@ -341,11 +464,18 @@ class Vector3(object):
                 z = 0
             return Vector3(x, y, z)
         else:
-            self.throw_error(2, "__and__")
+            self.throw_error(2, '__and__')
             return Vector3()
 
     def __or__(self, other):
-        """Calcula el operador logico and"""
+        """
+        Logic OR operator.
+
+        :param other: Vector
+        :type other: Vector3
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(other, Vector3):
             if self.x > 0 or other.get_x() > 0:
                 x = 1
@@ -361,47 +491,94 @@ class Vector3(object):
                 z = 0
             return Vector3(x, y, z)
         else:
-            self.throw_error(2, "__or__")
+            self.throw_error(2, '__or__')
             return Vector3()
 
-    def __int__(self):
-        """Convierte el vector a enteros"""
-        return Vector3(int(self.x), int(self.y), int(self.z))
-
-    def __float__(self):
-        """Convierte el vector a flotante"""
-        return Vector3(float(self.x), float(self.y), float(self.z))
-
     def normalize(self):
-        """Normalizar el vector"""
+        """
+        Normalize the vector.
+        """
         modl = self.get_module()
         self.x /= modl
         self.y /= modl
         self.z /= modl
 
     def get_normalized(self):
-        """Retorna el vector normalizado"""
+        """
+        Generates normalized vector.
+
+        :return: New vector
+        :rtype: Vector3
+        """
         modl = self.get_module()
         return Vector3(self.x / modl, self.y / modl, self.z / modl)
 
     def clone(self):
-        """Clonar el vector"""
+        """
+        Clones vector.
+
+        :return: New vector
+        :rtype: Vector3
+        """
         return Vector3(self.x, self.y, self.z)
 
+    def __int__(self):
+        """
+        Generates int vector.
+
+        :return: New vector
+        :rtype: Vector3
+        """
+        return Vector3(int(self.x), int(self.y), int(self.z))
+
+    def __float__(self):
+        """
+        Generates float vector.
+
+        :return: New vector
+        :rtype: Vector3
+        """
+        return Vector3(float(self.x), float(self.y), float(self.z))
+
     def __complex__(self):
-        """Genera un vector complejo"""
+        """
+        Generates complex vector.
+
+        :return: New vector
+        :rtype: Vector3
+        """
+        # noinspection PyTypeChecker
         return Vector3(complex(self.x), complex(self.y), complex(self.z))
 
     def __hex__(self):
-        """Genera un vector hex"""
+        """
+        Generates hex vector.
+
+        :return: New vector
+        :rtype: Vector3
+        """
+        # noinspection PyTypeChecker
         return Vector3(hex(self.x), hex(self.y), hex(self.z))
 
     def __oct__(self):
-        """Genera un vector oct"""
+        """
+        Generates oct vector.
+
+        :return: New vector
+        :rtype: Vector3
+        """
+        # noinspection PyTypeChecker
         return Vector3(oct(self.x), oct(self.y), oct(self.z))
 
     def __iadd__(self, other):
-        """Suma un vector con otro"""
+        """
+        Add with another vector.
+
+        :param other: Vector
+        :type other: Vector3, list, tuple
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(other, Vector3):
             self.x += other.get_x()
             self.y += other.get_y()
@@ -418,7 +595,14 @@ class Vector3(object):
             return self
 
     def __isub__(self, other):
-        """Resta un vector con otro"""
+        """
+        Substract with another vector.
+
+        :param other: Vector
+        :type other: Vector3, list, tuple
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(other, Vector3):
             self.x -= other.get_x()
             self.y -= other.get_y()
@@ -435,7 +619,14 @@ class Vector3(object):
             return self
 
     def __imul__(self, other):
-        """Producto punto con otro"""
+        """
+        Multiplication with another vector.
+
+        :param other: Vector
+        :type other: Vector3, list, tuple
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(other, Vector3):
             self.x *= other.get_x()
             self.y *= other.get_y()
@@ -457,7 +648,14 @@ class Vector3(object):
                 return self
 
     def __idiv__(self, other):
-        """Division con otro vector por valor"""
+        """
+        Division with another vector.
+
+        :param other: Vector
+        :type other: Vector3, list, tuple
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(other, Vector3):
             self.x /= other.get_x()
             self.y /= other.get_y()
@@ -536,7 +734,7 @@ class Vector3(object):
         Return new vector from cross operation.
 
         :param other: Vector
-        :type other: Vector3
+        :type other: Vector3, tuple, list
         :return: New vector
         :rtype: Vector3
         """
@@ -568,7 +766,7 @@ class Vector3(object):
         Return distance from another vector.
 
         :param other: Vector
-        :type other: Vector3
+        :type other: Vector3, tuple, list
         :return: Distance
         :rtype: float
         """
