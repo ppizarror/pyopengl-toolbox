@@ -253,27 +253,27 @@ class CameraXYZ(_Camera):
         """
         _Camera.__init__(self)
         if isinstance(pos, Point3) and isinstance(center, Point3) and isinstance(up, Point3):
-            self.pos = Vector3(*pos.export_to_list())
-            self.center = Vector3(*center.export_to_list())
-            self.up = Vector3(*up.export_to_list())
+            self._center = Vector3(*center.export_to_list())
+            self._pos = Vector3(*pos.export_to_list())
+            self._up = Vector3(*up.export_to_list())
         else:
             raise Exception('pos, center and up must be Point3 type')
+        self._angle = 45.0
+        self._cameraVel = Vector3(1.0, 1.0, 1.0)
+        self._centerAngle = 0.0
+        self._centerVel = Vector3(_CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL)
         self._name = 'unnamed'
-        self.angle = 45.0
-        self.cameraVel = Vector3(1.0, 1.0, 1.0)
-        self.centerangle = 0.0
-        self.centervel = Vector3(_CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL)
-        self.viewVel = Vector3(1.0, 1.0, 1.0)
+        self._viewVel = Vector3(1.0, 1.0, 1.0)
 
     def place(self):
         """
         Place camera in world.
         """
         glLoadIdentity()
-        gluLookAt(self.pos.get_x(), self.pos.get_y(), self.pos.get_z(),
-                  self.center.get_x(), self.center.get_y(),
-                  self.center.get_z(), self.up.get_x(), self.up.get_y(),
-                  self.up.get_z())
+        gluLookAt(self._pos.get_x(), self._pos.get_y(), self._pos.get_z(),
+                  self._center.get_x(), self._center.get_y(),
+                  self._center.get_z(), self._up.get_x(), self._up.get_y(),
+                  self._up.get_z())
 
     def move_x(self, direction=_CAMERA_POSITIVE):
         """
@@ -282,7 +282,7 @@ class CameraXYZ(_Camera):
         :param direction: X-axis position
         :type direction: float, int
         """
-        self.pos.set_x(self.pos.get_x() + self.cameraVel.get_x() * direction)
+        self._pos.set_x(self._pos.get_x() + self._cameraVel.get_x() * direction)
 
     def move_y(self, direction=_CAMERA_POSITIVE):
         """
@@ -291,7 +291,7 @@ class CameraXYZ(_Camera):
         :param direction: Y-axis position
         :type direction: float, int
         """
-        self.pos.set_y(self.pos.get_y() + self.cameraVel.get_y() * direction)
+        self._pos.set_y(self._pos.get_y() + self._cameraVel.get_y() * direction)
 
     def move_z(self, direction=_CAMERA_POSITIVE):
         """
@@ -300,7 +300,7 @@ class CameraXYZ(_Camera):
         :param direction: Z-axis position
         :type direction: float, int
         """
-        self.pos.set_z(self.pos.get_z() + self.cameraVel.get_z() * direction)
+        self._pos.set_z(self._pos.get_z() + self._cameraVel.get_z() * direction)
 
     def set_vel_move_x(self, vel):
         """
@@ -309,7 +309,7 @@ class CameraXYZ(_Camera):
         :param vel: X-axis velocity
         :type vel: float, int
         """
-        self.cameraVel.set_x(vel)
+        self._cameraVel.set_x(vel)
 
     def set_vel_move_y(self, vel):
         """
@@ -318,7 +318,7 @@ class CameraXYZ(_Camera):
         :param vel: Y-axis velocity
         :type vel: float, int
         """
-        self.cameraVel.set_y(vel)
+        self._cameraVel.set_y(vel)
 
     def set_vel_move_z(self, vel):
         """
@@ -326,7 +326,7 @@ class CameraXYZ(_Camera):
 
         :param vel: Z-axis velocity
         """
-        self.cameraVel.set_z(vel)
+        self._cameraVel.set_z(vel)
 
     def set_center_vel(self, vel):
         """
@@ -335,7 +335,7 @@ class CameraXYZ(_Camera):
         :param vel: Center velocity
         :type vel: float, int
         """
-        self.centervel = Vector3(abs(vel), abs(vel), abs(vel))
+        self._centerVel = Vector3(abs(vel), abs(vel), abs(vel))
 
     def rotate_x(self, angle):
         """
@@ -344,12 +344,12 @@ class CameraXYZ(_Camera):
         :param angle: Rotation angle
         :type angle: float, int
         """
-        x = self.pos.get_x()
-        y = self.pos.get_y() * _cos(angle) - self.pos.get_z() * _sin(angle)
-        z = self.pos.get_y() * _sin(angle) + self.pos.get_z() * _cos(angle)
-        self.pos.set_x(x)
-        self.pos.set_y(y)
-        self.pos.set_z(z)
+        x = self._pos.get_x()
+        y = self._pos.get_y() * _cos(angle) - self._pos.get_z() * _sin(angle)
+        z = self._pos.get_y() * _sin(angle) + self._pos.get_z() * _cos(angle)
+        self._pos.set_x(x)
+        self._pos.set_y(y)
+        self._pos.set_z(z)
 
     def rotate_y(self, angle):
         """
@@ -358,12 +358,12 @@ class CameraXYZ(_Camera):
         :param angle: Rotation angle
         :type angle: float, int
         """
-        x = self.pos.get_x() * _cos(angle) + self.pos.get_z() * _sin(angle)
-        y = self.pos.get_y()
-        z = -self.pos.get_x() * _sin(angle) + self.pos.get_z() * _cos(angle)
-        self.pos.set_x(x)
-        self.pos.set_y(y)
-        self.pos.set_z(z)
+        x = self._pos.get_x() * _cos(angle) + self._pos.get_z() * _sin(angle)
+        y = self._pos.get_y()
+        z = -self._pos.get_x() * _sin(angle) + self._pos.get_z() * _cos(angle)
+        self._pos.set_x(x)
+        self._pos.set_y(y)
+        self._pos.set_z(z)
 
     def rotate_z(self, angle):
         """
@@ -372,12 +372,12 @@ class CameraXYZ(_Camera):
         :param angle: Rotation angle
         :type angle: float, int
         """
-        x = self.pos.get_x() * _cos(angle) - self.pos.get_y() * _sin(angle)
-        y = self.pos.get_x() * _sin(angle) + self.pos.get_y() * _cos(angle)
-        z = self.pos.get_z()
-        self.pos.set_x(x)
-        self.pos.set_y(y)
-        self.pos.set_z(z)
+        x = self._pos.get_x() * _cos(angle) - self._pos.get_y() * _sin(angle)
+        y = self._pos.get_x() * _sin(angle) + self._pos.get_y() * _cos(angle)
+        z = self._pos.get_z()
+        self._pos.set_x(x)
+        self._pos.set_y(y)
+        self._pos.set_z(z)
 
     def move_center_x(self, dist):
         """
@@ -386,7 +386,7 @@ class CameraXYZ(_Camera):
         :param dist: X-distance
         :type dist: float, int
         """
-        self.center.set_x(self.center.get_x() + dist)
+        self._center.set_x(self._center.get_x() + dist)
 
     def move_center_y(self, dist):
         """
@@ -395,7 +395,7 @@ class CameraXYZ(_Camera):
         :param dist: Y-distance
         :type dist: float, int
         """
-        self.center.set_y(self.center.get_y() + dist)
+        self._center.set_y(self._center.get_y() + dist)
 
     def move_center_z(self, dist):
         """
@@ -404,9 +404,9 @@ class CameraXYZ(_Camera):
         :param dist: Z-distance
         :type dist: float, int
         """
-        if (_CAMERA_CENTER_LIMIT_Z_DOWN <= self.center.get_z() and dist < 0) or \
-                (self.center.get_z() <= _CAMERA_CENTER_LIMIT_Z_UP and dist > 0):
-            self.center.set_z(self.center.get_z() + dist)
+        if (_CAMERA_CENTER_LIMIT_Z_DOWN <= self._center.get_z() and dist < 0) or \
+                (self._center.get_z() <= _CAMERA_CENTER_LIMIT_Z_UP and dist > 0):
+            self._center.set_z(self._center.get_z() + dist)
 
     def rotate_center_z(self, angle):
         """
@@ -415,21 +415,21 @@ class CameraXYZ(_Camera):
         :param angle: Rotation angle
         :type angle: float, int
         """
-        rad = _math.sqrt(self.pos.get_x() ** 2 + self.pos.get_y() ** 2)
-        self.pos.set_x(rad * _cos(self.angle))
-        self.pos.set_y(rad * _sin(self.angle))
+        rad = _math.sqrt(self._pos.get_x() ** 2 + self._pos.get_y() ** 2)
+        self._pos.set_x(rad * _cos(self._angle))
+        self._pos.set_y(rad * _sin(self._angle))
 
     def far(self):
         """
         Camera zoom-out.
         """
-        self.center += self.centervel
+        self._center += self._centerVel
 
     def close(self):
         """
         Camera zoom-in.
         """
-        self.center -= self.centervel
+        self._center -= self._centerVel
 
     def get_name(self):
         """
@@ -440,43 +440,48 @@ class CameraXYZ(_Camera):
         """
         return self._name
 
-    # noinspection PyShadowingNames
-    def set_name(self, name):
+    def set_name(self, n):
         """
-        Set camera name
-        :param name: Camera name
-        :return:
+        Set camera name.
+
+        :param n: Camera name
+        :type n: basestring
         """
-        self._name = name
+        self._name = n
 
 
 class CameraR(_Camera):
     """
-    Camera in spheric coordinates
+    Camera in spheric coordinates.
     """
 
-    def __init__(self, r=1.0, phi=45, theta=45, center_point=Point3(),
-                 up_vector=Vector3(0, 0, 1)):
+    def __init__(self, r=1.0, phi=45, theta=45, center_point=Point3(), up_vector=Vector3(0, 0, 1)):
         """
-        Constructor
+        Constructor.
+
         :param r: Radius
         :param phi: Phi angle
         :param theta: Theta angle
         :param center_point: Center point
         :param up_vector: Up vector
+        :type r: float, int
+        :type phi: float, int
+        :type theta: float, int
+        :type center_point: Point3
+        :type up_vector: Point3
         """
         _Camera.__init__(self)
         if isinstance(center_point, Point3):
             if isinstance(up_vector, Vector3):
                 if r > 0:
                     if 0 <= phi <= 360 and 0 <= theta <= 180:
-                        self.r = r
-                        self.phi = phi
-                        self.theta = theta
-                        self.center = center_point
-                        self.up = up_vector
-                        self.rvel = _CAMERA_DEFAULT_RVEL
+                        self._center = center_point
                         self._name = 'unnamed'
+                        self._phi = phi
+                        self._r = r
+                        self._rvel = _CAMERA_DEFAULT_RVEL
+                        self._theta = theta
+                        self._up = up_vector
                     else:
                         raise Exception('Phi angle must be between 0 and 360 degrees, theta must be between 0 and 180')
                 else:
@@ -488,62 +493,66 @@ class CameraR(_Camera):
 
     def set_r_vel(self, vel):
         """
-        Defines radial velocity
+        Defines radial velocity.
+
         :param vel: Velocity
-        :return:
+        :type vel: float, int
         """
         if vel > 0:
-            self.rvel = vel
+            self._rvel = vel
         else:
             raise Exception('Velocity must be greater than zero')
 
     def place(self):
         """
-        Place camera in world
-        :return:
+        Place camera in world.
         """
         glLoadIdentity()
-        gluLookAt(self.r * _sin(self.theta) * _cos(self.phi),
-                  self.r * _sin(self.theta) * _sin(self.phi),
-                  self.r * _cos(self.theta),
-                  self.center.get_x(), self.center.get_y(), self.center.get_z(),
-                  self.up.get_x(), self.up.get_y(),
-                  self.up.get_z())
+        gluLookAt(self._r * _sin(self._theta) * _cos(self._phi),
+                  self._r * _sin(self._theta) * _sin(self._phi),
+                  self._r * _cos(self._theta),
+                  self._center.get_x(), self._center.get_y(), self._center.get_z(),
+                  self._up.get_x(), self._up.get_y(),
+                  self._up.get_z())
 
     def __str__(self):
-        """Retorna el estado de la camara"""
+        """
+        Returns camera status.
+
+        :return: Camera status
+        :rtype: basestring
+        """
         x, y, z = self.convert_to_xyz()
         r = _CAMERA_ROUNDED
         msg = 'Camera: {12}\nRadius: {0}\nPhi angle: {1}, Theta angle: {2}\nXYZ eye pos: ({3},{4},{5})\nXYZ center ' \
               'pos: ({6},{7},{8})\nXYZ up vector: ({9},{10},{11})'
-        return msg.format(round(self.r, r), round(self.phi, r),
-                          round(self.theta, r), round(x, r), round(y, r),
-                          round(z, r), round(self.center.get_x(), r),
-                          round(self.center.get_y(), r),
-                          round(self.center.get_z(), r),
-                          round(self.up.get_x(), r), round(self.up.get_y(), r),
-                          round(self.up.get_z(), r), self.get_name())
+        return msg.format(round(self._r, r), round(self._phi, r),
+                          round(self._theta, r), round(x, r), round(y, r),
+                          round(z, r), round(self._center.get_x(), r),
+                          round(self._center.get_y(), r),
+                          round(self._center.get_z(), r),
+                          round(self._up.get_x(), r), round(self._up.get_y(), r),
+                          round(self._up.get_z(), r), self.get_name())
 
     def far(self):
         """
-        Camera zoom-out
-        :return:
+        Camera zoom-out.
         """
-        self.r += self.rvel
+        self._r += self._rvel
 
     def close(self):
         """
-        Camera zoom-in
-        :return:
+        Camera zoom-in.
         """
-        self.r -= self.rvel
-        self.r = max(_CAMERA_MIN_RADIAL_VALUE, self.r)
+        self._r -= self._rvel
+        self._r = max(_CAMERA_MIN_RADIAL_VALUE, self._r)
 
     def rotate_x(self, angle):
         """
-        Rotate eye position in x-axis
+        Rotate eye position in x-axis.
+
         :param angle: Rotation angle
-        :return:
+        :type angle: float, int
         """
         # Converts to (x,y,z)
         x, y, z = self.convert_to_xyz()
@@ -553,117 +562,134 @@ class CameraR(_Camera):
         zr = y * _sin(angle) + z * _cos(angle)
         # Convert to spheric
         r, phi, theta = _xyz_to_spr(xr, yr, zr)
-        self.r = r
-        self.phi = phi
-        self.theta = theta
+        self._r = r
+        self._phi = phi
+        self._theta = theta
 
     def rotate_y(self, angle):
         """
-        Rotate eye position in y-axis
+        Rotate eye position in y-axis.
+
         :param angle: Rotation angle
-        :return:
+        :type angle: float, int
         """
-        self.theta = min(max(self.theta + angle, _CAMERA_MIN_THETA_VALUE), 180)
+        self._theta = min(max(self._theta + angle, _CAMERA_MIN_THETA_VALUE), 180)
 
     def rotate_z(self, angle):
         """
-        Rotate eye position in z-axis
+        Rotate eye position in z-axis.
+
         :param angle: Rotation angle
-        :return:
+        :type angle: float, int
         """
-        self.phi = (self.phi + angle) % 360
+        self._phi = (self._phi + angle) % 360
 
     def convert_to_xyz(self):
         """
-        Convert spheric to cartesian
-        :return:
+        Convert spheric to cartesian.
+
+        :return: Cartesian coodinates
+        :rtype: tuple
         """
-        return _spr_to_xyz(self.r, self.phi, self.theta)
+        return _spr_to_xyz(self._r, self._phi, self._theta)
 
     def move_center_x(self, dist):
         """
-        Moves center x coordinate
+        Moves center x coordinate.
+
         :param dist: X-distance
-        :return:
+        :type dist: float, int
         """
-        self.center.set_x(self.center.get_x() + dist)
+        self._center.set_x(self._center.get_x() + dist)
 
     def move_center_y(self, dist):
         """
-        Moves center y coordinate
+        Moves center y coordinate.
+
         :param dist: Y-distance
-        :return:
+        :type dist: float, int
         """
-        self.center.set_y(self.center.get_y() + dist)
+        self._center.set_y(self._center.get_y() + dist)
 
     def move_center_z(self, dist):
         """
-        Moves center z coordinate
+        Moves center z coordinate.
+
         :param dist: Z-distance
-        :return:
+        :type dist: float, int
         """
-        if (_CAMERA_CENTER_LIMIT_Z_DOWN <= self.center.get_z() and dist < 0) or \
-                (self.center.get_z() <= _CAMERA_CENTER_LIMIT_Z_UP and dist > 0):
-            self.center.set_z(self.center.get_z() + dist)
+        if (_CAMERA_CENTER_LIMIT_Z_DOWN <= self._center.get_z() and dist < 0) or \
+                (self._center.get_z() <= _CAMERA_CENTER_LIMIT_Z_UP and dist > 0):
+            self._center.set_z(self._center.get_z() + dist)
 
     def get_name(self):
         """
-        Returns camera name
-        :return:
+        Returns camera name.
+
+        :return: Camera name
+        :rtype: basestring
         """
         return self._name
 
-    # noinspection PyShadowingNames
-    def set_name(self, name):
+    def set_name(self, n):
         """
-        Set camera name
-        :param name: Camera name
-        :return:
+        Set camera name.
+
+        :param n: Camera name
+        :type n: basestring
         """
-        self._name = name
+        self._name = n
 
     def get_radius(self):
         """
-        Get camera radius
-        :return:
+        Get camera radius.
+
+        :return: Camera radius
+        :rtype: float, int
         """
-        return self.r
+        return self._r
 
     def set_radius(self, r):
         """
-        Set camera radius
+        Set camera radius.
+
         :param r: Camera radius
-        :return:
+        :type r: float, int
         """
-        self.r = r
+        self._r = r
 
     def get_phi(self):
         """
-        Get camera phi
+        Get camera phi angle.
+
         :return: Phi angle
+        :rtype: float, int
         """
-        return self.phi
+        return self._phi
 
     def set_phi(self, phi):
         """
-        Set camera phi
+        Set camera phi.
+
         :param phi: Phi angle
-        :return:
+        :type phi: float, int
         """
-        """Define el angulo phi"""
-        self.phi = phi
+        self._phi = phi
 
     def get_theta(self):
         """
-        Returns theta angle
+        Returns theta angle.
+
         :return: Theta angle
+        :rtype: float, int
         """
-        return self.theta
+        return self._theta
 
     def set_theta(self, theta):
         """
-        Set theta angle
+        Set theta angle.
+
         :param theta: Theta angle
-        :return:
+        :type theta: float, int
         """
-        self.theta = theta
+        self._theta = theta
