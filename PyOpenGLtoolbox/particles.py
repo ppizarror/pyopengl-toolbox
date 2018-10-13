@@ -31,15 +31,15 @@ from PyOpenGLtoolbox.utils_math import _cos, _sin, Point3, Vector3
 import types as _types
 
 # Constants
-_OPERATOR_ADD = 0x0f60
-_OPERATOR_AND = 0x0f61
-_OPERATOR_DIFF = 0x0f62
-_OPERATOR_DIV = 0x0f63
-_OPERATOR_MOD = 0x0f64
-_OPERATOR_MULT = 0x0f65
-_OPERATOR_OR = 0x0f66
-_OPERATOR_POW = 0x0f67
-_OPERATOR_XOR = 0x0f68
+PARTICLE_OPERATOR_ADD = 0x0f60
+PARTICLE_OPERATOR_AND = 0x0f61
+PARTICLE_OPERATOR_DIFF = 0x0f62
+PARTICLE_OPERATOR_DIV = 0x0f63
+PARTICLE_OPERATOR_MOD = 0x0f64
+PARTICLE_OPERATOR_MULT = 0x0f65
+PARTICLE_OPERATOR_OR = 0x0f66
+PARTICLE_OPERATOR_POW = 0x0f67
+PARTICLE_OPERATOR_XOR = 0x0f68
 _PARTICLES_ROUND = 3
 
 
@@ -170,205 +170,388 @@ class Particle:
             self.set_z(z)
 
     def get_position_list(self):
-        """Retorna la posición de la partícula como una lista"""
+        """
+        Return position list.
+
+        :return: Position
+        :rtype: list
+        """
         return self._position.export_to_list()
 
     def get_position_tuple(self):
-        """Retorna la posición de la partícula como una tupla"""
+        """
+        Get position tuple.
+
+        :return: Position
+        :rtype: tuple
+        """
         return self._position.export_to_tuple()
 
     def set_ang_vel(self, velx=0.0, vely=0.0, velz=0.0):
-        """Define la velocidad angular de la partícula"""
+        """
+        Set angular velocity of the particle in all axis.
+
+        :param velx: Angular velocity in x-axis
+        :param vely: Angular velocity in y-axis
+        :param velz: Angular velocity in z-axis
+        :type velx: float, int
+        :type vely: float, int
+        :type velz: float, int
+        """
         self.set_ang_vel_x(velx)
         self.set_ang_vel_y(vely)
         self.set_ang_vel_z(velz)
 
     def set_ang_vel_x(self, angvel, enable_movement=False):
-        """Define la velocidad angular en el eje X"""
+        """
+        Set angular velocity in x-axis.
+
+        :param angvel: X-axis angular velocity
+        :param enable_movement: Starts movement in x-axis
+        :type angvel: float, int
+        :type enable_movement: bool
+        """
         self._angvel.set_x(angvel)
         if enable_movement:
             self.start_ang_movement_x()
 
     def set_ang_vel_y(self, angvel, enable_movement=False):
-        """Define la velocidad angular en el eje Y"""
+        """
+        Set angular velocity in y-axis.
+
+        :param angvel: Y-axis angular velocity
+        :param enable_movement: Starts movement in y-axis
+        :type angvel: float, int
+        :type enable_movement: bool
+        """
         self._angvel.set_y(angvel)
         if enable_movement:
             self.start_ang_movement_y()
 
     def set_ang_vel_z(self, angvel, enable_movement=False):
-        """Define la velocidad angular en el eje Z"""
+        """
+        Set angular velocity in z-axis.
+
+        :param angvel: Z-axis angular velocity
+        :param enable_movement: Starts movement in z-axis
+        :type angvel: float, int
+        :type enable_movement: bool
+        """
         self._angvel.set_z(angvel)
         if enable_movement:
             self.start_ang_movement_z()
 
     def get_ang_vel_x(self):
-        """Retorna la velocidad angular en el eje X"""
+        """
+        Returns angular velocity in x-axis.
+
+        :return: Angular velocity
+        :rtype: float, int
+        """
         return self._angvel.get_x()
 
     def get_ang_vel_y(self):
-        """Retorna la velocidad angular en el eje Y"""
+        """
+        Returns angular velocity in x-axis.
+
+        :return: Angular velocity
+        :rtype: float, int
+        """
         return self._angvel.get_y()
 
     def get_ang_vel_z(self):
-        """Retorna la velocidad angular en el eje Z"""
+        """
+        Returns angular velocity in x-axis.
+
+        :return: Angular velocity
+        :rtype: float, int
+        """
         return self._angvel.get_z()
 
     def start_ang_movement_all(self):
-        """Activa la rotación en todos los ejes"""
+        """
+        Enable all angular movement.
+        """
         self.start_ang_movement_x()
         self.start_ang_movement_y()
         self.start_ang_movement_z()
 
     def stop_ang_movement_all(self):
-        """Desactiva la rotación en todos los ejes"""
+        """
+        Stop angular movement.
+        """
         self.stop_ang_movement_x()
         self.stop_ang_movement_y()
         self.stop_ang_movement_z()
 
     def start_ang_movement_x(self):
-        """Activa la rotación en el eje X"""
+        """
+        Start angular movement in x-axis.
+        """
         self._boolrot[0] = True
 
     def stop_ang_movement_x(self):
-        """Detiene la rotación en el eje X"""
+        """
+        Stop angular movement in x-axis.
+        """
         self._boolrot[0] = False
 
     def start_ang_movement_y(self):
-        """Activa la rotación en el eje Y"""
+        """
+        Start angular movement in y-axis.
+        """
         self._boolrot[1] = True
 
     def stop_ang_movement_y(self):
-        """Detiene la rotación en el eje Y"""
+        """
+        Stop angular movement in y-axis.
+        """
         self._boolrot[1] = False
 
     def start_ang_movement_z(self):
-        """Activa la rotación en el eje Z"""
+        """
+        Start angular movement in z-axis.
+        """
         self._boolrot[2] = True
 
     def stop_ang_movement_z(self):
-        """Detiene la rotación en el eje Z"""
+        """
+        Stop angular movement in z-axis.
+        """
         self._boolrot[2] = False
 
     def set_vel(self, velx=0.0, vely=0.0, velz=0.0):
-        """Define la velocidad de la partícula en todos los ejes"""
+        """
+        Set velocity of the particle in all axis.
+
+        :param velx: Velocity in x-axis
+        :param vely: Velocity in y-axis
+        :param velz: Velocity in z-axis
+        :type velx: float, int
+        :type vely: float, int
+        :type velz: float, int
+        """
         self.set_vel_x(velx)
         self.set_vel_y(vely)
         self.set_vel_z(velz)
 
     def set_vel_x(self, vel, enable_movement=False):
-        """Define la velocidad de la partícula en el eje X"""
+        """
+        Set velocity in x-axis.
+
+        :param vel: Velocity
+        :param enable_movement: Starts movement
+        :type vel: float, int
+        :type enable_movement: bool
+        """
         self._posVel.set_x(vel)
         if enable_movement:
             self.start_movement_x()
 
     def set_vel_y(self, vel, enable_movement=False):
-        """Define la velocidad de la partícula en el eje Y"""
+        """
+        Set velocity in y-axis.
+
+        :param vel: Velocity
+        :param enable_movement: Starts movement
+        :type vel: float, int
+        :type enable_movement: bool
+        """
         self._posVel.set_y(vel)
         if enable_movement:
             self.start_movement_y()
 
     def set_vel_z(self, vel, enable_movement=False):
-        """Define la velocidad de la partícula en el eje Z"""
+        """
+        Set velocity in z-axis.
+
+        :param vel: Velocity
+        :param enable_movement: Starts movement
+        :type vel: float, int
+        :type enable_movement: bool
+        """
         self._posVel.set_z(vel)
         if enable_movement:
             self.start_movement_z()
 
     def get_vel_x(self):
-        """Retorna la velocidad en el eje X"""
+        """
+        Returns velocity in x-axis.
+
+        :return: X-axis velocity
+        :rtype: float, int
+        """
         return self._posVel.get_x()
 
     def get_vel_y(self):
-        """Retorna la velocidad en el eje Y"""
+        """
+        Returns velocity in y-axis.
+
+        :return: Y-axis velocity
+        :rtype: float, int
+        """
         return self._posVel.get_y()
 
     def get_vel_z(self):
-        """Retorna la velocidad en el eje Z"""
+        """
+        Returns velocity in z-axis.
+
+        :return: Z-axis velocity
+        :rtype: float, int
+        """
         return self._posVel.get_z()
 
     def move_x(self, delta):
-        """Mueva la partícula en delta en el eje X"""
+        """
+        Moves the particle in x-axis.
+
+        :param delta: Distance
+        :type delta: float, int
+        """
         self.set_x(delta + self.get_x())
 
     def move_y(self, delta):
-        """Mueva la partícula en delta en el eje Y"""
+        """
+        Moves the particle in x-axis.
+
+        :param delta: Distance
+        :type delta: float, int
+        """
         self.set_y(delta + self.get_y())
 
     def move_z(self, delta):
-        """Mueva la partícula en delta en el eje Z"""
+        """
+        Moves the particle in x-axis.
+
+        :param delta: Distance
+        :type delta: float, int
+        """
         self.set_z(delta + self.get_z())
 
     def start_movement_all(self):
-        """Activa el movimiento en todos los ejes"""
+        """
+        Enables movement in all axis.
+        """
         self.start_movement_x()
         self.start_movement_y()
         self.start_movement_z()
 
     def stop_movement_all(self):
-        """Detiene el movimiento en todos los ejes"""
+        """
+        Stop movement in all axis.
+        """
         self.stop_movement_x()
         self.stop_movement_y()
         self.stop_movement_z()
 
     def start_movement_x(self):
-        """Activa el movimiento en el eje X"""
+        """
+        Enables movement in x-axis.
+        """
         self._boolvel[0] = True
 
     def stop_movement_x(self):
-        """Desactiva el movimiento en el eje X"""
+        """
+        Stops movement in x-axis.
+        """
         self._boolvel[0] = False
 
     def start_movement_y(self):
-        """Activa el movimiento en el eje Y"""
+        """
+        Enables movement in y-axis.
+        """
         self._boolvel[1] = True
 
     def stop_movement_y(self):
-        """Desactiva el movimiento en el eje Y"""
+        """
+        Stops movement in y-axis.
+        """
         self._boolvel[1] = False
 
     def start_movement_z(self):
-        """Activa el movimiento en el eje Z"""
+        """
+        Enables movement in z-axis.
+        """
         self._boolvel[2] = True
 
     def stop_movement_z(self):
-        """Desactiva el movimiento en el eje Z"""
+        """
+        Stops movement in z-axis.
+        """
         self._boolvel[2] = False
 
     def has_movement_ang_x(self):
-        """Retorna si tiene movimiento angular en el eje X"""
+        """
+        Indicates if particle has any angular movement in x-axis.
+
+        :return: Angular movement
+        :rtype: bool
+        """
         return self._boolrot[0]
 
     def has_movement_ang_y(self):
-        """Retorna si tiene movimiento angular en el eje Y"""
+        """
+        Indicates if particle has any angular movement in y-axis.
+
+        :return: Angular movement
+        :rtype: bool
+        """
         return self._boolrot[1]
 
     def has_movement_ang_z(self):
-        """Retorna si tiene movimiento angular en el eje Z"""
+        """
+        Indicates if particle has any angular movement in z-axis.
+
+        :return: Angular movement
+        :rtype: bool
+        """
         return self._boolrot[2]
 
     def has_movement_x(self):
-        """Retorna si tiene movimiento en el eje X"""
+        """
+        Indicates if particle has any movement in x-axis.
+
+        :return: Movement
+        :rtype: bool
+        """
         return self._boolvel[0]
 
     def has_movement_y(self):
-        """Retorna si tiene movimiento en el eje Y"""
+        """
+        Indicates if particle has any movement in y-axis.
+
+        :return: Movement
+        :rtype: bool
+        """
         return self._boolvel[0]
 
     def has_movement_z(self):
-        """Retorna si tiene movimiento en el eje Z"""
+        """
+        Indicates if particle has any movement in z-axis.
+
+        :return: Movement
+        :rtype: bool
+        """
         return self._boolvel[0]
 
     def start(self):
-        """Activa todos los movimientos"""
+        """
+        Enable all movements.
+        """
         self.start_ang_movement_all()
         self.start_movement_all()
 
     def stop(self):
-        """Desactiva todos los movimientos"""
+        """
+        Stop all movements.
+        """
         self.stop_ang_movement_all()
         self.stop_movement_all()
 
     def update(self):
-        """Actualiza el estado de la partícula"""
+        """
+        Updates particle status.
+        """
         if self.has_movement_ang_x():
             self.rotate_x(self._angvel.get_x())
         if self.has_movement_ang_y():
@@ -388,16 +571,35 @@ class Particle:
             f_count += 1
 
     def get_name(self):
-        """Retorna el nombre de la partícula"""
+        """
+        Returns particle name.
+
+        :return: Name
+        :rtype: basestring
+        """
         return self._name
 
     def set_name(self, n):
-        """Define el nombre de la partícula"""
+        """
+        Set particle name.
+
+        :param n: Name
+        :type n: basestring
+        """
         self._name = n
 
     def bind(self, fun, exec_on_update=True, arguments=None):
-        """Agrega una función a la partícula la cual puede ejecutarse en cada update o ejecutarse separadamente
-        llamando a execFunc"""
+        """
+        Bind a function to the partcle, that function will be executed after each update, or can be executed
+        indepently using execFunc particle method.
+
+        :param fun: Function
+        :param exec_on_update: The function is executed after each update
+        :param arguments: Arguments of the function
+        :type fun: FunctionType
+        :type exec_on_update: bool
+        :type arguments: list
+        """
         if arguments is None:
             arguments = []
         if isinstance(fun, _types.FunctionType):
@@ -405,21 +607,36 @@ class Particle:
             self._functionArguments.append(arguments)
             self._functionUpdate.append(exec_on_update)
         else:
-            raise Exception("el elemento a agregar debe ser una función")
+            raise Exception('fun must be FunctionType')
 
     def get_total_binded(self):
-        """Retorna la cantidad de funciones bindeadas a la partícula"""
+        """
+        Return total function binded.
+
+        :return: Total function binded
+        :rtype: int
+        """
         return len(self._functions)
 
     def get_binded_names(self):
-        """Retorna el nombre de las funciones bindeadas a la partícula"""
+        """
+        Get binded function names.
+
+        :return: Function names
+        :rtype: basestring
+        """
         names = []
         for fun in self._functions:
             names.append(fun.__name__)
-        return ", ".join(names)
+        return ', '.join(names)
 
     def exec_func(self, funcname):
-        """Ejecuta una función"""
+        """
+        Executes an function.
+
+        :param funcname: Function name
+        :type funcname: basestring
+        """
         if funcname in self.get_binded_names():
             f_count = 0
             for fun in self._functions:
@@ -430,13 +647,20 @@ class Particle:
                         fun(self._functionArguments[f_count])
                 f_count += 1
         else:
-            raise Exception("la función {0} no existe".format(funcname))
+            raise Exception('Function {0} does not exists'.format(funcname))
 
     def exec_property_func(self, propertyname, params=None):
-        """Ejecuta una función de una propiedad"""
+        """
+        Executes an property function.
+
+        :param propertyname: Property name
+        :param params: Function parameters
+        :type propertyname: basestring
+        :type params: tuple, list, object
+        """
         fun = self.get_property(propertyname)
         if params is not None:
-            if type(params) is tuple:
+            if type(params) is tuple or type(params) is list:
                 fun(*params)
             else:
                 fun(params)
@@ -444,76 +668,113 @@ class Particle:
             fun()
 
     def add_property(self, propname, value):
-        """Agrega una propiedad a la partícula"""
+        """
+        Add a property to the particle.
+
+        :param propname: Property name
+        :param value: Property value
+        :type propname: basestring, int
+        :type value: object
+        """
         if type(propname) is int or type(propname) is str:
             self._properties[propname] = value
         else:
-            raise Exception("la propiedad debe ser de tipo int o string")
+            raise Exception('Property name must be int or string')
 
     def get_property(self, propname):
-        """Retorna el valor de una propiedad"""
+        """
+        Return property value.
+
+        :param propname: Property name
+        :type propname: basestring, int
+        :return: object
+        """
         if propname in self._get_prop_name():
             return self._properties[propname]
         else:
-            raise Exception("la propiedad no existe")
+            raise Exception('Property {0} does not exists'.format(propname))
 
     def get_property_list(self, propname, propindex):
-        """Retorna el valor de una propiedad que es lista y es parte de índice index"""
+        """
+        Returns property value from index.
+
+        :param propname: Property name
+        :param propindex: Property index
+        :type propname: basestring, int
+        :type propindex: basestring, int
+        :return: Value
+        :rtype: object
+        """
         if propname in self._get_prop_name():
             try:
                 return self._properties[propname][propindex]
             except:
-                raise Exception("indice {0} incorrecto".format(propindex))
+                raise Exception('Index {0} not valid'.format(propindex))
         else:
-            raise Exception("la propiedad {0} no existe".format(propname))
+            raise Exception('Property {0} does not exists'.format(propname))
 
     def modify_property(self, propname, newvalue, operator=None):
-        """Modifica el valor de una propiedad, recibe como parametro el nombre de la propiedad, un valor y una operacion,
-        operadores aceptados:
+        """
+        Modify an property, receive parameter, value and a operator.
+        Accepted operators:
 
-        OPERATOR_ADD: Sumar con otro valor
-        OPERATOR_AND: Calcular el operador logico and
-        OPERATOR_DIFF: Restar con otro valor
-        OPERATOR_DIV: Dividir con otro valor
-        OPERATOR_MOD: Sacar modulo con otor valor
-        OPERATOR_MULT: Multiplicar por otro valor
-        OPERATOR_OR: Calcular el operador logico or
-        OPERATOR_POW: Elevar a la potencia
-        OPERATOR_XOR: Calcular el operador logico xor
+        PARTICLE_OPERATOR_ADD   Adds to another value
+        PARTICLE_OPERATOR_AND   AND logic operator
+        PARTICLE_OPERATOR_DIFF  Substract to another value
+        PARTICLE_OPERATOR_DIV   Divide with another value
+        PARTICLE_OPERATOR_MOD   Module
+        PARTICLE_OPERATOR_MULT  Multiply
+        PARTICLE_OPERATOR_OR    OR logic operator
+        PARTICLE_OPERATOR_POW   POW operator
+        PARTICLE_OPERATOR_XOR   XOR logic operator
+
+        :param propname: Property name
+        :param newvalue: Property value
+        :param operator: Operator
+        :type propname: basestring, int
+        :type newvalue: object
+        :type operator: int
         """
         if propname in self._get_prop_name():
             if operator is None:
                 self._properties[propname] = newvalue
             else:
-                if operator == _OPERATOR_ADD:
+                if operator == PARTICLE_OPERATOR_ADD:
                     self._properties[propname] += newvalue
-                elif operator == _OPERATOR_AND:
+                elif operator == PARTICLE_OPERATOR_AND:
                     self._properties[propname] = self._properties[propname] and newvalue
-                elif operator == _OPERATOR_DIFF:
+                elif operator == PARTICLE_OPERATOR_DIFF:
                     self._properties[propname] -= newvalue
-                elif operator == _OPERATOR_DIV:
+                elif operator == PARTICLE_OPERATOR_DIV:
                     self._properties[propname] /= newvalue
-                elif operator == _OPERATOR_MOD:
+                elif operator == PARTICLE_OPERATOR_MOD:
                     self._properties[propname] %= newvalue
-                elif operator == _OPERATOR_OR:
+                elif operator == PARTICLE_OPERATOR_OR:
                     self._properties[propname] = self._properties[propname] or newvalue
-                elif operator == _OPERATOR_POW:
+                elif operator == PARTICLE_OPERATOR_POW:
                     self._properties[propname] = self._properties[propname] ** newvalue
-                elif operator == _OPERATOR_XOR:
+                elif operator == PARTICLE_OPERATOR_XOR:
                     _p = self._properties[propname]
                     _q = newvalue
                     self._properties[propname] = (_p and not _q) or (not _p and _q)
                 else:
-                    raise Exception("operacion incorrecta")
+                    raise Exception('Invalid operator')
         else:
-            raise Exception("la propiedad no existe")
+            raise Exception('Property {0} does not exits'.format(propname))
 
     def _get_prop_name(self):
-        """Retorna todos los nombres de propiedades"""
+        """
+        Get all property names.
+
+        :return: Property names
+        :rtype: list
+        """
         return self._properties.keys()
 
     def print_properties(self):
-        """Imprime las propiedades de la partícula y sus valores"""
+        """
+        Print particle properties to console.
+        """
         print('Properties of: {0}'.format(self.get_name()))
         for prop in self._get_prop_name():
             if type(prop) is int:
@@ -521,34 +782,55 @@ class Particle:
             else:
                 print('\t\'{0}\' => {1}'.format(prop, self.get_property(prop)))
 
-    def __getitem__(self, item):
-        """Retorna el elemento en forma de lista"""
+    def __getitem__(self):
+        """
+        Get position list.
+
+        :return: Position as list
+        :rtype: list
+        """
         return self.get_position_list()
 
     def __str__(self):
-        """Retorna el estado de la partícula"""
+        """
+        Returns particle status.
+
+        :return: Particle status
+        :rtype: basestring
+        """
 
         def onoff(boolean):
-            """Retorna on/off en función del valor booleano"""
+            """
+            Returns on/off depeding boolean value.
+
+            :param boolean: Value
+            :type boolean: bool
+            :return: String on/off
+            :rtype: basestring
+            """
             if boolean:
-                return "on"
+                return 'on'
             else:
-                return "off"
+                return 'off'
 
         def get_prop_list():
             """
-            Return properties list
-            :return:
+            Return properties list as string.
+
+            :return: Properties list
+            :rtype: basestring
             """
             s = []
             for prop in self._get_prop_name():
                 s.append(str(prop))
-            return ", ".join(s)
+            return ', '.join(s)
 
         def get_funct_list():
             """
-            Get function list
-            :return:
+            Get function list name.
+
+            :return: String
+            :rtype: basestring
             """
             s = self.get_binded_names()
             if s == '':
