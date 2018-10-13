@@ -89,10 +89,12 @@ def material_silver(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_copper(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Copper material
-    :param emission:
-    :param face:
-    :return:
+    Copper material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -105,10 +107,12 @@ def material_copper(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_emerald(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Emerald material
-    :param emission:
-    :param face:
-    :return:
+    Emerald material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -121,10 +125,12 @@ def material_emerald(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_jade(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Jade material
-    :param emission:
-    :param face:
-    :return:
+    Jade material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -137,10 +143,12 @@ def material_jade(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_pearl(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Pearl material
-    :param emission:
-    :param face:
-    :return:
+    Pearl material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -153,10 +161,12 @@ def material_pearl(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_turquoise(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Torquoise material
-    :param emission:
-    :param face:
-    :return:
+    Torquoise material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -169,10 +179,12 @@ def material_turquoise(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_ruby(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Ruby material
-    :param emission:
-    :param face:
-    :return:
+    Ruby material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -185,10 +197,12 @@ def material_ruby(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_brass(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Brass material
-    :param emission:
-    :param face:
-    :return:
+    Brass material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -201,10 +215,12 @@ def material_brass(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_bronze(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Bronze material
-    :param emission:
-    :param face:
-    :return:
+    Bronze material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -217,10 +233,12 @@ def material_bronze(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_chrome(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Chrome material
-    :param emission:
-    :param face:
-    :return:
+    Chrome material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -233,10 +251,12 @@ def material_chrome(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_gold(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Gold material
-    :param emission:
-    :param face:
-    :return:
+    Gold material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -249,10 +269,12 @@ def material_gold(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_black_plastic(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Black plastic material
-    :param emission:
-    :param face:
-    :return:
+    Black plastic material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -265,10 +287,12 @@ def material_black_plastic(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_cyan_plastic(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Cyan plastic material
-    :param emission:
-    :param face:
-    :return:
+    Cyan plastic material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -281,10 +305,12 @@ def material_cyan_plastic(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_green_plastic(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Green plastic material
-    :param emission:
-    :param face:
-    :return:
+    Green plastic material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -297,10 +323,12 @@ def material_green_plastic(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_red_plastic(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Red plastic material
-    :param emission:
-    :param face:
-    :return:
+    Red plastic material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -313,10 +341,12 @@ def material_red_plastic(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_white_plastic(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    White plastic material
-    :param emission:
-    :param face:
-    :return:
+    White plastic material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -329,10 +359,12 @@ def material_white_plastic(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_yellow_plastic(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Yellow plastic material
-    :param emission:
-    :param face:
-    :return:
+    Yellow plastic material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -345,10 +377,12 @@ def material_yellow_plastic(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_black_rubber(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Black rubber material
-    :param emission:
-    :param face:
-    :return:
+    Black rubber material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -361,10 +395,12 @@ def material_black_rubber(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_cyan_rubber(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Cyan rubber material
-    :param emission:
-    :param face:
-    :return:
+    Cyan rubber material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -377,10 +413,12 @@ def material_cyan_rubber(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_green_rubber(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Green rubber material
-    :param emission:
-    :param face:
-    :return:
+    Green rubber material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -393,10 +431,12 @@ def material_green_rubber(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_red_rubber(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Red rubber material
-    :param emission:
-    :param face:
-    :return:
+    Red rubber material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -409,10 +449,12 @@ def material_red_rubber(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_white_rubber(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    White rubber material
-    :param emission:
-    :param face:
-    :return:
+    White rubber material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -425,10 +467,12 @@ def material_white_rubber(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_yellow_rubber(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Yellow rubber material
-    :param emission:
-    :param face:
-    :return:
+    Yellow rubber material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
@@ -441,10 +485,12 @@ def material_yellow_rubber(emission=None, face=_GL_FRONT_AND_BACK):
 
 def material_natural_white(emission=None, face=_GL_FRONT_AND_BACK):
     """
-    Natural white material
-    :param emission:
-    :param face:
-    :return:
+    Natural white material.
+
+    :param emission: Material emission constant
+    :param face: Face mode (OpenGL constant)
+    :type emission: list
+    :type face: int
     """
     if emission is None:
         emission = _DEFAULT_EMISSION
