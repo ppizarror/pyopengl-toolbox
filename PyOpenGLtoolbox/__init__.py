@@ -45,9 +45,9 @@ from PyOpenGLtoolbox.materials import material_black_plastic, material_black_rub
 from PyOpenGLtoolbox.opengl import init_gl, init_light, clear_buffer, reshape_window, is_light_enabled
 
 # noinspection PyUnresolvedReferences
-from PyOpenGLtoolbox.particles import Particle, PARTICLE_OPERATOR_ADD, PARTICLE_OPERATOR_AND, PARTICLE_OPERATOR_DIFF, \
-    PARTICLE_OPERATOR_DIV, PARTICLE_OPERATOR_MOD, PARTICLE_OPERATOR_MULT, PARTICLE_OPERATOR_OR, PARTICLE_OPERATOR_POW, \
-    PARTICLE_OPERATOR_XOR
+from PyOpenGLtoolbox.particles import Particle, PARTICLES_OPERATOR_ADD, PARTICLES_OPERATOR_AND, PARTICLES_OPERATOR_DIFF, \
+    PARTICLES_OPERATOR_DIV, PARTICLES_OPERATOR_MOD, PARTICLES_OPERATOR_MULT, PARTICLES_OPERATOR_OR, PARTICLES_OPERATOR_POW, \
+    PARTICLES_OPERATOR_XOR
 
 # noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.pyopengl import init_pygame, load_image

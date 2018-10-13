@@ -31,15 +31,15 @@ from PyOpenGLtoolbox.utils_math import _cos, _sin, Point3, Vector3
 import types as _types
 
 # Constants
-PARTICLE_OPERATOR_ADD = 0x0f60
-PARTICLE_OPERATOR_AND = 0x0f61
-PARTICLE_OPERATOR_DIFF = 0x0f62
-PARTICLE_OPERATOR_DIV = 0x0f63
-PARTICLE_OPERATOR_MOD = 0x0f64
-PARTICLE_OPERATOR_MULT = 0x0f65
-PARTICLE_OPERATOR_OR = 0x0f66
-PARTICLE_OPERATOR_POW = 0x0f67
-PARTICLE_OPERATOR_XOR = 0x0f68
+PARTICLES_OPERATOR_ADD = 0x0f60
+PARTICLES_OPERATOR_AND = 0x0f61
+PARTICLES_OPERATOR_DIFF = 0x0f62
+PARTICLES_OPERATOR_DIV = 0x0f63
+PARTICLES_OPERATOR_MOD = 0x0f64
+PARTICLES_OPERATOR_MULT = 0x0f65
+PARTICLES_OPERATOR_OR = 0x0f66
+PARTICLES_OPERATOR_POW = 0x0f67
+PARTICLES_OPERATOR_XOR = 0x0f68
 _PARTICLES_ROUND = 3
 
 
@@ -739,21 +739,21 @@ class Particle:
             if operator is None:
                 self._properties[propname] = newvalue
             else:
-                if operator == PARTICLE_OPERATOR_ADD:
+                if operator == PARTICLES_OPERATOR_ADD:
                     self._properties[propname] += newvalue
-                elif operator == PARTICLE_OPERATOR_AND:
+                elif operator == PARTICLES_OPERATOR_AND:
                     self._properties[propname] = self._properties[propname] and newvalue
-                elif operator == PARTICLE_OPERATOR_DIFF:
+                elif operator == PARTICLES_OPERATOR_DIFF:
                     self._properties[propname] -= newvalue
-                elif operator == PARTICLE_OPERATOR_DIV:
+                elif operator == PARTICLES_OPERATOR_DIV:
                     self._properties[propname] /= newvalue
-                elif operator == PARTICLE_OPERATOR_MOD:
+                elif operator == PARTICLES_OPERATOR_MOD:
                     self._properties[propname] %= newvalue
-                elif operator == PARTICLE_OPERATOR_OR:
+                elif operator == PARTICLES_OPERATOR_OR:
                     self._properties[propname] = self._properties[propname] or newvalue
-                elif operator == PARTICLE_OPERATOR_POW:
+                elif operator == PARTICLES_OPERATOR_POW:
                     self._properties[propname] = self._properties[propname] ** newvalue
-                elif operator == PARTICLE_OPERATOR_XOR:
+                elif operator == PARTICLES_OPERATOR_XOR:
                     _p = self._properties[propname]
                     _q = newvalue
                     self._properties[propname] = (_p and not _q) or (not _p and _q)
