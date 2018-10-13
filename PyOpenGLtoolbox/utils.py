@@ -41,12 +41,12 @@ _ERRS = [False]
 
 def print_gl_error(err_msg):
     """Imprime un error en consola"""
-    print('[GL-ERROR] {0}'.format(err_msg))
+    print('[GL-ERROR] {0}'.format(err_msg), file=sys.stderr)
 
 
 def is_windows():
     """Retorna true/false si el sistema operativo cliente es windows"""
-    if os.name == "nt":
+    if os.name == 'nt':
         return True
     return False
 

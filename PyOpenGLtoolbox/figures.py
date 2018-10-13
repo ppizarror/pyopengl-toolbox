@@ -26,15 +26,17 @@ SOFTWARE.
 """
 
 # Library imports
-from numpy import array
+from numpy import array as _array
 from OpenGL.arrays import vbo as _vbo
-from OpenGL.GL import *
 from OpenGL.GLUT import *
 from PyOpenGLtoolbox.utils import print_gl_error
 from PyOpenGLtoolbox.utils_geometry import _normal_3_points, draw_vertex_list_create_normal, \
     draw_vertex_list_create_normal_textured
 from PyOpenGLtoolbox.utils_math import Point3, _cos, _sin, Point2
 import math
+
+# noinspection PyPep8Naming
+import OpenGL.GL as _gl
 
 # Constants
 COLOR_BLACK = [0.0, 0.0, 0.0, 1.0]
@@ -90,43 +92,43 @@ class VBObject:
         try:
 
             # Create new matrix
-            glPushMatrix()
+            _gl.glPushMatrix()
 
             # Make bind between vbos and shader program
             self.vertex.bind()
-            glVertexPointerf(self.vertex)
+            _gl.glVertexPointerf(self.vertex)
             self.fragment.bind()
-            glNormalPointerf(self.fragment)
+            _gl.glNormalPointerf(self.fragment)
 
             # Enable vbos
-            glEnableClientState(GL_VERTEX_ARRAY)
-            glEnableClientState(GL_NORMAL_ARRAY)
+            _gl.glEnableClientState(_gl.GL_VERTEX_ARRAY)
+            _gl.glEnableClientState(_gl.GL_NORMAL_ARRAY)
 
             # Enable transform
             if rgb is not None:
-                glColor4fv(rgb)
-            glTranslate(pos[0], pos[1], pos[2])
+                _gl.glColor4fv(rgb)
+                _gl.glTranslate(pos[0], pos[1], pos[2])
 
             # Enable textures
             for _i in range(self.texlen):
-                glActiveTexture(GL_TEXTURE0 + _i)
-                glEnable(GL_TEXTURE_2D)
-                glBindTexture(GL_TEXTURE_2D, self.texture[_i])
+                _gl.glActiveTexture(_gl.GL_TEXTURE0 + _i)
+                _gl.glEnable(_gl.GL_TEXTURE_2D)
+                _gl.glBindTexture(_gl.GL_TEXTURE_2D, self.texture[_i])
 
             # Draw triangles each 3 elements of vbo
-            glDrawArrays(GL_TRIANGLES, 0, self.totalVertex)
+            _gl.glDrawArrays(_gl.GL_TRIANGLES, 0, self.totalVertex)
 
             # Dsiable textures
             for _i in range(self.texlen):
-                glActiveTexture(GL_TEXTURE0 + _i)
-                glDisable(GL_TEXTURE_2D)
+                _gl.glActiveTexture(_gl.GL_TEXTURE0 + _i)
+                _gl.glDisable(_gl.GL_TEXTURE_2D)
 
             # Disable vbox
-            glDisableClientState(GL_VERTEX_ARRAY)
-            glDisableClientState(GL_NORMAL_ARRAY)
+            _gl.glDisableClientState(_gl.GL_VERTEX_ARRAY)
+            _gl.glDisableClientState(_gl.GL_NORMAL_ARRAY)
 
             # Pop matrix
-            glPopMatrix()
+            _gl.glPopMatrix()
 
         except:
             raise Exception('VBO draw error')
@@ -342,10 +344,10 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
 
     vertex, norm, avgnorm = load(modelfile, scale, float(dx), float(dy), float(dz))
     if avg:
-        return VBObject(_vbo.VBO(array(vertex, 'f')),
-                        _vbo.VBO(array(avgnorm, 'f')), len(vertex), texture)
+        return VBObject(_vbo.VBO(_array(vertex, 'f')),
+                        _vbo.VBO(_array(avgnorm, 'f')), len(vertex), texture)
     else:
-        return VBObject(_vbo.VBO(array(vertex, 'f')), _vbo.VBO(array(norm, 'f')),
+        return VBObject(_vbo.VBO(_array(vertex, 'f')), _vbo.VBO(_array(norm, 'f')),
                         len(vertex), texture)
 
 
@@ -360,10 +362,10 @@ def create_sphere(lat=10, lng=10, color=None):
     if color is None:
         color = COLOR_WHITE
     if lat >= 3 and lng >= 10:
-        obj = glGenLists(1)
-        glNewList(obj, GL_COMPILE)
-        glPushMatrix()
-        glColor4fv(color)
+        obj = _gl.glGenLists(1)
+        _gl.glNewList(obj, _gl.GL_COMPILE)
+        _gl.glPushMatrix()
+        _gl.glColor4fv(color)
         # noinspection PyBroadException
         try:
             glutSolidSphere(1.0, lat, lng)
@@ -371,8 +373,8 @@ def create_sphere(lat=10, lng=10, color=None):
             if not _ERRS[0]:
                 print_gl_error('OpenGL actual version does not support glutSolidSphere function')
             _ERRS[0] = True
-        glPopMatrix()
-        glEndList()
+        _gl.glPopMatrix()
+        _gl.glEndList()
         return obj
     else:
         raise Exception('Latitude and logitude must be greater than 3')
@@ -392,24 +394,24 @@ def create_circle(rad=1.0, diff=0.1, normal=None, color=None):
     if normal is None:
         normal = [0.0, 0.0, 1.0]
     if diff > 0:
-        obj = glGenLists(1)
-        glNewList(obj, GL_COMPILE)
-        glPushMatrix()
-        glColor4fv(color)
+        obj = _gl.glGenLists(1)
+        _gl.glNewList(obj, _gl.GL_COMPILE)
+        _gl.glPushMatrix()
+        _gl.glColor4fv(color)
         ang = 0.0
-        glBegin(GL_POLYGON)
+        _gl.glBegin(_gl.GL_POLYGON)
         while ang <= 360.0:
-            glNormal3fv(normal)
-            glVertex2f(_sin(ang) * rad, _cos(ang) * rad)
+            _gl.glNormal3fv(normal)
+            _gl.glVertex2f(_sin(ang) * rad, _cos(ang) * rad)
             ang += diff
-        glEnd()
-        glBegin(GL_LINE_LOOP)
+        _gl.glEnd()
+        _gl.glBegin(_gl.GL_LINE_LOOP)
         while ang <= 360.0:
-            glVertex2f(_sin(ang) * rad, _cos(ang) * rad)
+            _gl.glVertex2f(_sin(ang) * rad, _cos(ang) * rad)
             ang += diff
-        glEnd()
-        glPopMatrix()
-        glEndList()
+        _gl.glEnd()
+        _gl.glPopMatrix()
+        _gl.glEndList()
         return obj
     else:
         raise Exception('Difference must be greater than zero')
@@ -430,10 +432,10 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
     if lat >= 3 and lng >= 10:
         # noinspection PyArgumentEqualDefault
         circlebase = create_circle(base - 0.05, 0.1, [0.0, 0.0, -1.0], color)
-        obj = glGenLists(1)
-        glNewList(obj, GL_COMPILE)
-        glPushMatrix()
-        glColor4fv(color)
+        obj = _gl.glGenLists(1)
+        _gl.glNewList(obj, _gl.GL_COMPILE)
+        _gl.glPushMatrix()
+        _gl.glColor4fv(color)
         # noinspection PyBroadException
         try:
             glutSolidCone(base, height, lat, lng)
@@ -441,9 +443,9 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
             if not _ERRS[3]:
                 print_gl_error('OpenGL actual version does not support glutSolidCone function')
             _ERRS[3] = True
-        glCallList(circlebase)
-        glPopMatrix()
-        glEndList()
+        _gl.glCallList(circlebase)
+        _gl.glPopMatrix()
+        _gl.glEndList()
         return obj
     else:
         raise Exception('Latitude and longitude of the figure must be greater than 3')
@@ -466,20 +468,20 @@ def create_cube(color=None):
     g = Point3(1.0, 1.0, 1.0)
     h = Point3(-1.0, 1.0, 1.0)
 
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
-    glBegin(GL_QUADS)
-    glColor4fv(color)
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
+    _gl.glBegin(_gl.GL_QUADS)
+    _gl.glColor4fv(color)
     draw_vertex_list_create_normal([a, b, c, d])
     draw_vertex_list_create_normal([b, f, g, c])
     draw_vertex_list_create_normal([f, e, h, g])
     draw_vertex_list_create_normal([e, a, d, h])
     draw_vertex_list_create_normal([d, c, g, h])
     draw_vertex_list_create_normal([a, e, f, b])
-    glEnd()
-    glPopMatrix()
-    glEndList()
+    _gl.glEnd()
+    _gl.glPopMatrix()
+    _gl.glEndList()
 
     return obj
 
@@ -500,48 +502,49 @@ def create_cube_textured(texture_list):
     h = Point3(-1.0, 1.0, 1.0)
     t_list = [Point2(0, 0), Point2(1, 0), Point2(1, 1), Point2(0, 1)]
 
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
     for _i in range(len(texture_list)):
-        glActiveTexture(GL_TEXTURE0 + _i)
-        glEnable(GL_TEXTURE_2D)
-        glBindTexture(GL_TEXTURE_2D, texture_list[_i])
-    glBegin(GL_QUADS)
+        _gl.glActiveTexture(_gl.GL_TEXTURE0 + _i)
+        _gl.glEnable(_gl.GL_TEXTURE_2D)
+        _gl.glBindTexture(_gl.GL_TEXTURE_2D, texture_list[_i])
+    _gl.glBegin(_gl.GL_QUADS)
     draw_vertex_list_create_normal_textured([a, b, c, d], t_list)
     draw_vertex_list_create_normal_textured([b, f, g, c], t_list)
     draw_vertex_list_create_normal_textured([f, e, h, g], t_list)
     draw_vertex_list_create_normal_textured([e, a, d, h], t_list)
     draw_vertex_list_create_normal_textured([d, c, g, h], t_list)
     draw_vertex_list_create_normal_textured([a, e, f, b], t_list)
-    glEnd()
+    _gl.glEnd()
 
     for _i in range(len(texture_list)):
-        glActiveTexture(GL_TEXTURE0 + _i)
-        glDisable(GL_TEXTURE_2D)
-    glPopMatrix()
-    glEndList()
+        _gl.glActiveTexture(_gl.GL_TEXTURE0 + _i)
+        _gl.glDisable(_gl.GL_TEXTURE_2D)
+    _gl.glPopMatrix()
+    _gl.glEndList()
 
     return obj
 
 
 def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
     """
-    Creates a torus
-    :param minr:
-    :param maxr:
-    :param lat:
-    :param lng:
-    :param color:
-    :return:
+    Creates a torus.
+
+    :param minr: Minimum radius
+    :param maxr: Maximum radius
+    :param lat: Latitude
+    :param lng: Longitude
+    :param color: Color
+    :return: Object glList
     """
     if color is None:
         color = COLOR_WHITE
     if lat >= 3 and lng >= 3:
-        obj = glGenLists(1)
-        glNewList(obj, GL_COMPILE)
-        glPushMatrix()
-        glColor4fv(color)
+        obj = _gl.glGenLists(1)
+        _gl.glNewList(obj, _gl.GL_COMPILE)
+        _gl.glPushMatrix()
+        _gl.glColor4fv(color)
         # noinspection PyBroadException
         try:
             glutSolidTorus(minr, maxr, lat, lng)
@@ -549,8 +552,8 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
             if not _ERRS[2]:
                 print_gl_error('OpenGL actual version does not support glutSolidTorus function')
             _ERRS[2] = True
-        glPopMatrix()
-        glEndList()
+        _gl.glPopMatrix()
+        _gl.glEndList()
         return obj
     else:
         raise Exception('Latitude and longitude of the figure must be greater than 3')
@@ -558,16 +561,18 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
 
 def create_cube_solid(color=None):
     """
-    Create a solid cube
-    :param color:
-    :return:
+    Create a solid cube.
+
+    :param color: Color
+    :type color: list
+    :return: Object list
     """
     if color is None:
         color = COLOR_WHITE
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
-    glColor4fv(color)
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
+    _gl.glColor4fv(color)
     # noinspection PyBroadException
     try:
         glutSolidCube(1.0)
@@ -575,8 +580,8 @@ def create_cube_solid(color=None):
         if not _ERRS[3]:
             print_gl_error('OpenGL actual version does not support glutSolidCube function')
         _ERRS[3] = True
-    glPopMatrix()
-    glEndList()
+    _gl.glPopMatrix()
+    _gl.glEndList()
     return obj
 
 
@@ -596,85 +601,94 @@ def create_pyramid(color=None):
     # noinspection PyArgumentEqualDefault
     e = Point3(0.0, 0.0, 0.666) * arista
 
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
-    glColor4fv(color)
-    glBegin(GL_QUADS)
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
+    _gl.glColor4fv(color)
+    _gl.glBegin(_gl.GL_QUADS)
     draw_vertex_list_create_normal([d, c, b, a])
-    glEnd()
-    glBegin(GL_TRIANGLES)
+    _gl.glEnd()
+    _gl.glBegin(_gl.GL_TRIANGLES)
     draw_vertex_list_create_normal([a, b, e])
     draw_vertex_list_create_normal([b, c, e])
     draw_vertex_list_create_normal([c, d, e])
     draw_vertex_list_create_normal([d, a, e])
-    glEnd()
-    glPopMatrix()
-    glEndList()
+    _gl.glEnd()
+    _gl.glPopMatrix()
+    _gl.glEndList()
     return obj
 
 
 def create_pyramid_textured(texture_list):
     """
-    Create a textured pyramid
-    :param texture_list:
+    Create a textured pyramid.
+
+    :param texture_list: Texture OpenGL list
     :return:
     """
-    arista = 2.0
-    a = Point3(-0.5, -0.5, -0.333) * arista
-    b = Point3(0.5, -0.5, -0.333) * arista
-    c = Point3(0.5, 0.5, -0.333) * arista
-    d = Point3(-0.5, 0.5, -0.333) * arista
+    edge = 2.0
+    a = Point3(-0.5, -0.5, -0.333) * edge
+    b = Point3(0.5, -0.5, -0.333) * edge
+    c = Point3(0.5, 0.5, -0.333) * edge
+    d = Point3(-0.5, 0.5, -0.333) * edge
     # noinspection PyArgumentEqualDefault
-    e = Point3(0.0, 0.0, 0.666) * arista
+    e = Point3(0.0, 0.0, 0.666) * edge
     t_list = [Point2(0, 0), Point2(1, 0), Point2(1, 1), Point2(0, 1)]
     t_list_face = [Point2(0, 0), Point2(0.5, 1.0), Point2(1, 0)]
 
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
     for _i in range(len(texture_list)):
-        glActiveTexture(GL_TEXTURE0 + _i)
-        glEnable(GL_TEXTURE_2D)
-        glBindTexture(GL_TEXTURE_2D, texture_list[_i])
-    glBegin(GL_QUADS)
+        _gl.glActiveTexture(_gl.GL_TEXTURE0 + _i)
+        _gl.glEnable(_gl.GL_TEXTURE_2D)
+        _gl.glBindTexture(_gl.GL_TEXTURE_2D, texture_list[_i])
+    _gl.glBegin(_gl.GL_QUADS)
     draw_vertex_list_create_normal_textured([d, c, b, a], t_list)
-    glEnd()
-    glBegin(GL_TRIANGLES)
+    _gl.glEnd()
+    _gl.glBegin(_gl.GL_TRIANGLES)
     draw_vertex_list_create_normal_textured([a, b, e], t_list_face)
     draw_vertex_list_create_normal_textured([b, c, e], t_list_face)
     draw_vertex_list_create_normal_textured([c, d, e], t_list_face)
     draw_vertex_list_create_normal_textured([d, a, e], t_list_face)
-    glEnd()
+    _gl.glEnd()
     for _i in range(len(texture_list)):
-        glActiveTexture(GL_TEXTURE0 + _i)
-        glDisable(GL_TEXTURE_2D)
-    glPopMatrix()
-    glEndList()
+        _gl.glActiveTexture(_gl.GL_TEXTURE0 + _i)
+        _gl.glDisable(_gl.GL_TEXTURE_2D)
+    _gl.glPopMatrix()
+    _gl.glEndList()
     return obj
 
 
-# noinspection PyBroadException,PyArgumentEqualDefault
 def create_diamond(color=None):
     """
-    Creates a diamond
-    :param color:
-    :return:
+    Creates a diamond.
+
+    :param color: Diamond color
+    :type color: list
+    :return: Object OpenGL list
     """
     if color is None:
         color = COLOR_WHITE
+
+    # noinspection PyArgumentEqualDefault
     a = Point3(-1.0, -1.0, 0.0)
+    # noinspection PyArgumentEqualDefault
     b = Point3(1.0, -1.0, 0.0)
+    # noinspection PyArgumentEqualDefault
     c = Point3(1.0, 1.0, 0.0)
+    # noinspection PyArgumentEqualDefault
     d = Point3(-1.0, 1.0, 0.0)
+    # noinspection PyArgumentEqualDefault
     e = Point3(0.0, 0.0, 1.0)
+    # noinspection PyArgumentEqualDefault
     f = Point3(0.0, 0.0, -1.0)
 
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
-    glColor4fv(color)
-    glBegin(GL_TRIANGLES)
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
+    _gl.glColor4fv(color)
+    _gl.glBegin(_gl.GL_TRIANGLES)
     draw_vertex_list_create_normal([a, b, e])
     draw_vertex_list_create_normal([b, c, e])
     draw_vertex_list_create_normal([c, d, e])
@@ -683,52 +697,55 @@ def create_diamond(color=None):
     draw_vertex_list_create_normal([c, b, f])
     draw_vertex_list_create_normal([d, c, f])
     draw_vertex_list_create_normal([a, d, f])
-    glEnd()
-    glPopMatrix()
-    glEndList()
+    _gl.glEnd()
+    _gl.glPopMatrix()
+    _gl.glEndList()
     return obj
 
 
-# noinspection PyBroadException
 def create_teapot(color=None):
     """
-    Create a OpenGl teapot
-    :param color:
-    :return:
+    Create a OpenGL teapot.
+
+    :param color: Object color
+    :type color: list
+    :return: Object list
     """
     if color is None:
         color = COLOR_WHITE
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
-    glColor4fv(color)
-    glRotate(90, 1, 0, 0)
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
+    _gl.glColor4fv(color)
+    _gl.glRotate(90, 1, 0, 0)
+    # noinspection PyBroadException
     try:
         glutSolidTeapot(1.0)
     except:
         if not _ERRS[4]:
             print_gl_error('OpenGL actual version doest not support glutSolidTeapot function')
         _ERRS[4] = True
-    glPopMatrix()
-    glEndList()
+    _gl.glPopMatrix()
+    _gl.glEndList()
     return obj
 
 
-# noinspection PyBroadException
 def create_teapot_textured(texture_list):
     """
-    Creates a teapot
-    :param texture_list:
-    :return:
+    Creates a teapot textured.
+
+    :param texture_list: Texture OpenGL list
+    :return: Object list
     """
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
     for _i in range(len(texture_list)):
-        glActiveTexture(GL_TEXTURE0 + _i)
-        glEnable(GL_TEXTURE_2D)
-        glBindTexture(GL_TEXTURE_2D, texture_list[_i])
-    glRotate(90, 1, 0, 0)
+        _gl.glActiveTexture(_gl.GL_TEXTURE0 + _i)
+        _gl.glEnable(_gl.GL_TEXTURE_2D)
+        _gl.glBindTexture(_gl.GL_TEXTURE_2D, texture_list[_i])
+    _gl.glRotate(90, 1, 0, 0)
+    # noinspection PyBroadException
     try:
         glutSolidTeapot(1.0)
     except:
@@ -736,10 +753,10 @@ def create_teapot_textured(texture_list):
             print_gl_error('OpenGL actual version does not support glutSolidTeapot function')
         _ERRS[4] = True
     for _i in range(len(texture_list)):
-        glActiveTexture(GL_TEXTURE0 + _i)
-        glDisable(GL_TEXTURE_2D)
-    glPopMatrix()
-    glEndList()
+        _gl.glActiveTexture(_gl.GL_TEXTURE0 + _i)
+        _gl.glDisable(_gl.GL_TEXTURE_2D)
+    _gl.glPopMatrix()
+    _gl.glEndList()
     return obj
 
 
@@ -781,7 +798,7 @@ def create_pyramid_vbo(edge=1.0):
                     n5, n5, n5]
 
     # Return VBO Object
-    return VBObject(_vbo.VBO(array(vertex_array, 'f')), _vbo.VBO(array(normal_array, 'f')), len(vertex_array))
+    return VBObject(_vbo.VBO(_array(vertex_array, 'f')), _vbo.VBO(_array(normal_array, 'f')), len(vertex_array))
 
 
 def create_tetrahedron_vbo(edge=1.0):
@@ -819,7 +836,7 @@ def create_tetrahedron_vbo(edge=1.0):
     normal_array = [n1, n1, n1, n2, n2, n2, n3, n3, n3, n4, n4, n4]
 
     # Return VBO
-    return VBObject(_vbo.VBO(array(vertex_array, 'f')), _vbo.VBO(array(normal_array, 'f')),
+    return VBObject(_vbo.VBO(_array(vertex_array, 'f')), _vbo.VBO(_array(normal_array, 'f')),
                     len(vertex_array))
 
 
@@ -828,9 +845,9 @@ def create_tetrahedron():
     Creates a tetrahedron
     :return:
     """
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
     # noinspection PyBroadException
     try:
         glutSolidTetrahedron()
@@ -838,8 +855,8 @@ def create_tetrahedron():
         if not _ERRS[5]:
             print_gl_error('OpenGL actual version does not support glutSolidTetrahedron function')
         _ERRS[5] = True
-    glPopMatrix()
-    glEndList()
+    _gl.glPopMatrix()
+    _gl.glEndList()
     return obj
 
 
@@ -848,9 +865,9 @@ def create_dodecahedron():
     Creates a dodecahedron
     :return:
     """
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
     # noinspection PyBroadException
     try:
         glutSolidDodecahedron()
@@ -858,8 +875,8 @@ def create_dodecahedron():
         if not _ERRS[6]:
             print_gl_error('OpenGL actual version dost not support glutSolidDodecahedron function')
         _ERRS[6] = True
-    glPopMatrix()
-    glEndList()
+    _gl.glPopMatrix()
+    _gl.glEndList()
     return obj
 
 
@@ -868,9 +885,9 @@ def create_octahedron():
     Crates an octahedron
     :return:
     """
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
     # noinspection PyBroadException
     try:
         glutSolidOctahedron()
@@ -878,8 +895,8 @@ def create_octahedron():
         if not _ERRS[7]:
             print_gl_error('OpenGL actual version does not support glutSolidOctahedron function')
         _ERRS[7] = True
-    glPopMatrix()
-    glEndList()
+    _gl.glPopMatrix()
+    _gl.glEndList()
     return obj
 
 
@@ -888,9 +905,9 @@ def create_icosahedron():
     Creates an icosahedron
     :return:
     """
-    obj = glGenLists(1)
-    glNewList(obj, GL_COMPILE)
-    glPushMatrix()
+    obj = _gl.glGenLists(1)
+    _gl.glNewList(obj, _gl.GL_COMPILE)
+    _gl.glPushMatrix()
     # noinspection PyBroadException
     try:
         glutSolidIcosahedron()
@@ -898,6 +915,6 @@ def create_icosahedron():
         if not _ERRS[8]:
             print_gl_error('OpenGL actual version does not support glutSolidIcosahedron function')
         _ERRS[8] = True
-    glPopMatrix()
-    glEndList()
+    _gl.glPopMatrix()
+    _gl.glEndList()
     return obj
