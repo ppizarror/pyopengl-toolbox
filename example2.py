@@ -45,15 +45,15 @@ init_light(GL_LIGHT0)
 clock = pygame.time.Clock()
 
 # Display help on console
-print('Rotate X axis with W/S keys')
-print('Rotate Y axis with A/D keys')
-print('Rotate Z axis with Q/E keys')
-print('Zoom in/out with N/M keys')
+print('Spherical camera')
+print('Rotate PHI angle with W/S keys')
+print('Rotate THETA angle with A/D keys')
+print('Decrease radial distance with N/M keys')
 
 # Create objects
 axis = create_axes(AXES_LENGTH)  # Axis
 camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Spheric camera
-camera.set_r_vel(30)
+camera.set_r_vel(30)  # Radial velocity
 
 cube = Particle()
 cube.add_property('GLLIST', create_cube())
@@ -104,23 +104,17 @@ while True:
     draw_list(cube.get_property('GLLIST'), cube.get_position_list(), 0, None,
               cube.get_property('SIZE'), None)
 
-    # Rotate camera around X axis
+    # Rotate camera theta angle
     if keys[K_w]:
-        camera.rotate_x(CAMERA_ROT_VEL)
+        camera.rotate_theta(CAMERA_ROT_VEL)
     elif keys[K_s]:
-        camera.rotate_x(-CAMERA_ROT_VEL)
+        camera.rotate_theta(-CAMERA_ROT_VEL)
 
-    # Rotate camera around Y axis
+    # Rotate camera phi angle
     if keys[K_a]:
-        camera.rotate_y(-CAMERA_ROT_VEL)
+        camera.rotate_phi(-CAMERA_ROT_VEL)
     elif keys[K_d]:
-        camera.rotate_y(CAMERA_ROT_VEL)
-
-    # Rotate camera around Z axis
-    if keys[K_q]:
-        camera.rotate_z(-CAMERA_ROT_VEL)
-    elif keys[K_e]:
-        camera.rotate_z(CAMERA_ROT_VEL)
+        camera.rotate_phi(CAMERA_ROT_VEL)
 
     # Close / Far camera
     if keys[K_n]:

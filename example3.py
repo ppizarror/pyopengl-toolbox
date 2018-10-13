@@ -48,10 +48,10 @@ init_light(GL_LIGHT1, ambient=[0.403, 0.0, 0.0, 1.0], diffuse=[0.556, 0.0, 0.0, 
 clock = pygame.time.Clock()
 
 # Display help on console
-print('Rotate X axis with W/S keys')
-print('Rotate Y axis with A/D keys')
-print('Rotate Z axis with Q/E keys')
-print('Zoom in/out with N/M keys')
+print('Spherical camera')
+print('Rotate PHI angle with W/S keys')
+print('Rotate THETA angle with A/D keys')
+print('Decrease radial distance with N/M keys')
 
 # Load textures
 textures = [
@@ -144,23 +144,17 @@ while True:
               cube.get_property('SIZE'), None)
     program.stop()
 
-    # Rotate camera around X axis
+    # Rotate camera theta angle
     if keys[K_w]:
-        camera.rotate_x(CAMERA_ROT_VEL)
+        camera.rotate_theta(CAMERA_ROT_VEL)
     elif keys[K_s]:
-        camera.rotate_x(-CAMERA_ROT_VEL)
+        camera.rotate_theta(-CAMERA_ROT_VEL)
 
-    # Rotate camera around Y axis
+    # Rotate camera phi angle
     if keys[K_a]:
-        camera.rotate_y(-CAMERA_ROT_VEL)
+        camera.rotate_phi(-CAMERA_ROT_VEL)
     elif keys[K_d]:
-        camera.rotate_y(CAMERA_ROT_VEL)
-
-    # Rotate camera around Z axis
-    if keys[K_q]:
-        camera.rotate_z(-CAMERA_ROT_VEL)
-    elif keys[K_e]:
-        camera.rotate_z(CAMERA_ROT_VEL)
+        camera.rotate_phi(CAMERA_ROT_VEL)
 
     # Close / Far camera
     if keys[K_n]:

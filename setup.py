@@ -42,7 +42,7 @@ setup(
     ],
     description=__description__,
     include_package_data=True,
-    install_requires=['numpy', 'Pillow', 'pygame'],
+    install_requires=['numpy', 'Pillow', 'pygame', 'PyOpenGL'],
     license='MIT',
     long_description=long_description,
     name='PyOpenGL-toolbox',

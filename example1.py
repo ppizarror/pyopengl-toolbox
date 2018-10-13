@@ -30,10 +30,6 @@ from PyOpenGLtoolbox import *
 
 # Constants
 AXES_LENGTH = 700
-CAMERA_PHI = 45
-CAMERA_RAD = 1700.0
-CAMERA_ROT_VEL = 2.5
-CAMERA_THETA = 56
 FPS = 60
 WINDOW_SIZE = [800, 600]
 
@@ -45,6 +41,7 @@ init_light(GL_LIGHT0)
 clock = pygame.time.Clock()
 
 # Display help on console
+print('Cartesian XYZ camera')
 print('Rotate X axis with W/S keys')
 print('Rotate Y axis with A/D keys')
 print('Rotate Z axis with Q/E keys')
@@ -52,7 +49,7 @@ print('Zoom in/out with N/M keys')
 
 # Create objects
 axis = create_axes(AXES_LENGTH)  # Axis
-camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Spheric camera
+camera = CameraXYZ(Point3(1000, 1000, 1000))  # Camera aligned with z axis
 
 # Main loop
 while True:
@@ -76,21 +73,21 @@ while True:
 
     # Rotate camera around X axis
     if keys[K_w]:
-        camera.rotate_x(CAMERA_ROT_VEL)
+        camera.rotate_x(2.5)
     elif keys[K_s]:
-        camera.rotate_x(-CAMERA_ROT_VEL)
+        camera.rotate_x(-2.5)
 
     # Rotate camera around Y axis
     if keys[K_a]:
-        camera.rotate_y(-CAMERA_ROT_VEL)
+        camera.rotate_y(-2.5)
     elif keys[K_d]:
-        camera.rotate_y(CAMERA_ROT_VEL)
+        camera.rotate_y(2.5)
 
     # Rotate camera around Z axis
     if keys[K_q]:
-        camera.rotate_z(-CAMERA_ROT_VEL)
+        camera.rotate_z(-2.5)
     elif keys[K_e]:
-        camera.rotate_z(CAMERA_ROT_VEL)
+        camera.rotate_z(2.5)
 
     # Close / Far camera
     if keys[K_n]:

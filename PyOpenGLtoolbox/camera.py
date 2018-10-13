@@ -175,45 +175,21 @@ class _Camera:
         """
         pass
 
-    def set_r_vel(self, vel):
-        """
-        Defines radial velocity.
-
-        :param vel: Velocity
-        :type vel: float, int
-        """
-        pass
-
-    def rotate_x(self, angle):
-        """
-        Rotate eye position in x-axis.
-
-        :param angle: Rotation angle
-        :type angle: float, int
-        """
-        pass
-
-    def rotate_y(self, angle):
-        """
-        Rotate eye position in y-axis.
-
-        :param angle: Rotation angle
-        :type angle: float, int
-        """
-        pass
-
-    def rotate_z(self, angle):
-        """
-        Rotate eye position in z-axis.
-
-        :param angle: Rotation angle
-        :type angle: float, int
-        """
-        pass
-
     def convert_to_xyz(self):
         """
         Convert spheric to cartesian.
+
+        :return: Coordinates
+        :rtype: tuple
+        """
+        pass
+
+    def convert_to_spr(self):
+        """
+        Convert cartesian to spheric.
+
+        :return: Coordinates
+        :rtype: tuple
         """
         pass
 
@@ -242,7 +218,7 @@ class CameraXYZ(_Camera):
     Camera in XYZ, position (x,y,z), can rotate around z.
     """
 
-    def __init__(self, pos, center, up=_Point3(0, 0, 1)):
+    def __init__(self, pos, center=_Point3(0, 0, 0), up=_Point3(0, 0, 1)):
         """
         Constructor.
 
@@ -266,6 +242,9 @@ class CameraXYZ(_Camera):
         self._centerVel = _Vector3(_CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL)
         self._name = 'unnamed'
         self._viewVel = _Vector3(1.0, 1.0, 1.0)
+
+        # Normalize vector
+        self._up.normalize()
 
     def place(self):
         """
@@ -451,6 +430,23 @@ class CameraXYZ(_Camera):
         """
         self._name = n
 
+    def convert_to_xyz(self):
+        """
+        Convert spheric to cartesian.
+
+        :return: Cartesian coordinates
+        """
+        return self._pos.export_to_tuple()
+
+    def convert_to_spr(self):
+        """
+        Convert cartesian to spheric.
+
+        :return: Spheric coordinates
+        :rtype: tuple
+        """
+        return _xyz_to_spr(*self._pos.export_to_list())
+
 
 class CameraR(_Camera):
     """
@@ -549,42 +545,23 @@ class CameraR(_Camera):
         self._r -= self._rvel
         self._r = max(_CAMERA_MIN_RADIAL_VALUE, self._r)
 
-    def rotate_x(self, angle):
+    def rotate_phi(self, angle):
         """
-        Rotate eye position in x-axis.
-
-        :param angle: Rotation angle
-        :type angle: float, int
-        """
-        # Converts to (x,y,z)
-        x, y, z = self.convert_to_xyz()
-        # Rotate (x,y,z) by x
-        xr = x
-        yr = y * _cos(angle) - z * _sin(angle)
-        zr = y * _sin(angle) + z * _cos(angle)
-        # Convert to spheric
-        r, phi, theta = _xyz_to_spr(xr, yr, zr)
-        self._r = r
-        self._phi = phi
-        self._theta = theta
-
-    def rotate_y(self, angle):
-        """
-        Rotate eye position in y-axis.
-
-        :param angle: Rotation angle
-        :type angle: float, int
-        """
-        self._theta = min(max(self._theta + angle, _CAMERA_MIN_THETA_VALUE), 180)
-
-    def rotate_z(self, angle):
-        """
-        Rotate eye position in z-axis.
+        Rotate phi angle.
 
         :param angle: Rotation angle
         :type angle: float, int
         """
         self._phi = (self._phi + angle) % 360
+
+    def rotate_theta(self, angle):
+        """
+        Rotate theta angle.
+
+        :param angle: Rotation angle
+        :type angle: float, int
+        """
+        self._theta = min(max(self._theta + angle, _CAMERA_MIN_THETA_VALUE), 180)
 
     def convert_to_xyz(self):
         """
@@ -594,6 +571,15 @@ class CameraR(_Camera):
         :rtype: tuple
         """
         return _spr_to_xyz(self._r, self._phi, self._theta)
+
+    def convert_to_spr(self):
+        """
+        Convert to spheric.
+
+        :return: Coordinates
+        :rtype: tuple
+        """
+        return self._r, self._phi, self._theta
 
     def move_center_x(self, dist):
         """
