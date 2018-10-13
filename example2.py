@@ -26,13 +26,7 @@ SOFTWARE.
 """
 
 # Library imports
-from PyOpenGLtoolbox.pyopengl import *
-from PyOpenGLtoolbox.opengl import *
-from PyOpenGLtoolbox.camera import *
-from PyOpenGLtoolbox.particles import *
-from PyOpenGLtoolbox.figures import *
-from PyOpenGLtoolbox.materials import *
-from PyOpenGLtoolbox import create_axes
+from PyOpenGLtoolbox import *
 
 # Constants
 AXES_LENGTH = 700
@@ -48,7 +42,7 @@ init_pygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 2', centered_window=True)
 init_gl(transparency=False, materialcolor=False, normalized=True, lighting=True,
         numlights=1, perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
         texture=True, verbose=False)
-reshape(*WINDOW_SIZE, nearplane=1)
+reshape(*WINDOW_SIZE)
 init_light(GL_LIGHT0)
 clock = pygame.time.Clock()
 

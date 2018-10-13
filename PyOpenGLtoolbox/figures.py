@@ -40,13 +40,13 @@ import OpenGL.GL as _gl
 import OpenGL.GLUT as _glut
 
 # Constants
-COLOR_BLACK = [0.0, 0.0, 0.0, 1.0]
-COLOR_BLUE = [0.0, 0.0, 1.0, 1.0]
-COLOR_RED = [1.0, 0.0, 0.0, 1.0]
-COLOR_GREEN = [0.0, 1.0, 0.0, 1.0]
-COLOR_WHITE = [1.0, 1.0, 1.0, 1.0]
-FIGURE_LIST = 0xfa01
-FIGURE_VBO = 0xfa02
+_COLOR_BLACK = [0.0, 0.0, 0.0, 1.0]
+_COLOR_BLUE = [0.0, 0.0, 1.0, 1.0]
+_COLOR_RED = [1.0, 0.0, 0.0, 1.0]
+_COLOR_GREEN = [0.0, 1.0, 0.0, 1.0]
+_COLOR_WHITE = [1.0, 1.0, 1.0, 1.0]
+_FIGURE_LIST = 0xfa01
+_FIGURE_VBO = 0xfa02
 _ERRS = []
 for i in range(10):
     _ERRS.append(False)
@@ -228,7 +228,7 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
                     if _nodenum in _elems[elemnum]:
                         nodetrilist[_nodenum].append(elemnum)
             _avenorms = []
-            
+
             for tri in nodetrilist:
                 ave_ni = 0.0
                 ave_nj = 0.0
@@ -383,7 +383,7 @@ def create_sphere(lat=10, lng=10, color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     if lat >= 3 and lng >= 10:
         obj = _gl.glGenLists(1)
         _gl.glNewList(obj, _gl.GL_COMPILE)
@@ -418,7 +418,7 @@ def create_circle(rad=1.0, diff=0.1, normal=None, color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     if normal is None:
         normal = [0.0, 0.0, 1.0]
     if diff > 0:
@@ -462,7 +462,7 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     if lat >= 3 and lng >= 10:
         # noinspection PyArgumentEqualDefault
         circlebase = create_circle(base - 0.05, 0.1, [0.0, 0.0, -1.0], color)
@@ -494,7 +494,7 @@ def create_cube(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     a = Point3(-1.0, -1.0, -1.0)
     b = Point3(1.0, -1.0, -1.0)
     c = Point3(1.0, -1.0, 1.0)
@@ -582,7 +582,7 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
     :return: OpenGl list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     if lat >= 3 and lng >= 3:
         obj = _gl.glGenLists(1)
         _gl.glNewList(obj, _gl.GL_COMPILE)
@@ -611,7 +611,7 @@ def create_cube_solid(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
@@ -637,7 +637,7 @@ def create_pyramid(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     arista = 2.0
     a = Point3(-0.5, -0.5, -0.333) * arista
     b = Point3(0.5, -0.5, -0.333) * arista
@@ -714,7 +714,7 @@ def create_diamond(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
 
     # noinspection PyArgumentEqualDefault
     a = Point3(-1.0, -1.0, 0.0)
@@ -757,7 +757,7 @@ def create_teapot(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
@@ -904,7 +904,7 @@ def create_tetrahedron(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
@@ -930,7 +930,7 @@ def create_dodecahedron(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
@@ -956,7 +956,7 @@ def create_octahedron(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
@@ -982,7 +982,7 @@ def create_icosahedron(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = COLOR_WHITE
+        color = _COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
