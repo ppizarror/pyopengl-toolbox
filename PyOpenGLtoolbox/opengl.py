@@ -34,23 +34,23 @@ from OpenGL.GLU import gluPerspective as _gluPerspective
 import OpenGL.GL as _gl
 
 # Constants
-_DEFAULT_AMBIENT_COLOR = [0.2, 0.2, 0.2, 1.0]
-_DEFAULT_BGCOLOR = [0.0, 0.0, 0.0, 1.0]
-_DEFAULT_BGDEPTH = 1.0
-_DEFAULT_CONSTANT_ATTENUATION = 1.0
-_DEFAULT_DIFFUSE_COLOR = [0.8, 0.8, 0.8, 1.0]
-_DEFAULT_FOV = 60
-_DEFAULT_LINEAR_ATTENUATION = 0.0
-_DEFAULT_QUADRATIC_ATTENUATION = 0.0
-_DEFAULT_SPECULAR_COLOR = [1.0, 1.0, 1.0, 1.0]
-_DEFAULT_SPOT_CUTOFF = 180.0
-_DEFAULT_SPOT_DIRECTION = [0.0, 0.0, -1.0, 1.0]
-_DEFAULT_SPOT_EXPONENT = 1.0
-_OPENGL_CONFIGS = [False]
-_SPOT_DIRECTION_ALL = [1.0, 1.0, 1.0, 1.0]
+_OPENGL_DEFAULT_AMBIENT_COLOR = [0.2, 0.2, 0.2, 1.0]
+_OPENGL_DEFAULT_BGCOLOR = [0.0, 0.0, 0.0, 1.0]
+_OPENGL_DEFAULT_BGDEPTH = 1.0
+_OPENGL_DEFAULT_CONSTANT_ATTENUATION = 1.0
+_OPENGL_DEFAULT_DIFFUSE_COLOR = [0.8, 0.8, 0.8, 1.0]
+_OPENGL_DEFAULT_FOV = 60
+_OPENGL_DEFAULT_LINEAR_ATTENUATION = 0.0
+_OPENGL_DEFAULT_QUADRATIC_ATTENUATION = 0.0
+_OPENGL_DEFAULT_SPECULAR_COLOR = [1.0, 1.0, 1.0, 1.0]
+_OPENGL_DEFAULT_SPOT_CUTOFF = 180.0
+_OPENGL_DEFAULT_SPOT_DIRECTION = [0.0, 0.0, -1.0, 1.0]
+_OPENGL_DEFAULT_SPOT_EXPONENT = 1.0
+_OPENGL_OPENGL_CONFIGS = [False]
+_OPENGL_SPOT_DIRECTION_ALL = [1.0, 1.0, 1.0, 1.0]
 
 
-def init_gl(antialiasing=True, bgcolor=None, bgdepth=_DEFAULT_BGDEPTH, depth=True, lighting=False,
+def init_gl(antialiasing=True, bgcolor=None, bgdepth=_OPENGL_DEFAULT_BGDEPTH, depth=True, lighting=False,
             materialcolor=True, normalized=True, numlights=0, perspectivecorr=False, polyfonfillmode=True, smooth=True,
             surffill=True, textures=False, transparency=False, verbose=False, version=False):
     """
@@ -91,7 +91,7 @@ def init_gl(antialiasing=True, bgcolor=None, bgdepth=_DEFAULT_BGDEPTH, depth=Tru
     """
 
     if bgcolor is None:
-        bgcolor = _DEFAULT_BGCOLOR
+        bgcolor = _OPENGL_DEFAULT_BGCOLOR
 
     def log(msg):
         """
@@ -127,7 +127,7 @@ def init_gl(antialiasing=True, bgcolor=None, bgdepth=_DEFAULT_BGDEPTH, depth=Tru
         _gl.glClearColor(*bgcolor)
     else:
         log('Clear color set default')
-        _gl.glClearColor(*_DEFAULT_BGCOLOR)
+        _gl.glClearColor(*_OPENGL_DEFAULT_BGCOLOR)
 
     # Set clear depth color
     if bgdepth is not None:
@@ -135,7 +135,7 @@ def init_gl(antialiasing=True, bgcolor=None, bgdepth=_DEFAULT_BGDEPTH, depth=Tru
         _gl.glClearDepth(bgdepth)
     else:
         log('Clear depth color set default')
-        _gl.glClearDepth(_DEFAULT_BGDEPTH)
+        _gl.glClearDepth(_OPENGL_DEFAULT_BGDEPTH)
 
     # Enable transparency
     if transparency:
@@ -177,7 +177,7 @@ def init_gl(antialiasing=True, bgcolor=None, bgdepth=_DEFAULT_BGDEPTH, depth=Tru
             for light in range(int(numlights)):
                 log('Light {0} enabled'.format(light))
                 eval('_gl.glEnable(_gl.GL_LIGHT{0})'.format(light))
-        _OPENGL_CONFIGS[0] = True
+        _OPENGL_OPENGL_CONFIGS[0] = True
 
     # Polygon fill mode
     if polyfonfillmode:
@@ -211,7 +211,7 @@ def clear_buffer():
     _gl.glClear(_gl.GL_COLOR_BUFFER_BIT | _gl.GL_DEPTH_BUFFER_BIT)
 
 
-def reshape_window(w, h, near, far, fov=_DEFAULT_FOV):
+def reshape_window(w, h, near, far, fov=_OPENGL_DEFAULT_FOV):
     """
     Reshape OpenGL window.
 
@@ -241,11 +241,11 @@ def reshape_window(w, h, near, far, fov=_DEFAULT_FOV):
     _gl.glLoadIdentity()
 
 
-def init_light(light=None, ambient=None, constant_att=_DEFAULT_CONSTANT_ATTENUATION,
-               diffuse=None, linear_att=_DEFAULT_LINEAR_ATTENUATION,
-               quad_att=_DEFAULT_QUADRATIC_ATTENUATION, specular=None,
-               spot_cutoff=_DEFAULT_SPOT_CUTOFF, spot_direction=None,
-               spot_exponent=_DEFAULT_SPOT_EXPONENT):
+def init_light(light=None, ambient=None, constant_att=_OPENGL_DEFAULT_CONSTANT_ATTENUATION,
+               diffuse=None, linear_att=_OPENGL_DEFAULT_LINEAR_ATTENUATION,
+               quad_att=_OPENGL_DEFAULT_QUADRATIC_ATTENUATION, specular=None,
+               spot_cutoff=_OPENGL_DEFAULT_SPOT_CUTOFF, spot_direction=None,
+               spot_exponent=_OPENGL_DEFAULT_SPOT_EXPONENT):
     """
     Set light properties.
 
@@ -273,13 +273,13 @@ def init_light(light=None, ambient=None, constant_att=_DEFAULT_CONSTANT_ATTENUAT
 
     # Checks
     if spot_direction is None:
-        spot_direction = _DEFAULT_SPOT_DIRECTION
+        spot_direction = _OPENGL_DEFAULT_SPOT_DIRECTION
     if specular is None:
-        specular = _DEFAULT_SPECULAR_COLOR
+        specular = _OPENGL_DEFAULT_SPECULAR_COLOR
     if diffuse is None:
-        diffuse = _DEFAULT_DIFFUSE_COLOR
+        diffuse = _OPENGL_DEFAULT_DIFFUSE_COLOR
     if ambient is None:
-        ambient = _DEFAULT_AMBIENT_COLOR
+        ambient = _OPENGL_DEFAULT_AMBIENT_COLOR
     if light is None:
         _print_gl_error('Light cannot be None')
 
@@ -287,55 +287,55 @@ def init_light(light=None, ambient=None, constant_att=_DEFAULT_CONSTANT_ATTENUAT
     if ambient is not None:
         _gl.glLightfv(light, _gl.GL_AMBIENT, ambient)
     else:
-        _gl.glLightfv(light, _gl.GL_AMBIENT, _DEFAULT_AMBIENT_COLOR)
+        _gl.glLightfv(light, _gl.GL_AMBIENT, _OPENGL_DEFAULT_AMBIENT_COLOR)
 
     # Diffuse color
     if diffuse is not None:
         _gl.glLightfv(light, _gl.GL_DIFFUSE, diffuse)
     else:
-        _gl.glLightfv(light, _gl.GL_DIFFUSE, _DEFAULT_DIFFUSE_COLOR)
+        _gl.glLightfv(light, _gl.GL_DIFFUSE, _OPENGL_DEFAULT_DIFFUSE_COLOR)
 
     # Specular color
     if specular is not None:
         _gl.glLightfv(light, _gl.GL_SPECULAR, specular)
     else:
-        _gl.glLightfv(light, _gl.GL_SPECULAR, _DEFAULT_SPECULAR_COLOR)
+        _gl.glLightfv(light, _gl.GL_SPECULAR, _OPENGL_DEFAULT_SPECULAR_COLOR)
 
     # Cutoff
     if spot_cutoff is not None:
         _gl.glLightfv(light, _gl.GL_SPOT_CUTOFF, spot_cutoff)
     else:
-        _gl.glLightfv(light, _gl.GL_SPOT_CUTOFF, _DEFAULT_SPOT_CUTOFF)
+        _gl.glLightfv(light, _gl.GL_SPOT_CUTOFF, _OPENGL_DEFAULT_SPOT_CUTOFF)
 
     # Exponent
     if spot_exponent is not None:
         _gl.glLightfv(light, _gl.GL_SPOT_EXPONENT, spot_exponent)
     else:
-        _gl.glLightfv(light, _gl.GL_SPOT_EXPONENT, _DEFAULT_SPOT_EXPONENT)
+        _gl.glLightfv(light, _gl.GL_SPOT_EXPONENT, _OPENGL_DEFAULT_SPOT_EXPONENT)
 
     # Spot direction
     if spot_direction is not None:
         _gl.glLightfv(light, _gl.GL_SPOT_DIRECTION, spot_direction)
     else:
-        _gl.glLightfv(light, _gl.GL_SPOT_DIRECTION, _DEFAULT_SPOT_DIRECTION)
+        _gl.glLightfv(light, _gl.GL_SPOT_DIRECTION, _OPENGL_DEFAULT_SPOT_DIRECTION)
 
     # Constant attenuation factor
     if constant_att is not None:
         _gl.glLightfv(light, _gl.GL_CONSTANT_ATTENUATION, constant_att)
     else:
-        _gl.glLightfv(light, _gl.GL_CONSTANT_ATTENUATION, _DEFAULT_CONSTANT_ATTENUATION)
+        _gl.glLightfv(light, _gl.GL_CONSTANT_ATTENUATION, _OPENGL_DEFAULT_CONSTANT_ATTENUATION)
 
     # Lineal attenuation factor
     if linear_att is not None:
         _gl.glLightfv(light, _gl.GL_LINEAR_ATTENUATION, linear_att)
     else:
-        _gl.glLightfv(light, _gl.GL_LINEAR_ATTENUATION, _DEFAULT_LINEAR_ATTENUATION)
+        _gl.glLightfv(light, _gl.GL_LINEAR_ATTENUATION, _OPENGL_DEFAULT_LINEAR_ATTENUATION)
 
     # Quadratic attenuation
     if quad_att is not None:
         _gl.glLightfv(light, _gl.GL_QUADRATIC_ATTENUATION, quad_att)
     else:
-        _gl.glLightfv(light, _gl.GL_QUADRATIC_ATTENUATION, _DEFAULT_QUADRATIC_ATTENUATION)
+        _gl.glLightfv(light, _gl.GL_QUADRATIC_ATTENUATION, _OPENGL_DEFAULT_QUADRATIC_ATTENUATION)
 
 
 def is_light_enabled():
@@ -345,4 +345,4 @@ def is_light_enabled():
     :return: Light is enabled
     :rtype: bool
     """
-    return _OPENGL_CONFIGS[0]
+    return _OPENGL_OPENGL_CONFIGS[0]
