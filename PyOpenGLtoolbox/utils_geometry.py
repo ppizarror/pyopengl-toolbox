@@ -26,7 +26,7 @@ SOFTWARE.
 """
 
 # Library imports
-from PyOpenGLtoolbox.utils_math import POINT_2, POINT_3, Vector3, _normal_3_points
+from PyOpenGLtoolbox.utils_math import _UTILS_MATH_POINT_2, _UTILS_MATH_POINT_3, Vector3, _normal_3_points
 
 # noinspection PyPep8Naming
 import OpenGL.GL as _gl
@@ -40,10 +40,10 @@ def draw_vertex_list(vertex_list):
     :type vertex_list: list
     """
     if len(vertex_list) >= 1:
-        if vertex_list[0].get_type() == POINT_2:
+        if vertex_list[0].get_type() == _UTILS_MATH_POINT_2:
             for vertex in vertex_list:
                 _gl.glVertex2fv(vertex.export_to_list())
-        elif vertex_list[0].get_type() == POINT_3:
+        elif vertex_list[0].get_type() == _UTILS_MATH_POINT_3:
             for vertex in vertex_list:
                 _gl.glVertex3fv(vertex.export_to_list())
     else:
@@ -93,11 +93,11 @@ def draw_vertex_list_textured(vertex_list, tvertex_list):
     :type tvertex_list: list
     """
     if len(vertex_list) >= 1:
-        if vertex_list[0].get_type() == POINT_2:
+        if vertex_list[0].get_type() == _UTILS_MATH_POINT_2:
             for vertex in range(len(vertex_list)):
                 _gl.glTexCoord2fv(tvertex_list[vertex].export_to_list())
                 _gl.glVertex2fv(vertex_list[vertex].export_to_list())
-        elif vertex_list[0].get_type() == POINT_3:
+        elif vertex_list[0].get_type() == _UTILS_MATH_POINT_3:
             for vertex in range(len(vertex_list)):
                 _gl.glTexCoord2fv(tvertex_list[vertex].export_to_list())
                 _gl.glVertex3fv(vertex_list[vertex].export_to_list())

@@ -27,22 +27,23 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-import math
+import math as _math
+import sys as _sys
 
 # Constants
-POINT_2 = 'util-point-2'
-POINT_3 = 'util-point-3'
+_UTILS_MATH_POINT_2 = 'util-point-2'
+_UTILS_MATH_POINT_3 = 'util-point-3'
 
 
 class Point3:
     """
-    Punto de 3 componentes.
+    Point with 3 components.
     """
 
     def __init__(self, x=0.0, y=0.0, z=0.0):
         """Funcion constructora"""
         self._point = Vector3(x, y, z)
-        self._type = POINT_3
+        self._type = _UTILS_MATH_POINT_3
 
     def get_type(self):
         """Retorna el tipo de punto"""
@@ -163,7 +164,7 @@ class Point2(Point3):
     def __init__(self, x=0.0, y=0.0):
         Point3.__init__(self, x, y)
         self._point = Vector3(x, y)
-        self._type = POINT_2
+        self._type = _UTILS_MATH_POINT_2
 
     # noinspection PyMethodMayBeStatic,PyShadowingNames
     def _point_to_vec(self, point):
@@ -479,34 +480,66 @@ class Vector3(object):
 
     @staticmethod
     def throw_error(err_num, err_func):
-        """Imprime un error en pantalla"""
+        """
+        Print error to console.
+
+        :param err_num: Error code
+        :param err_func: Error name function
+        :type err_num: int
+        :type err_func: basestring
+        """
 
         def _print_error(error):
-            print('Error :: {0} ~ {1}'.format(error, err_func))
+            print('{0} ~ {1}'.format(error, err_func), file=_sys.stderr)
 
         if err_num == 1:
-            _print_error("La mantisa es menor a 1")
+            _print_error('Mantise less than 1')
         elif err_num == 2:
-            _print_error("Tipo invalido")
+            _print_error('Invalid type')
 
-    # override
     def echo(self, mantise=1, **kwargs):
-        """Imprime el vector en pantalla"""
+        """
+        Prints vector to console.
+
+        :param mantise: Mantise
+        :param kwargs: Optional parameters
+        :type mantise: int
+        :type kwargs: object
+        """
         print(self.__str__(mantise, **kwargs))
 
     def dot(self, other):
-        """Producto punto"""
+        """
+        Return new vector from dot operation.
+
+        :param other: Vector
+        :type other: Vector3
+        :return: New vector
+        :rtype: Vector3
+        """
         return self.__mul__(other)
 
     def dotwith(self, other):
-        """Producto punto con otro"""
+        """
+        Dot operation, save to object.
+
+        :param other: Vector
+        :type other: Vector3
+        """
         dot = self.dot(other)
         self.x = dot.get_x()
         self.y = dot.get_y()
         self.z = dot.get_z()
 
     def cross(self, other):
-        """Retorna el producto cruz"""
+        """
+        Return new vector from cross operation.
+
+        :param other: Vector
+        :type other: Vector3
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(other, Vector3):
             i = self.y * other.get_z() - self.z * other.get_y()
             j = self.z * other.get_x() - self.x * other.get_z()
@@ -519,51 +552,93 @@ class Vector3(object):
             return self
 
     def crosswith(self, other):
-        """Aplica el producto cruz con el otro vector"""
+        """
+        Cross operation, save to object.
+
+        :param other: Vector
+        :type other: Vector3
+        """
         cross = self.cross(other)
         self.x = cross.get_x()
         self.y = cross.get_y()
         self.z = cross.get_z()
 
     def distance_with(self, other):
-        """Retorna la distancia a otro vector"""
+        """
+        Return distance from another vector.
+
+        :param other: Vector
+        :type other: Vector3
+        :return: Distance
+        :rtype: float
+        """
         if isinstance(other, Vector3):
-            return math.sqrt(
+            return _math.sqrt(
                 (self.x - other.get_x()) ** 2 + (self.y - other.get_y()) ** 2 + (self.z - other.get_y()) ** 2)
         elif type(other) is list or type(other) is tuple:
             return self.distance_with(Vector3(*other))
         else:
-            self.throw_error(2, "distance")
+            self.throw_error(2, 'distance')
             return 0.0
 
     def __str__(self, mantise=1, **kwargs):
-        """Retorna el string del punto"""
+        """
+        Display point as string.
+
+        :param mantise: Point mantise
+        :param kwargs: Optional parameters
+        :type mantise: int
+        :type kwargs: object
+        :return: Point as string
+        :rtype: basestring
+        """
         if mantise >= 1:
-            if kwargs.get("formated"):
-                _format = "/{0}\\\n|{1}|\n\\{2}/"
+            if kwargs.get('formatted'):
+                _format = '/{0}\\\n|{1}|\n\\{2}/'
             else:
-                _format = "[{0},{1},{2}]"
-            if kwargs.get("point3"):
-                _format = "({0},{1},{2})"
-            if kwargs.get("point2"):
-                _format = "({0},{1})"
+                _format = '[{0},{1},{2}]'
+            if kwargs.get('point3'):
+                _format = '({0},{1},{2})'
+            if kwargs.get('point2'):
+                _format = '({0},{1})'
             return _format.format(round(self.x, mantise),
                                   round(self.y, mantise),
                                   round(self.z, mantise))
         else:
-            self.throw_error(1, "echo")
+            self.throw_error(1, 'echo')
 
     def export_to_list(self):
-        """Exportar el vector a una lista"""
+        """
+        Export vector to list.
+
+        :return: List containing coordinates
+        :rtype: list
+        """
         return [self.x, self.y, self.z]
 
     def export_to_tuple(self):
-        """Exportar el vector a una tupla"""
+        """
+        Export vector to tuple.
+
+        :return: Tuple containing coordinates
+        :rtype: tuple
+        """
         return self.x, self.y, self.z
 
 
 def _normal_3_points(a, b, c):
-    """Retorna el vector normal dado tres puntos a, b, c"""
+    """
+    Return normal vector from 3 points.
+
+    :param a: Point a
+    :param b: Point b
+    :param c: Point c
+    :type a: tuple, Point3
+    :type b: tuple, Point3
+    :type c: tuple, Point3
+    :return: Normal vector
+    :rtype: Vector3
+    """
     if type(a) is list or type(a) is tuple:
         a = Vector3(*a)
         b = Vector3(*b)
@@ -583,17 +658,38 @@ def _normal_3_points(a, b, c):
 
 
 def _cos(angle):
-    """Retorna el coseno de un angulo"""
-    return math.cos(math.radians(angle))
+    """
+    Return cosine of the angle (in radians).
+
+    :param angle: Angle in radians
+    :type angle: float, int
+    :return: Cosine value
+    :rtype: float
+    """
+    return _math.cos(_math.radians(angle))
 
 
 def _sin(angle):
-    """Retorna el seno de un angulo"""
-    return math.sin(math.radians(angle))
+    """
+    Return sine of the angle (in radians).
+
+    :param angle: Angle in radians
+    :type angle: float, int
+    :return: Sine value
+    :rtype: float
+    """
+    return _math.sin(_math.radians(angle))
 
 
 def _sgn(x):
-    """Retorna el signo de x"""
+    """
+    Returns sign(x).
+
+    :param x: Number
+    :type x: float, int
+    :return: 1, 0, -1
+    :rtype: int
+    """
     if x > 0:
         return 1
     elif x == 0:
@@ -602,10 +698,21 @@ def _sgn(x):
         return -1
 
 
-def _spr_to_xyz(r, fi, theta):
-    """Convierte las coordenadas esferiacs (r,fi,theta) a (x,y,z)"""
-    x = r * _sin(theta) * _cos(fi)
-    y = r * _sin(theta) * _sin(fi)
+def _spr_to_xyz(r, phi, theta):
+    """
+    Convertes spheric coordinates to (x,y,z).
+
+    :param r: Radius
+    :param phi: Phi angle
+    :param theta: Theta angle
+    :type r: float, int
+    :type phi: float, int
+    :type theta: float, int
+    :return: (x,y,z) tuple
+    :rtype: tuple
+    """
+    x = r * _sin(theta) * _cos(phi)
+    y = r * _sin(theta) * _sin(phi)
     z = r * _cos(theta)
     return x, y, z
 
@@ -625,28 +732,28 @@ def _xyz_to_spr(x, y, z):
     """
 
     # Radius
-    r = math.sqrt(x ** 2 + y ** 2 + z ** 2)
+    r = _math.sqrt(x ** 2 + y ** 2 + z ** 2)
 
     # Theta
     if z > 0:
-        theta = math.atan(math.sqrt(x ** 2 + y ** 2) / z)
+        theta = _math.atan(_math.sqrt(x ** 2 + y ** 2) / z)
     elif z == 0:
-        theta = math.pi / 2
+        theta = _math.pi / 2
     else:
-        theta = math.pi + math.atan(math.sqrt(x ** 2 + y ** 2) / z)
+        theta = _math.pi + _math.atan(_math.sqrt(x ** 2 + y ** 2) / z)
 
     # Calculate phi angle
     if x > 0:
         if y > 0:
-            phi = math.atan(y / x)
+            phi = _math.atan(y / x)
         else:
-            phi = 2 * math.pi + math.atan(y / x)
+            phi = 2 * _math.pi + _math.atan(y / x)
     elif x == 0:
-        phi = _sgn(y) * math.pi / 2
+        phi = _sgn(y) * _math.pi / 2
     else:
-        phi = math.pi + math.atan(y / x)
-    theta = math.degrees(theta)
-    phi = math.degrees(phi) % 360
+        phi = _math.pi + _math.atan(y / x)
+    theta = _math.degrees(theta)
+    phi = _math.degrees(phi) % 360
     theta = min(max(theta, 0.000001), 180)
 
     # Return tuple
