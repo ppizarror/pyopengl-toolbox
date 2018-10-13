@@ -45,16 +45,13 @@ from PyOpenGLtoolbox.materials import material_black_plastic, material_black_rub
 from PyOpenGLtoolbox.opengl import init_gl, init_light, clear_buffer, reshape_window, is_light_enabled
 
 # noinspection PyUnresolvedReferences
-from PyOpenGLtoolbox.pyopengl import init_pygame, load_image
-
-# noinspection PyUnresolvedReferences
-from PyOpenGLtoolbox.shader import load_shader
-
-# noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.particles import Particle
 
 # noinspection PyUnresolvedReferences
-from PyOpenGLtoolbox.shader import Shader, ShaderProgram
+from PyOpenGLtoolbox.pyopengl import init_pygame, load_image
+
+# noinspection PyUnresolvedReferences
+from PyOpenGLtoolbox.shader import load_shader, Shader, ShaderProgram
 
 # noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.textures import load_texture
