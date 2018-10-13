@@ -40,16 +40,16 @@ import OpenGL.GL as _gl
 import OpenGL.GLUT as _glut
 
 # Constants
-_COLOR_BLACK = [0.0, 0.0, 0.0, 1.0]
-_COLOR_BLUE = [0.0, 0.0, 1.0, 1.0]
-_COLOR_RED = [1.0, 0.0, 0.0, 1.0]
-_COLOR_GREEN = [0.0, 1.0, 0.0, 1.0]
-_COLOR_WHITE = [1.0, 1.0, 1.0, 1.0]
-_FIGURE_LIST = 0xfa01
-_FIGURE_VBO = 0xfa02
-_ERRS = []
+_FIGURES_COLOR_BLACK = [0.0, 0.0, 0.0, 1.0]
+_FIGURES_COLOR_BLUE = [0.0, 0.0, 1.0, 1.0]
+_FIGURES_COLOR_RED = [1.0, 0.0, 0.0, 1.0]
+_FIGURES_COLOR_GREEN = [0.0, 1.0, 0.0, 1.0]
+_FIGURES_COLOR_WHITE = [1.0, 1.0, 1.0, 1.0]
+_FIGURES_FIGURE_LIST = 0xfa01
+_FIGURES_FIGURE_VBO = 0xfa02
+_FIGURES_ERRS = []
 for i in range(10):
-    _ERRS.append(False)
+    _FIGURES_ERRS.append(False)
 
 
 class VBObject:
@@ -383,7 +383,7 @@ def create_sphere(lat=10, lng=10, color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     if lat >= 3 and lng >= 10:
         obj = _gl.glGenLists(1)
         _gl.glNewList(obj, _gl.GL_COMPILE)
@@ -393,9 +393,9 @@ def create_sphere(lat=10, lng=10, color=None):
         try:
             _glut.glutSolidSphere(1.0, lat, lng)
         except:
-            if not _ERRS[0]:
+            if not _FIGURES_ERRS[0]:
                 _print_gl_error('OpenGL actual version does not support glutSolidSphere function')
-            _ERRS[0] = True
+            _FIGURES_ERRS[0] = True
         _gl.glPopMatrix()
         _gl.glEndList()
         return obj
@@ -418,7 +418,7 @@ def create_circle(rad=1.0, diff=0.1, normal=None, color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     if normal is None:
         normal = [0.0, 0.0, 1.0]
     if diff > 0:
@@ -462,7 +462,7 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     if lat >= 3 and lng >= 10:
         # noinspection PyArgumentEqualDefault
         circlebase = create_circle(base - 0.05, 0.1, [0.0, 0.0, -1.0], color)
@@ -474,9 +474,9 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
         try:
             _glut.glutSolidCone(base, height, lat, lng)
         except:
-            if not _ERRS[3]:
+            if not _FIGURES_ERRS[3]:
                 _print_gl_error('OpenGL actual version does not support glutSolidCone function')
-            _ERRS[3] = True
+            _FIGURES_ERRS[3] = True
         _gl.glCallList(circlebase)
         _gl.glPopMatrix()
         _gl.glEndList()
@@ -494,7 +494,7 @@ def create_cube(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     a = Point3(-1.0, -1.0, -1.0)
     b = Point3(1.0, -1.0, -1.0)
     c = Point3(1.0, -1.0, 1.0)
@@ -582,7 +582,7 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
     :return: OpenGl list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     if lat >= 3 and lng >= 3:
         obj = _gl.glGenLists(1)
         _gl.glNewList(obj, _gl.GL_COMPILE)
@@ -592,9 +592,9 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
         try:
             _glut.glutSolidTorus(minr, maxr, lat, lng)
         except:
-            if not _ERRS[2]:
+            if not _FIGURES_ERRS[2]:
                 _print_gl_error('OpenGL actual version does not support glutSolidTorus function')
-            _ERRS[2] = True
+            _FIGURES_ERRS[2] = True
         _gl.glPopMatrix()
         _gl.glEndList()
         return obj
@@ -611,7 +611,7 @@ def create_cube_solid(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
@@ -620,9 +620,9 @@ def create_cube_solid(color=None):
     try:
         _glut.glutSolidCube(1.0)
     except:
-        if not _ERRS[3]:
+        if not _FIGURES_ERRS[3]:
             _print_gl_error('OpenGL actual version does not support glutSolidCube function')
-        _ERRS[3] = True
+        _FIGURES_ERRS[3] = True
     _gl.glPopMatrix()
     _gl.glEndList()
     return obj
@@ -637,7 +637,7 @@ def create_pyramid(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     arista = 2.0
     a = Point3(-0.5, -0.5, -0.333) * arista
     b = Point3(0.5, -0.5, -0.333) * arista
@@ -714,7 +714,7 @@ def create_diamond(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
 
     # noinspection PyArgumentEqualDefault
     a = Point3(-1.0, -1.0, 0.0)
@@ -757,7 +757,7 @@ def create_teapot(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
@@ -767,9 +767,9 @@ def create_teapot(color=None):
     try:
         _glut.glutSolidTeapot(1.0)
     except:
-        if not _ERRS[4]:
+        if not _FIGURES_ERRS[4]:
             _print_gl_error('OpenGL actual version doest not support glutSolidTeapot function')
-        _ERRS[4] = True
+        _FIGURES_ERRS[4] = True
     _gl.glPopMatrix()
     _gl.glEndList()
     return obj
@@ -794,9 +794,9 @@ def create_teapot_textured(texture_list):
     try:
         _glut.glutSolidTeapot(1.0)
     except:
-        if not _ERRS[4]:
+        if not _FIGURES_ERRS[4]:
             _print_gl_error('OpenGL actual version does not support glutSolidTeapot function')
-        _ERRS[4] = True
+        _FIGURES_ERRS[4] = True
     for _i in range(len(texture_list)):
         _gl.glActiveTexture(_gl.GL_TEXTURE0 + _i)
         _gl.glDisable(_gl.GL_TEXTURE_2D)
@@ -904,7 +904,7 @@ def create_tetrahedron(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
@@ -913,9 +913,9 @@ def create_tetrahedron(color=None):
     try:
         _glut.glutSolidTetrahedron()
     except:
-        if not _ERRS[5]:
+        if not _FIGURES_ERRS[5]:
             _print_gl_error('OpenGL actual version does not support glutSolidTetrahedron function')
-        _ERRS[5] = True
+        _FIGURES_ERRS[5] = True
     _gl.glPopMatrix()
     _gl.glEndList()
     return obj
@@ -930,7 +930,7 @@ def create_dodecahedron(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
@@ -939,9 +939,9 @@ def create_dodecahedron(color=None):
     try:
         _glut.glutSolidDodecahedron()
     except:
-        if not _ERRS[6]:
+        if not _FIGURES_ERRS[6]:
             _print_gl_error('OpenGL actual version dost not support glutSolidDodecahedron function')
-        _ERRS[6] = True
+        _FIGURES_ERRS[6] = True
     _gl.glPopMatrix()
     _gl.glEndList()
     return obj
@@ -956,7 +956,7 @@ def create_octahedron(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
@@ -965,9 +965,9 @@ def create_octahedron(color=None):
     try:
         _glut.glutSolidOctahedron()
     except:
-        if not _ERRS[7]:
+        if not _FIGURES_ERRS[7]:
             _print_gl_error('OpenGL actual version does not support glutSolidOctahedron function')
-        _ERRS[7] = True
+        _FIGURES_ERRS[7] = True
     _gl.glPopMatrix()
     _gl.glEndList()
     return obj
@@ -982,7 +982,7 @@ def create_icosahedron(color=None):
     :return: OpenGL list
     """
     if color is None:
-        color = _COLOR_WHITE
+        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
@@ -991,9 +991,9 @@ def create_icosahedron(color=None):
     try:
         _glut.glutSolidIcosahedron()
     except:
-        if not _ERRS[8]:
+        if not _FIGURES_ERRS[8]:
             _print_gl_error('OpenGL actual version does not support glutSolidIcosahedron function')
-        _ERRS[8] = True
+        _FIGURES_ERRS[8] = True
     _gl.glPopMatrix()
     _gl.glEndList()
     return obj
