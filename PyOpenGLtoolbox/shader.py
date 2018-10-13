@@ -27,8 +27,9 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-from OpenGL.GL import *
 import ctypes
+
+import OpenGL.GL as _gl
 
 # Constants
 DEFAULT_PROGRAM = 0
@@ -71,11 +72,11 @@ class Shader:
             if self.file is not None:
                 try:
                     if self.tipo == VERTEX:
-                        self.shader = glCreateShader(GL_VERTEX_SHADER)
+                        self.shader = _gl.glCreateShader(_gl.GL_VERTEX_SHADER)
                     else:
-                        self.shader = glCreateShader(GL_FRAGMENT_SHADER)
-                    glShaderSource(self.shader, self.file)
-                    glCompileShader(self.shader)
+                        self.shader = _gl.glCreateShader(_gl.GL_FRAGMENT_SHADER)
+                    _gl.glShaderSource(self.shader, self.file)
+                    _gl.glCompileShader(self.shader)
                     self.compiled = True
                 except:
                     raise Exception("error al compilar el shader")
@@ -183,9 +184,9 @@ class ShaderProgram:
     def compile(self):
         """Compila el programa"""
         if not self.is_compiled():
-            self.program = glCreateProgram()
-            glAttachShader(self.program, self.fshader.get_compiled())
-            glAttachShader(self.program, self.vshader.get_compiled())
+            self.program = _gl.glCreateProgram()
+            _gl.glAttachShader(self.program, self.fshader.get_compiled())
+            _gl.glAttachShader(self.program, self.vshader.get_compiled())
 
             glValidateProgram(self.program)
             glLinkProgram(self.program)

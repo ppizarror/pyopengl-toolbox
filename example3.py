@@ -39,7 +39,7 @@ NUM_LIGHTS = 2
 WINDOW_SIZE = [800, 600]
 
 # Init window
-init_pygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 3', centered_window=True)
+init_pygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 3')
 init_gl(materialcolor=False, lighting=True, numlights=NUM_LIGHTS, perspectivecorr=True, textures=True)
 reshape_window(WINDOW_SIZE[0], WINDOW_SIZE[1], near=10, far=10000)
 init_light(GL_LIGHT0)

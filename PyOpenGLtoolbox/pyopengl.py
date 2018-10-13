@@ -27,46 +27,57 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-from pygame.locals import *
-import os
-import pygame
+from pygame.locals import DOUBLEBUF as _DOUBLEBUF
+from pygame.locals import OPENGLBLIT as _OPENGLBLIT
+import os as _os
+import pygame as _pygame
 
-# Constantes
+# Constants
 _DEFAULT_CAPTION = 'Program title'
 
 
-def init_pygame(w, h, caption=_DEFAULT_CAPTION, icon=None, center_mouse=False, centered_window=False):
+def init_pygame(w, h, caption=_DEFAULT_CAPTION, icon=None, centered_mouse=False, centered_window=True):
     """
-    Init pygame
+    Init pygame.
+
     :param w: Window width (px)
     :param h: Window height (px)
     :param caption: Window title
-    :param icon: Window icon
-    :param center_mouse: Centered mouse
+    :param icon: Window icon, pygame Surface object
+    :param centered_mouse: Centered mouse
     :param centered_window: Centered window
-    :return: None
+    :type w: int
+    :type h: int
+    :type caption: basestring
+    :type icon: Surface
+    :type centered_mouse: bool
+    :type centered_window: bool
     """
-    pygame.init()
+    _pygame.init()
     if centered_window:
-        os.environ['SDL_VIDEO_CENTERED'] = '1'
-    pygame.display.set_mode((w, h), OPENGLBLIT | DOUBLEBUF)
-    pygame.display.set_caption(caption)
-    if center_mouse:
-        pygame.mouse.set_pos(w / 2, h / 2)
+        _os.environ['SDL_VIDEO_CENTERED'] = '1'
+    _pygame.display.set_mode((w, h), _OPENGLBLIT | _DOUBLEBUF)
+    _pygame.display.set_caption(caption)
+    if centered_mouse:
+        _pygame.mouse.set_pos(w / 2, h / 2)
     if icon is not None:
-        pygame.display.set_icon(icon)
+        _pygame.display.set_icon(icon)
 
 
 def load_image(path, convert=False):
     """
-    Loads an image
+    Loads an image.
+
     :param path: Imagepath
     :param convert: Convert alpha
-    :return:
+    :type path: basestring
+    :type convert: bool
+    :return: Pygame Surface object
+    :rtype: Surface
     """
     # noinspection PyBroadException
     try:
-        image = pygame.image.load(path)
+        image = _pygame.image.load(path)
         if convert:
             image = image.convert_alpha()
         return image
