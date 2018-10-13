@@ -27,7 +27,7 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-from PyOpenGLtoolbox.utils_math import _cos, _sin, Point3, Vector3
+from PyOpenGLtoolbox.mathlib import _cos, _sin, Point3, Vector3
 import types as _types
 
 # Constants

@@ -28,9 +28,9 @@ SOFTWARE.
 # Library imports
 from OpenGL.GL import glLoadIdentity as _glLoadIdentity
 from OpenGL.GLU import gluLookAt as _gluLookAt
-from PyOpenGLtoolbox.utils_math import _cos, _sin, _xyz_to_spr, _spr_to_xyz
-from PyOpenGLtoolbox.utils_math import Point3 as _Point3
-from PyOpenGLtoolbox.utils_math import Vector3 as _Vector3
+from PyOpenGLtoolbox.mathlib import _cos, _sin, _xyz_to_spr, _spr_to_xyz
+from PyOpenGLtoolbox.mathlib import Point3 as _Point3
+from PyOpenGLtoolbox.mathlib import Vector3 as _Vector3
 import math as _math
 
 # Constants

@@ -26,13 +26,13 @@ SOFTWARE.
 """
 
 # Library imports
+from math import sqrt as _sqrt
 from numpy import array as _array
 from OpenGL.arrays import vbo as _vbo
 from PyOpenGLtoolbox.utils import print_gl_error as _print_gl_error
-from PyOpenGLtoolbox.utils_geometry import _normal_3_points, draw_vertex_list_create_normal, \
+from PyOpenGLtoolbox.geometry import _normal_3_points, draw_vertex_list_create_normal, \
     draw_vertex_list_create_normal_textured
-from PyOpenGLtoolbox.utils_math import Point3, _cos, _sin, Point2
-import math
+from PyOpenGLtoolbox.mathlib import Point3, _cos, _sin, Point2
 
 # noinspection PyPep8Naming
 import OpenGL.GL as _gl
@@ -274,7 +274,7 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
             nx = a_by * b_cz - a_bz * b_cy
             ny = a_bz * b_cx - a_bx * b_cz
             nz = a_bx * b_cy - a_by * b_cx
-            vec_mag = math.sqrt(nx ** 2 + ny ** 2 + nz ** 2)
+            vec_mag = _sqrt(nx ** 2 + ny ** 2 + nz ** 2)
             ni = nx / vec_mag
             nj = ny / vec_mag
             nk = nz / vec_mag

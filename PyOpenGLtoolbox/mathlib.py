@@ -1,6 +1,6 @@
 # coding=utf-8
 """
-PYOPENGL-TOOLBOX UTILS MATH
+PYOPENGL-TOOLBOX MATH
 Utilitary math tools.
 
 MIT License
@@ -41,149 +41,310 @@ class Point3:
     """
 
     def __init__(self, x=0.0, y=0.0, z=0.0):
-        """Funcion constructora"""
+        """
+        Constructor.
+
+        :param x: X-coordinate
+        :param y: Y-coordinate
+        :param z: Z-coordinate
+        :type x: float, int, hex, oct, complex
+        :type y: float, int, hex, oct, complex
+        :type z: float, int, hex, oct, complex
+        """
         self._point = Vector3(x, y, z)
         self._type = _UTILS_MATH_POINT_3
 
     def get_type(self):
-        """Retorna el tipo de punto"""
+        """
+        Get point type.
+
+        :return: Point type
+        :rtype: string
+        """
         return self._type
 
     def get_x(self):
-        """Retorna el primer elemento del punto"""
+        """
+        Return x-coordinate.
+
+        :return: X-coordinate
+        :rtype: float, int, hex, oct, complex
+        """
         return self._point.get_x()
 
     def get_y(self):
-        """Retorna el segundo elemento del punto"""
+        """
+        Return y-coordinate.
+
+        :return: y-coordinate
+        :rtype: float, int, hex, oct, complex
+        """
         return self._point.get_y()
 
     def get_z(self):
-        """Retorna el tercer elemento del punto"""
+        """
+        Return z-coordinate.
+
+        :return: z-coordinate
+        :rtype: float, int, hex, oct, complex
+        """
         return self._point.get_z()
 
     def set_x(self, value):
-        """Define el primer elemento del punto"""
+        """
+        Set x-value of the point.
+
+        :param value: Value
+        :type value: float, int, hex, oct, complex
+        """
         self._point.set_x(value)
 
     def set_y(self, value):
-        """Define el segundo elemento del punto"""
+        """
+        Set y-value of the point.
+
+        :param value: Value
+        :type value: float, int, hex, oct, complex
+        """
         self._point.set_y(value)
 
     def set_z(self, value):
-        """Define el tercer elemento del punto"""
+        """
+        Set z-value of the point.
+
+        :param value: Value
+        :type value: float, int, hex, oct, complex
+        """
         self._point.set_z(value)
 
     def export_to_list(self):
-        """Exportar el punto a una lista"""
+        """
+        Export point to list.
+
+        :return: List
+        :rtype: list
+        """
         return [self._point.get_x(), self._point.get_y(), self._point.get_z()]
 
     def export_to_tuple(self):
-        """Exportar el punto a una tupla"""
+        """
+        Export point to tuple.
+
+        :return: Tuple
+        :rtype: tuple
+        """
         return self._point.get_x(), self._point.get_y(), self._point.get_z()
 
     def normalize(self):
-        """Normaliza el punto"""
+        """
+        Normalize the point.
+        """
         self._point.normalize()
 
-    # override
     def echo(self, mantise=1):
-        """Imprime el punto"""
+        """
+        Print the point.
+
+        :param mantise: Point mantise
+        :type mantise: int
+        """
         self._point.echo(mantise, point3=True)
 
     def __add__(self, other):
-        """Sumar el punto con otro"""
+        """
+        Divide point with another.
+
+        :param other: Other point
+        :type other: Point3, Point2
+        :return: Point
+        """
         return self._vec_to_point(self._point.__add__(self._point_to_vec(other)))
 
     def __sub__(self, other):
-        """Restar el punto con otro"""
+        """
+        Substract point with another.
+
+        :param other: Other point
+        :type other: Point3, Point2
+        :return: Point
+        """
         return self._vec_to_point(self._point.__sub__(self._point_to_vec(other)))
 
     def __mul__(self, other):
-        """Multiplicar el punto por otro"""
+        """
+        Multiply point with another.
+
+        :param other: Other point
+        :type other: Point3, Point2
+        :return: Point
+        """
         return self._vec_to_point(self._point.__mul__(self._point_to_vec(other)))
 
     def __str__(self, mantise=1, **kwargs):
-        """Retornar el string del punto"""
+        """
+        Return string value of the point.
+
+        :return: Point to string
+        :rtype: basestring
+        """
         return self._point.__str__(mantise, point3=True)
 
     def __div__(self, other):
-        """Dividir el punto por otro"""
+        """
+        Divide point with another.
+
+        :param other: Other point
+        :type other: Point3, Point2
+        :return: Point
+        """
         return self._vec_to_point(self._point.__div__(self._point_to_vec(other)))
 
     def __abs__(self):
-        """Retornar el valor absoluto del punto"""
+        """
+        Return absolute value of the point.
+
+        :return: Point
+        """
         return self._vec_to_point(self._point.__abs__())
 
     # noinspection PyMethodFirstArgAssignment
     def __iadd__(self, other):
-        """Suma el mismo punto con other"""
+        """
+        Adds point with another.
+
+        :param other: Other point
+        :type other: Point3, Point2
+        :return: Point
+        """
         self = self._vec_to_point(self._point.__iadd__(other))
         return self
 
     # noinspection PyMethodFirstArgAssignment
     def __isub__(self, other):
-        """Resta el mismo punto con other"""
+        """
+        Substract point with another.
+
+        :param other: Other point
+        :type other: Point3, Point2
+        :return: Point
+        """
         self = self._vec_to_point(self._point.__isub__(other))
         return self
 
     # noinspection PyMethodFirstArgAssignment
     def __imul__(self, other):
-        """Multiplica el mismo punto con other"""
+        """
+        Multiply point with another.
+
+        :param other: Other point
+        :type other: Point3, Point2
+        :return: Point
+        """
         self = self._vec_to_point(self._point.__imul__(other))
         return self
 
     # noinspection PyMethodFirstArgAssignment
     def __idiv__(self, other):
-        """Divide el mismo punto con other"""
+        """
+        Divide point with another.
+
+        :param other: Other point
+        :type other: Point3, Point2
+        :return: Point
+        """
         self = self._vec_to_point(self._point.__iadd__(other))
         return self
 
-    # noinspection PyMethodMayBeStatic,PyShadowingNames
-    def _point_to_vec(self, point):
-        """Convierte un punto a un vector"""
+    @staticmethod
+    def _point_to_vec(point):
+        """
+        Converts a point to a vector.
+
+        :param point: Point
+        :type point: Point3
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(point, Point3):
             return Vector3(point.get_x(), point.get_y(), point.get_z())
         else:
             return point
 
-    # noinspection PyMethodMayBeStatic
-    def _vec_to_point(self, vec):
-        """Convierte un vector a un punto"""
+    @staticmethod
+    def _vec_to_point(vec):
+        """
+        Converts a vector to point.
+
+        :param vec: Vector
+        :type vec: Vector3
+        :return: New point
+        :rtype: Point2
+        """
         if isinstance(vec, Vector3):
             return Point3(vec.get_x(), vec.get_y(), vec.get_z())
         else:
             return vec
 
 
-# noinspection PyClassicStyleClass
 class Point2(Point3):
     """
-    Punto de 2 componentes
+    2-coordinates point.
     """
 
     def __init__(self, x=0.0, y=0.0):
+        """
+        Constructor.
+
+        :param x: X-coordinate
+        :param y: Y-coordinate
+        :type x: float, int, hex, oct, complex
+        :type y: float, int, hex, oct, complex
+        """
         Point3.__init__(self, x, y)
         self._point = Vector3(x, y)
         self._type = _UTILS_MATH_POINT_2
 
-    # noinspection PyMethodMayBeStatic,PyShadowingNames
-    def _point_to_vec(self, point):
-        """Convierte un punto a un vector"""
+    @staticmethod
+    def _point_to_vec(point):
+        """
+        Converts a point to a vector.
+
+        :param point: Point
+        :type point: Point2
+        :return: New vector
+        :rtype: Vector3
+        """
         if isinstance(point, Point2):
             return Vector3(point.get_x(), point.get_y())
         else:
             return point
 
-    # noinspection PyMethodMayBeStatic
-    def _vec_to_point(self, vec):
-        """Convierte un vector a un punto"""
+    @staticmethod
+    def _vec_to_point(vec):
+        """
+        Converts a vector to point.
+
+        :param vec: Vector
+        :type vec: Vector3
+        :return: New point
+        :rtype: Point2
+        """
         if isinstance(vec, Vector3):
             return Point2(vec.get_x(), vec.get_y())
         else:
             return vec
 
     def __str__(self, mantise=1, **kwargs):
-        """Retornar el string del punto"""
+        """
+        Return point as string.
+
+        :param mantise: Point mantise
+        :param kwargs: Optional arguments
+        :type mantise: int
+        :type kwargs: object
+        :return: Point string
+        :rtype: basestring
+        """
         return self._point.__str__(mantise, point2=True)
 
     def echo(self, mantise=1):

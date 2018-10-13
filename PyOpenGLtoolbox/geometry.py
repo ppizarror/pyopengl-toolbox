@@ -1,6 +1,6 @@
 # coding=utf-8
 """
-PYOPENGL-TOOLBOX UTILS GEOMETRY
+PYOPENGL-TOOLBOX GEOMETRY
 Utilitary geometry functions.
 
 MIT License
@@ -26,7 +26,7 @@ SOFTWARE.
 """
 
 # Library imports
-from PyOpenGLtoolbox.utils_math import _UTILS_MATH_POINT_2, _UTILS_MATH_POINT_3, Vector3, _normal_3_points
+from PyOpenGLtoolbox.mathlib import _UTILS_MATH_POINT_2, _UTILS_MATH_POINT_3, Vector3, _normal_3_points
 
 # noinspection PyPep8Naming
 import OpenGL.GL as _gl

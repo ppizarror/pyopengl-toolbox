@@ -27,8 +27,8 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-from PyOpenGLtoolbox.utils_geometry import draw_vertex_list
-from PyOpenGLtoolbox.utils_math import Point3
+from PyOpenGLtoolbox.geometry import draw_vertex_list
+from PyOpenGLtoolbox.mathlib import Point3
 import sys as _sys
 
 # noinspection PyPep8Naming
