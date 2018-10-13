@@ -27,98 +27,142 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-import ctypes
+from ctypes import c_float as _cfloat
 
+# noinspection PyPep8Naming
 import OpenGL.GL as _gl
 
 # Constants
-DEFAULT_PROGRAM = 0
-FRAGMENT = 0x01
-VERTEX = 0x02
+_SHADER_DEFAULT_PROGRAM = 0
+_SHADER_FRAGMENT = 0x01
+_SHADER_VERTEX = 0x02
 
 
 class Shader:
-    """Permite cargar y compilar shaders"""
+    """
+    Shader class, can load an compile GLSL shaders.
+    """
 
-    # noinspection PyShadowingBuiltins
-    def __init__(self, path, tipo, compile=False, formatlist=None):
-        """Constructor"""
-        if tipo == FRAGMENT or tipo == VERTEX:
-            self.shader = None
-            self.file = str(self.load(path))
-            self.tipo = tipo
-            self.path = path
-            self.compiled = False
-            if formatlist is not None:
-                if type(formatlist) is list:
+    def __init__(self, path, shader_type, do_compile=False, format_list=None):
+        """
+        Constructor.
+
+        :param path: Shader path
+        :param shader_type: Shader type
+        :param do_compile: Compile after load
+        :param format_list: Format list
+        :type path: basestring
+        :type shader_type: int
+        :type do_compile: bool
+        :type format_list: list
+        """
+        if shader_type == _SHADER_FRAGMENT or shader_type == _SHADER_VERTEX:
+            self._compiled = False
+            self._file = str(self.load(path))
+            self._path = path
+            self._shader = None
+            self._shader_type = shader_type
+            if format_list is not None:
+                if type(format_list) is list:
                     num = 0
-                    for f in formatlist:
+                    for f in format_list:
                         key = '{' + str(num) + '}'
-                        if key in self.file:
-                            self.file = self.file.replace(key, str(f))
+                        if key in self._file:
+                            self._file = self._file.replace(key, str(f))
                         num += 1
                 else:
-                    raise Exception(
-                        "el tipo de formatlist debe ser del tipo list")
+                    raise Exception('format_list must be list type')
         else:
-            raise Exception(
-                "tipo de shader incorrecto, debe ser FRAGMENT o VERTEX")
-        if compile:
+            raise Exception('Shader invalid, must be FRAGMENT or VERTEX')
+        if do_compile:
             self.compile()
 
     def compile(self):
-        """Compila el shader cargado"""
+        """
+        Compiles loaded shader.
+        """
         if not self.is_compiled():
-            if self.file is not None:
+            if self._file is not None:
                 try:
-                    if self.tipo == VERTEX:
-                        self.shader = _gl.glCreateShader(_gl.GL_VERTEX_SHADER)
+                    if self._shader_type == _SHADER_VERTEX:
+                        self._shader = _gl.glCreateShader(_gl.GL_VERTEX_SHADER)
                     else:
-                        self.shader = _gl.glCreateShader(_gl.GL_FRAGMENT_SHADER)
-                    _gl.glShaderSource(self.shader, self.file)
-                    _gl.glCompileShader(self.shader)
-                    self.compiled = True
+                        self._shader = _gl.glCreateShader(_gl.GL_FRAGMENT_SHADER)
+                    _gl.glShaderSource(self._shader, self._file)
+                    _gl.glCompileShader(self._shader)
+                    self._compiled = True
                 except:
-                    raise Exception("error al compilar el shader")
+                    raise Exception('Error when compilin shader')
             else:
-                raise Exception("no se ha cargado un archivo")
+                raise Exception('File not loaded')
         else:
-            print('Error :: el shader ya ha sido compilado')
+            raise Exception('File already been compiled')
 
-    # noinspection PyMethodMayBeStatic
-    def load(self, path):
-        """Carga un archivo y lo convierte a un string"""
+    @staticmethod
+    def load(path):
+        """
+        Loads an file an turns into string.
+
+        :param path: File
+        :type path: basestring
+        :return: File as string
+        :rtype: basestring
+        """
         try:
             f = open(path)
-            program = ""
+            program = ''
             for i in f:
                 program += i
             return program
         except:
-            raise Exception("el archivo no existe")
+            raise Exception('File {0} does not exist'.format(path))
 
     def get_compiled(self):
-        """Retorna el programa compilado"""
+        """
+        Returns compiled shader.
+
+        :return: Shader object
+        """
         if self.is_compiled():
-            return self.shader
+            return self._shader
         else:
-            raise Exception("el shader no ha sido compilado aun")
+            raise Exception('Shader has not been compiled yet')
 
     def get_type(self):
-        """Retorna el tipo de shader"""
-        return self.tipo
+        """
+        Return shader type.
+
+        :return: Shader type
+        :rtype: int
+        """
+        return self._shader_type
 
     def get_path(self):
-        """Retorna la ubicacion del shader"""
-        return self.path
+        """
+        Returns shader path.
+
+        :return: Shader path
+        :rtype: basestring
+        """
+        return self._path
 
     def is_compiled(self):
-        """Retorna true/false si el shader se ha compilado o no"""
-        return self.compiled
+        """
+        Check if shader is compiled.
+
+        :return: Shader is compiled
+        :rtype: bool
+        """
+        return self._compiled
 
     def __str__(self):
-        """Retorna el estado del shader"""
-        if self.get_type() == FRAGMENT:
+        """
+        Returns shader status.
+
+        :return: Shader status
+        :rtype: basestring
+        """
+        if self.get_type() == _SHADER_FRAGMENT:
             t = 'FRAGMENT'
         else:
             t = 'VERTEX'
@@ -129,176 +173,271 @@ class Shader:
         return 'File: {0}\nType: {1}\nStatus: {2}\n'.format(self.get_path(), t, s)
 
     def print_shader(self):
-        """Imprime el codigo fuente del shader"""
-        print(self.file)
+        """
+        Print shader source code.
+        """
+        print(self._file)
 
 
 class ShaderProgram:
-    """Permite la creacion de un programa que ejecutara shaders en segundo plano"""
+    """
+    ShaderProgram class, contains fragment and shader code that runs in background.
+    """
 
-    # noinspection PyShadowingBuiltins
-    def __init__(self, vertex_shader=None, fragment_shader=None, compile=False):
-        """Funcion constructora"""
-        self.fshader = None
-        self.vshader = None
+    def __init__(self, vertex_shader=None, fragment_shader=None, do_compile=False):
+        """
+        Constructor.
+
+        :param vertex_shader: Vertex shader
+        :param fragment_shader: Fragment shader
+        :param do_compile: Compile instantly
+        :type vertex_shader: Shader
+        :type fragment_shader: Shader
+        :type do_compile: bool
+        """
+        self._compiled = False
+        self._enabled = True
+        self._fshader = None
+        self._name = 'unnamed'
+        self._program = None
+        self._vshader = None
         if vertex_shader is not None or fragment_shader is not None:
             self.set_fragment_shader(fragment_shader)
             self.set_vertex_shader(vertex_shader)
-        self.program = None
-        self.compiled = False
-        self.name = "shader-name"
-        if compile:
+        if do_compile:
             self.compile()
-        self.enabled = True
 
     def get_fragment_shader(self):
-        """Retorna el fragment shader"""
-        return self.fshader
+        """
+        Returns fragment shader.
+
+        :return: Fragment shader
+        :rtype: Shader
+        """
+        return self._fshader
 
     def get_vertex_shader(self):
-        """Retorna el vertex shader"""
-        return self.vshader
+        """
+        Returns vertex shader.
+
+        :return: Vertex shader
+        :rtype: Shader
+        """
+        return self._vshader
 
     def set_fragment_shader(self, fragment):
-        """Define el fragment shader"""
+        """
+        Set fragment shader.
+
+        :param fragment: Shader object
+        :type fragment: Shader
+        """
         if isinstance(fragment, Shader):
-            if fragment.get_type() == FRAGMENT:
-                self.fshader = fragment
+            if fragment.get_type() == _SHADER_FRAGMENT:
+                self._fshader = fragment
             else:
-                raise Exception(
-                    "se esperaba un fragment shader, en cambio se paso un vertex shader")
+                raise Exception('Expected fragment shader, but vertex Shader was given')
         else:
-            raise Exception("el fragment shader debe ser del tipo Shader")
+            raise Exception('fragment must be Shader object')
 
     def set_vertex_shader(self, vertex):
-        """Define el vertex shader"""
+        """
+        Set vertex shader.
+
+        :param vertex: Shader object
+        :type vertex: Shader
+        """
         if isinstance(vertex, Shader):
-            if vertex.get_type() == VERTEX:
-                self.vshader = vertex
+            if vertex.get_type() == _SHADER_VERTEX:
+                self._vshader = vertex
             else:
-                raise Exception(
-                    "se esperaba un vertex shader, en cambio se paso un fragment shader")
+                raise Exception('Expected vertex shader, but fragment Shader was given')
         else:
-            raise Exception("el vertex shader debe ser del tipo Shader")
+            raise Exception('vertex must be Shader object')
 
     def compile(self):
-        """Compila el programa"""
+        """
+        Compiles.
+        """
         if not self.is_compiled():
-            self.program = _gl.glCreateProgram()
-            _gl.glAttachShader(self.program, self.fshader.get_compiled())
-            _gl.glAttachShader(self.program, self.vshader.get_compiled())
+            self._program = _gl.glCreateProgram()
+            _gl.glAttachShader(self._program, self._fshader.get_compiled())
+            _gl.glAttachShader(self._program, self._vshader.get_compiled())
 
-            glValidateProgram(self.program)
-            glLinkProgram(self.program)
+            _gl.glValidateProgram(self._program)
+            _gl.glLinkProgram(self._program)
 
-            glDeleteShader(self.fshader.get_compiled())
-            glDeleteShader(self.vshader.get_compiled())
+            _gl.glDeleteShader(self._fshader.get_compiled())
+            _gl.glDeleteShader(self._vshader.get_compiled())
 
-            self.compiled = True
+            self._compiled = True
         else:
-            print('Error :: el programa ya ha sido compilado')
+            raise Exception('Program already been compiled')
 
     def is_compiled(self):
-        """Retorna true/false si el programa ha sido compilado"""
-        return self.compiled
+        """
+        Check if the program is compiled.
+
+        :return: Compile status
+        :rtype: bool
+        """
+        return self._compiled
 
     def get_compiled(self):
-        """Retorna el programa compilado"""
+        """
+        Returns compiled program.
+
+        :return: Program
+        """
         if self.is_compiled():
-            return self.program
+            return self._program
         else:
-            raise Exception("el programa no ha sido compilado aun")
+            raise Exception('Program has not been compiled yet')
 
     def get_name(self):
-        """Retorna el nombre del programa"""
-        return self.name
+        """
+        Returns program name.
+
+        :return: Name
+        :rtype: basestring
+        """
+        return self._name
 
     def set_name(self, n):
-        """Define el nombre del programa"""
-        self.name = n
+        """
+        Set program name.
+
+        :param n: Name
+        :type n: basestring
+        """
+        self._name = n
 
     def __str__(self):
-        """Retorna el estado del programa"""
-        if self.fshader is None:
-            f = "not defined"
+        """
+        Returns program status.
+
+        :return: String
+        :rtype: basestring
+        """
+        if self._fshader is None:
+            f = 'not defined'
         else:
-            f = self.fshader.get_path()
-        if self.vshader is None:
-            v = "not defined"
+            f = self._fshader.get_path()
+        if self._vshader is None:
+            v = 'not defined'
         else:
-            v = self.vshader.get_path()
-        if self.enabled:
-            e = "enabled"
+            v = self._vshader.get_path()
+        if self._enabled:
+            e = 'enabled'
         else:
-            e = "disabled"
+            e = 'disabled'
         if self.is_compiled():
-            c = "compiled | {0}".format(e)
+            c = 'compiled | {0}'.format(e)
         else:
-            c = "not compiled | {0}".format(e)
-        return "shader: {3}\nfragment shader: {0}\nvertex shader: {1}\nstatus: {2}".format(
+            c = 'not compiled | {0}'.format(e)
+        return 'shader: {3}\nfragment shader: {0}\nvertex shader: {1}\nstatus: {2}'.format(
             f, v, c, self.get_name())
 
     def start(self):
-        """Usa el programa"""
+        """
+        Start program.
+        """
         if self.is_compiled():
             try:
-                if self.enabled:
-                    glUseProgram(self.program)
+                if self._enabled:
+                    _gl.glUseProgram(self._program)
             except:
-                raise Exception("error al ejecutar el programa")
+                raise Exception('Error executing program')
         else:
-            raise Exception("el programa no ha sido compilado aun")
+            raise Exception('Program has not been compiled yet')
 
     def stop(self):
-        """Detiene la ejecucion de programa"""
+        """
+        Stop program.
+        """
         if self.is_compiled():
-            glUseProgram(0)
+            _gl.glUseProgram(0)
         else:
-            raise Exception("el programa no ha sido compilado aun")
+            raise Exception('Program has not been compiled yet')
 
     def enable(self):
-        """Activa el shader"""
-        self.enabled = True
+        """
+        Enables the program.
+        """
+        self._enabled = True
 
     def disable(self):
-        """Desactiva el shader"""
-        self.enabled = False
+        """
+        Disables the program.
+        """
+        self._enabled = False
 
     def get_status(self):
-        """Retorna si el shader esta activado o desactivado"""
-        return self.enabled
+        """
+        Get enable status.
+
+        :return: Bool
+        :rtype: bool
+        """
+        return self._enabled
 
     def uniformf(self, n, *vals):
-        """Carga un numero flotante al programa"""
+        """
+        Binds an uniform float value to the program.
+
+        :param n: Index
+        :param vals: Value
+        """
         if len(vals) in range(1, 5) and self.get_status():
-            {1: glUniform1f,
-             2: glUniform2f,
-             3: glUniform3f,
-             4: glUniform4f
-             }[len(vals)](glGetUniformLocation(self.program, n), *vals)
+            {1: _gl.glUniform1f,
+             2: _gl.glUniform2f,
+             3: _gl.glUniform3f,
+             4: _gl.glUniform4f
+             }[len(vals)](_gl.glGetUniformLocation(self._program, n), *vals)
 
     def uniformi(self, n, *vals):
-        """Carga un numero entero al programa"""
+        """
+        Binds an uniform int value to the program.
+
+        :param n: Index
+        :param vals: Value
+        """
         if len(vals) in range(1, 5) and self.get_status():
-            {1: glUniform1i,
-             2: glUniform2i,
-             3: glUniform3i,
-             4: glUniform4i
-             }[len(vals)](glGetUniformLocation(self.program, n), *vals)
+            {1: _gl.glUniform1i,
+             2: _gl.glUniform2i,
+             3: _gl.glUniform3i,
+             4: _gl.glUniform4i
+             }[len(vals)](_gl.glGetUniformLocation(self._program, n), *vals)
 
     def uniform_matrixf(self, n, mat):
-        """Carga una matriz uniforme al programa"""
+        """
+        Binds an uniform matrix value to the program.
+
+        :param n: Index
+        :param mat: Matrix
+        """
         if self.get_status():
-            loc = glGetUniformLocation(self.program, n)
+            loc = _gl.glGetUniformLocation(self._program, n)
             # noinspection PyCallingNonCallable,PyTypeChecker
-            glUniformMatrix4fv(loc, 1, False, (ctypes.c_float * 16)(*mat))
+            _gl.glUniformMatrix4fv(loc, 1, False, (_cfloat * 16)(*mat))
 
 
-def load_shader(shaderpath, shadername, vertex_format_list=None,
-                fragment_formatlist=None):
-    """Funcion que carga un shader y retorna un objeto del tipo ShaderProgram"""
-    fragment = Shader(shaderpath + shadername + ".fsh", FRAGMENT, True,
-                      fragment_formatlist)
-    vertex = Shader(shaderpath + shadername + ".vsh", VERTEX, True,
-                    vertex_format_list)
+def load_shader(shaderpath, shadername, vertex_format_list=None, fragment_formatlist=None):
+    """
+    Loads an shader.
+
+    :param shaderpath: Shader path
+    :param shadername: Shader name
+    :param vertex_format_list: Vertex format list
+    :param fragment_formatlist: Fragment format list
+    :type shaderpath: basestring
+    :type shadername: basestring
+    :type vertex_format_list: list
+    :type fragment_formatlist: list
+    :return: ShaderProgram object
+    :rtype: ShaderProgram
+    """
+    shadername = shadername.replace('.fsh', '').replace('.vsh', '')
+    fragment = Shader(shaderpath + shadername + '.fsh', _SHADER_FRAGMENT, True, fragment_formatlist)
+    vertex = Shader(shaderpath + shadername + '.vsh', _SHADER_VERTEX, True, vertex_format_list)
     return ShaderProgram(vertex, fragment, True)
