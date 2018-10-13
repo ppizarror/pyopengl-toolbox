@@ -39,8 +39,7 @@ WINDOW_SIZE = [800, 600]
 
 # Init window
 init_pygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 1')
-init_gl(materialcolor=False, lighting=True, numlights=1, perspectivecorr=True, textures=True, verbose=True,
-        version=True)
+init_gl(lighting=True, numlights=1, perspectivecorr=True, textures=True, verbose=True, version=True)
 reshape_window(WINDOW_SIZE[0], WINDOW_SIZE[1], near=1, far=10000)
 init_light(GL_LIGHT0)
 clock = pygame.time.Clock()

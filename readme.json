@@ -1,42 +1,47 @@
 {
     "PROJECT": {
-        "NAME": "PyOpenGL toolbox",
+        "NAME": "PyOpenGL-toolbox",
         "ICON": {
             "IMAGE": "http://ppizarror.com/resources/other/python.png",
-            "ALT": "PyOpenGL toolbox",
+            "ALT": "PyOpenGL-toolbox",
             "WIDTH": 200,
             "HEIGHT": 200
         },
-        "URL": "",
-        "URL_TITLE": ""
+        "URL": "http://ppizarror.com/pyopengl-toolbox/",
+        "URL_TITLE": "PyOpenGL-toolbox"
     },
     "AUTHOR": {
         "NAME": "Pablo Pizarro R.",
         "URL": "http://ppizarror.com",
         "ALT": "ppizarror",
-        "DATE": "2017",
+        "DATE": "2017-2018",
         "SECTION": {
-            "TITLE": "Autor",
+            "TITLE": "Author",
             "SHOW": true
         }
     },
-    "DESCRIPTION": "Toolbox para pyopengl",
+    "DESCRIPTION": "Toolbox for Pygame+OpenGL",
     "BADGES": {
         "0": {
-            "IMAGE": "http://ppizarror.com/badges/autor.svg",
+            "IMAGE": "http://ppizarror.com/badges/author.svg",
             "HREF": "http://ppizarror.com",
             "ALT": "@ppizarror"
         },
         "1": {
-            "IMAGE": "http://ppizarror.com/badges/licenciagpl3.svg",
-            "HREF": "https://www.gnu.org/licenses/",
-            "ALT": "Licencia GPL v3"
+            "IMAGE": "http://ppizarror.com/badges/licensemit.svg",
+            "HREF": "https://opensource.org/licenses/MIT/",
+            "ALT": "License MIT"
         },
 		"2": {
 		  "IMAGE": "http://ppizarror.com/badges/python27.svg",
 		  "HREF": "https://www.python.org/downloads/",
 		  "ALT": "Python 2.7"
-		}
+		},
+        "3": {
+            "IMAGE": "http://ppizarror.com/badges/python36.svg",
+            "HREF": "https://www.python.org/downloads/",
+            "ALT": "Python 3.6"
+        }
     },
     "CONTENT": "readme.content.md"
 }
