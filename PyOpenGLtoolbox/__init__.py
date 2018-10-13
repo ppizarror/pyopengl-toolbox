@@ -42,11 +42,12 @@ from PyOpenGLtoolbox.materials import material_black_plastic, material_black_rub
     material_white_plastic, material_white_rubber, material_yellow_plastic, material_yellow_rubber
 
 # noinspection PyUnresolvedReferences
-from PyOpenGLtoolbox.opengl import init_gl, init_light, clear_buffer, reshape, is_light_enabled
+from PyOpenGLtoolbox.opengl import init_gl, init_light, clear_buffer, reshape_window, is_light_enabled
 
 # noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.pyopengl import init_pygame, load_image
 
+# noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.shader import load_shader
 
 # noinspection PyUnresolvedReferences
@@ -70,11 +71,16 @@ from PyOpenGLtoolbox.utils_geometry import draw_vertex_list, draw_vertex_list_cr
 from PyOpenGLtoolbox.utils_math import Point3, Point2, Vector3
 
 # Base libraries
+# noinspection PyUnresolvedReferences
 from OpenGL.GL import *
+# noinspection PyUnresolvedReferences
 from OpenGL.GLU import *
+# noinspection PyUnresolvedReferences
 from OpenGL.GLUT import *
-from pygame.locals import *
+# noinspection PyUnresolvedReferences
 import pygame
+# noinspection PyUnresolvedReferences
+from pygame.locals import *
 
 # Metadata
 __author__ = 'Pablo Pizarro @ppizarror.com'

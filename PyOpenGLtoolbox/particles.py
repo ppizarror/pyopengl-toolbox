@@ -28,13 +28,13 @@ SOFTWARE.
 # Library imports
 from __future__ import print_function
 from PyOpenGLtoolbox.utils_math import _cos, _sin, Point3, Vector3
-import types
+import types as _types
 
 # Constants
-OPERATOR_ADD = 0x0f60
-OPERATOR_AND = 0x0f61
-OPERATOR_DIFF = 0x0f62
-OPERATOR_DIV = 0x0f63
+_OPERATOR_ADD = 0x0f60
+_OPERATOR_AND = 0x0f61
+_OPERATOR_DIFF = 0x0f62
+_OPERATOR_DIV = 0x0f63
 OPERATOR_MOD = 0x0f64
 OPERATOR_MULT = 0x0f65
 OPERATOR_OR = 0x0f66
@@ -348,7 +348,7 @@ class Particle:
         llamando a execFunc"""
         if arguments is None:
             arguments = []
-        if isinstance(fun, types.FunctionType):
+        if isinstance(fun, _types.FunctionType):
             self.functions.append(fun)
             self.functionArguments.append(arguments)
             self.functionUpdate.append(exec_on_update)
@@ -433,13 +433,13 @@ class Particle:
             if operator is None:
                 self.properties[propname] = newvalue
             else:
-                if operator == OPERATOR_ADD:
+                if operator == _OPERATOR_ADD:
                     self.properties[propname] += newvalue
-                elif operator == OPERATOR_AND:
+                elif operator == _OPERATOR_AND:
                     self.properties[propname] = self.properties[propname] and newvalue
-                elif operator == OPERATOR_DIFF:
+                elif operator == _OPERATOR_DIFF:
                     self.properties[propname] -= newvalue
-                elif operator == OPERATOR_DIV:
+                elif operator == _OPERATOR_DIV:
                     self.properties[propname] /= newvalue
                 elif operator == OPERATOR_MOD:
                     self.properties[propname] %= newvalue

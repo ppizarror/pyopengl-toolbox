@@ -27,7 +27,7 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-from PyOpenGLtoolbox.utils import print_gl_error
+from PyOpenGLtoolbox.utils import print_gl_error as _print_gl_error
 from OpenGL.GLU import gluPerspective as _gluPerspective
 
 # noinspection PyPep8Naming
@@ -39,6 +39,7 @@ _DEFAULT_BGCOLOR = [0.0, 0.0, 0.0, 1.0]
 _DEFAULT_BGDEPTH = 1.0
 _DEFAULT_CONSTANT_ATTENUATION = 1.0
 _DEFAULT_DIFFUSE_COLOR = [0.8, 0.8, 0.8, 1.0]
+_DEFAULT_FOV = 60
 _DEFAULT_LINEAR_ATTENUATION = 0.0
 _DEFAULT_QUADRATIC_ATTENUATION = 0.0
 _DEFAULT_SPECULAR_COLOR = [1.0, 1.0, 1.0, 1.0]
@@ -53,24 +54,40 @@ def init_gl(antialiasing=True, bgcolor=None, bgdepth=_DEFAULT_BGDEPTH, depth=Tru
             materialcolor=True, normalized=True, numlights=0, perspectivecorr=False, polyfonfillmode=True, smooth=True,
             surffill=True, textures=False, transparency=False, verbose=False, version=False):
     """
-    Init opengl, params
+    Inits OpenGL.
 
-    antialiasing=true/false (activa el antialiasing, true por defecto)
-    bgcolor=color de fondo
-    bgdepth=profundidad de dibujo
-    depth=true/false (activa el depth map, true por defecto)
-    lighting=true/false (activa la iluminacion, false por defecto)
-    materialcolor=true/false (activa el color natural de los materiales, true por defecto)
-    normalized=true/false (normaliza las normales, true por defecto)
-    numlights=1..9 (indica el numero de luces a activar, 0 por defecto)
-    perspectivecorr=true/false (activa la correccion de perspectiva, false por defecto)
-    polygonfillmode=true/false (indica el rellenar las superficies, true por defecto)
-    smooth=true/false (activa el dibujado suave, true por defecto)
-    surffil=true/false (activa el rellenado de superficies, true por defecto)
-    textures=true/false (activa las texturas, false por defecto)
-    transparency=true/false (activa la transparencia de los modelos, true por defecto)
-    verbose=true/false (activa el logging, false por defecto)
-    version=true/false (imprime la version en pantalla de OpenGL, false por defecto)
+    :param antialiasing: Enables antialiasing
+    :param bgcolor: Background color
+    :param bgdepth: Background depth value
+    :param depth: Enables depth
+    :param lighting: Enables light
+    :param materialcolor: Enables material color
+    :param normalized: Enables normalized
+    :param numlights: Number of lights
+    :param perspectivecorr: Enables perspective correction
+    :param polyfonfillmode: Enabled polygon fill
+    :param smooth: Enables smooth
+    :param surffill: Enables surface fill
+    :param textures: Enables textures
+    :param transparency: Enables transparency
+    :param verbose: Enable verbose
+    :param version: Show OpenGL version
+    :type antialiasing: bool
+    :type bgcolor: list
+    :type bgdepth: float, int
+    :type depth: bool
+    :type lighting: bool
+    :type materialcolor: bool
+    :type normalized: bool
+    :type numlights: int
+    :type perspectivecorr: bool
+    :type polyfonfillmode: bool
+    :type smooth: bool
+    :type surffill: bool
+    :type textures: bool
+    :type transparency: bool
+    :type verbose: bool
+    :type version: bool
     """
 
     if bgcolor is None:
@@ -157,7 +174,7 @@ def init_gl(antialiasing=True, bgcolor=None, bgdepth=_DEFAULT_BGDEPTH, depth=Tru
         log('Enable lighting')
         _gl.glEnable(_gl.GL_LIGHTING)
         if numlights > 0:
-            for light in range(numlights):
+            for light in range(int(numlights)):
                 log('Light {0} enabled'.format(light))
                 eval('_gl.glEnable(_gl.GL_LIGHT{0})'.format(light))
         _OPENGL_CONFIGS[0] = True
@@ -194,25 +211,30 @@ def clear_buffer():
     _gl.glClear(_gl.GL_COLOR_BUFFER_BIT | _gl.GL_DEPTH_BUFFER_BIT)
 
 
-def reshape(w, h, fov=60, nearplane=10, farplane=10000):
+def reshape_window(w, h, near, far, fov=_DEFAULT_FOV):
     """
-    Reshape OpenGL window
+    Reshape OpenGL window.
+
     :param w: Window width
     :param h: Window height
+    :param near: Near plane distance
+    :param far: Far plane distance
     :param fov: Field of view
-    :param nearplane: Near plane
-    :param farplane: Far plane
-    :return:
+    :type w: int
+    :type h: int
+    :type near: float, int
+    :type far: float, int
+    :type fov: float, int
     """
     h = max(h, 1)
     _gl.glLoadIdentity()
 
     # Create viewport
-    _gl.glViewport(0, 0, w, h)
+    _gl.glViewport(0, 0, int(w), int(h))
     _gl.glMatrixMode(_gl.GL_PROJECTION)
 
     # Create perspective camera
-    _gluPerspective(fov, float(w) / float(h), nearplane, farplane)
+    _gluPerspective(fov, float(w) / float(h), near, far)
 
     # Set model mode
     _gl.glMatrixMode(_gl.GL_MODELVIEW)
@@ -259,7 +281,7 @@ def init_light(light=None, ambient=None, constant_att=_DEFAULT_CONSTANT_ATTENUAT
     if ambient is None:
         ambient = _DEFAULT_AMBIENT_COLOR
     if light is None:
-        print_gl_error('Light cannot be None')
+        _print_gl_error('Light cannot be None')
 
     # Ambient color
     if ambient is not None:
