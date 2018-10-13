@@ -1,7 +1,7 @@
 # coding=utf-8
 """
 PYOPENGL-TOOLBOX OPENGL_LIB
-Manage OpenGl libraries, init system.
+Manage OpenGL libraries, init system.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
@@ -27,27 +27,28 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-from OpenGL.GL import *
-from OpenGL.GLU import *
 from PyOpenGLtoolbox.utils import print_gl_error
+from OpenGL.GLU import gluPerspective as _gluPerspective
+
+# noinspection PyPep8Naming
+import OpenGL.GL as _gl
 
 # Constants
+_DEFAULT_AMBIENT_COLOR = [0.2, 0.2, 0.2, 1.0]
+_DEFAULT_BGCOLOR = [0.0, 0.0, 0.0, 1.0]
+_DEFAULT_BGDEPTH = 1.0
+_DEFAULT_CONSTANT_ATTENUATION = 1.0
+_DEFAULT_DIFFUSE_COLOR = [0.8, 0.8, 0.8, 1.0]
+_DEFAULT_LINEAR_ATTENUATION = 0.0
+_DEFAULT_QUADRATIC_ATTENUATION = 0.0
+_DEFAULT_SPECULAR_COLOR = [1.0, 1.0, 1.0, 1.0]
+_DEFAULT_SPOT_CUTOFF = 180.0
+_DEFAULT_SPOT_DIRECTION = [0.0, 0.0, -1.0, 1.0]
+_DEFAULT_SPOT_EXPONENT = 1.0
 _OPENGL_CONFIGS = [False]
-DEFAULT_AMBIENT_COLOR = [0.2, 0.2, 0.2, 1.0]
-DEFAULT_BGCOLOR = [0.0, 0.0, 0.0, 1.0]
-DEFAULT_BGDEPTH = 1.0
-DEFAULT_CONSTANT_ATTENUATION = 1.0
-DEFAULT_DIFFUSE_COLOR = [0.8, 0.8, 0.8, 1.0]
-DEFAULT_LINEAR_ATTENUATION = 0.0
-DEFAULT_QUADRATIC_ATTENUATION = 0.0
-DEFAULT_SPECULAR_COLOR = [1.0, 1.0, 1.0, 1.0]
-DEFAULT_SPOT_CUTOFF = 180
-DEFAULT_SPOT_DIRECTION = [0.0, 0.0, -1.0, 1.0]
-DEFAULT_SPOT_EXPONENT = 1
-SPOT_DIRECTION_ALL = [1.0, 1.0, 1.0, 1.0]
+_SPOT_DIRECTION_ALL = [1.0, 1.0, 1.0, 1.0]
 
 
-# noinspection PyGlobalUndefined
 def init_gl(**kwargs):
     """
     Init opengl, params
@@ -110,64 +111,64 @@ def init_gl(**kwargs):
 
     # Print OpenGL version
     if is_true('version'):
-        log_info('GPU {0}'.format(glGetString(GL_VENDOR)))
-        log_info('Renderer {0}'.format(glGetString(GL_RENDERER)))
-        log_info('OpenGL version {0}'.format(glGetString(GL_VERSION)))
-        log_info('SLSL version {0}'.format(glGetString(GL_SHADING_LANGUAGE_VERSION)))
-        log_info('Extensions {0}'.format(glGetString(GL_EXTENSIONS)))
+        log_info('GPU {0}'.format(_gl.glGetString(_gl.GL_VENDOR)))
+        log_info('Renderer {0}'.format(_gl.glGetString(_gl.GL_RENDERER)))
+        log_info('OpenGL version {0}'.format(_gl.glGetString(_gl.GL_VERSION)))
+        log_info('SLSL version {0}'.format(_gl.glGetString(_gl.GL_SHADING_LANGUAGE_VERSION)))
+        log_info('Extensions {0}'.format(_gl.glGetString(_gl.GL_EXTENSIONS)))
 
     # Set background clear color
     if kwargs.get('bgcolor') is not None:
         log('Clear color set: {0}'.format(kwargs.get('bgcolor')))
-        glClearColor(*kwargs.get('bgcolor'))
+        _gl.glClearColor(*kwargs.get('bgcolor'))
     else:
         log('Clear color set default')
-        glClearColor(*DEFAULT_BGCOLOR)
+        _gl.glClearColor(*_DEFAULT_BGCOLOR)
 
     # Set clear depth color
     if kwargs.get('bgdepth') is not None:
         log('Clear depth color set: {0}'.format(kwargs.get("bgdepth")))
-        glClearDepth(kwargs.get('bgdepth'))
+        _gl.glClearDepth(kwargs.get('bgdepth'))
     else:
         log('Clear depth color set default')
-        glClearDepth(DEFAULT_BGDEPTH)
+        _gl.glClearDepth(_DEFAULT_BGDEPTH)
 
     # Enable transparency
     if is_true('transparency'):
         log('Transparency enabled')
-        glEnable(GL_BLEND)
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        _gl.glEnable(_gl.GL_BLEND)
+        _gl.glBlendFunc(_gl.GL_SRC_ALPHA, _gl.GL_ONE_MINUS_SRC_ALPHA)
 
     # Smooth
     if is_true('smooth'):
         log('Enable SMOOTH shade model')
-        glShadeModel(GL_SMOOTH)
+        _gl.glShadeModel(_gl.GL_SMOOTH)
 
     # Depth test
     if is_true('depth'):
         log('Enable depth test')
-        glEnable(GL_DEPTH_TEST)
-        glDepthFunc(GL_LEQUAL)
+        _gl.glEnable(_gl.GL_DEPTH_TEST)
+        _gl.glDepthFunc(_gl.GL_LEQUAL)
 
     # Antialiasing
     if is_true('antialiasing'):
         log('Antialiasing enabled')
-        glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST)
+        _gl.glHint(_gl.GL_POLYGON_SMOOTH_HINT, _gl.GL_NICEST)
 
     # Enabled normalized normal
     if is_true('normalized'):
         log('Normalized normal enabled')
-        glEnable(GL_NORMALIZE)
+        _gl.glEnable(_gl.GL_NORMALIZE)
 
     # Enable offset fill
     if is_true('surffill'):
         log('Enabled polygon offset fill')
-        glEnable(GL_POLYGON_OFFSET_FILL)
+        _gl.glEnable(_gl.GL_POLYGON_OFFSET_FILL)
 
     # Enable lighting
     if kwargs.get('lighting') is not None and kwargs.get('lighting'):
         log('Enable lighting')
-        glEnable(GL_LIGHTING)
+        _gl.glEnable(_gl.GL_LIGHTING)
         if kwargs.get('numlights') is not None:
             total = int(kwargs.get('numlights'))
             for light in range(total):
@@ -178,23 +179,23 @@ def init_gl(**kwargs):
     # Polygon fill mode
     if is_true('polygonfillmode'):
         log('Enabled polygoon fill by both sides')
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+        _gl.glPolygonMode(_gl.GL_FRONT_AND_BACK, _gl.GL_FILL)
 
     # Enable color material
     if is_true('materialcolor'):
         log('Enabled color material')
-        glEnable(GL_COLOR_MATERIAL)
+        _gl.glEnable(_gl.GL_COLOR_MATERIAL)
 
     # Enable perspective correction
     if is_true('perspectivecorr'):
         log('Enabled pespective correction')
-        glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST)
+        _gl.glHint(_gl.GL_PERSPECTIVE_CORRECTION_HINT, _gl.GL_NICEST)
 
     # Enable textures
     if is_true("textures"):
         log('Textures enabled')
-        glEnable(GL_TEXTURE_2D)
-        glLightModeli(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR)
+        _gl.glEnable(_gl.GL_TEXTURE_2D)
+        _gl.glLightModeli(_gl.GL_LIGHT_MODEL_COLOR_CONTROL, _gl.GL_SEPARATE_SPECULAR_COLOR)
 
     log('OpenGL init finished')
 
@@ -204,7 +205,7 @@ def clear_buffer():
     Clear buffer
     :return:
     """
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    _gl.glClear(_gl.GL_COLOR_BUFFER_BIT | _gl.GL_DEPTH_BUFFER_BIT)
 
 
 def reshape(w, h, fov=60, nearplane=10, farplane=10000):
@@ -218,21 +219,20 @@ def reshape(w, h, fov=60, nearplane=10, farplane=10000):
     :return:
     """
     h = max(h, 1)
-    glLoadIdentity()
+    _gl.glLoadIdentity()
 
     # Create viewport
-    glViewport(0, 0, w, h)
-    glMatrixMode(GL_PROJECTION)
+    _gl.glViewport(0, 0, w, h)
+    _gl.glMatrixMode(_gl.GL_PROJECTION)
 
     # Create perspective camera
-    gluPerspective(fov, float(w) / float(h), nearplane, farplane)
+    _gluPerspective(fov, float(w) / float(h), nearplane, farplane)
 
     # Set model mode
-    glMatrixMode(GL_MODELVIEW)
-    glLoadIdentity()
+    _gl.glMatrixMode(_gl.GL_MODELVIEW)
+    _gl.glLoadIdentity()
 
 
-# noinspection PyUnusedLocal
 def init_light(light=None, *args, **kwargs):
     """
     Set light properties
@@ -255,57 +255,57 @@ def init_light(light=None, *args, **kwargs):
 
     # Ambient color
     if kwargs.get('ambient') is not None:
-        glLightfv(light, GL_AMBIENT, kwargs.get('ambient'))
+        _gl.glLightfv(light, _gl.GL_AMBIENT, kwargs.get('ambient'))
     else:
-        glLightfv(light, GL_AMBIENT, DEFAULT_AMBIENT_COLOR)
+        _gl.glLightfv(light, _gl.GL_AMBIENT, _DEFAULT_AMBIENT_COLOR)
 
     # Diffuse color
     if kwargs.get('diffuse') is not None:
-        glLightfv(light, GL_DIFFUSE, kwargs.get('diffuse'))
+        _gl.glLightfv(light, _gl.GL_DIFFUSE, kwargs.get('diffuse'))
     else:
-        glLightfv(light, GL_DIFFUSE, DEFAULT_DIFFUSE_COLOR)
+        _gl.glLightfv(light, _gl.GL_DIFFUSE, _DEFAULT_DIFFUSE_COLOR)
 
     # Specular color
     if kwargs.get('specular') is not None:
-        glLightfv(light, GL_SPECULAR, kwargs.get('specular'))
+        _gl.glLightfv(light, _gl.GL_SPECULAR, kwargs.get('specular'))
     else:
-        glLightfv(light, GL_SPECULAR, DEFAULT_SPECULAR_COLOR)
+        _gl.glLightfv(light, _gl.GL_SPECULAR, _DEFAULT_SPECULAR_COLOR)
 
     # Cutoff
     if kwargs.get('spot_cutoff') is not None:
-        glLightfv(light, GL_SPOT_CUTOFF, kwargs.get('spot_cutoff'))
+        _gl.glLightfv(light, _gl.GL_SPOT_CUTOFF, kwargs.get('spot_cutoff'))
     else:
-        glLightfv(light, GL_SPOT_CUTOFF, DEFAULT_SPOT_CUTOFF)
+        _gl.glLightfv(light, _gl.GL_SPOT_CUTOFF, _DEFAULT_SPOT_CUTOFF)
 
     # Exponent
     if kwargs.get('spot_exponent') is not None:
-        glLightfv(light, GL_SPOT_EXPONENT, kwargs.get('spot_exponent'))
+        _gl.glLightfv(light, _gl.GL_SPOT_EXPONENT, kwargs.get('spot_exponent'))
     else:
-        glLightfv(light, GL_SPOT_EXPONENT, DEFAULT_SPOT_EXPONENT)
+        _gl.glLightfv(light, _gl.GL_SPOT_EXPONENT, _DEFAULT_SPOT_EXPONENT)
 
     # Spot direction
     if kwargs.get('spot_direction') is not None:
-        glLightfv(light, GL_SPOT_DIRECTION, kwargs.get('spot_direction'))
+        _gl.glLightfv(light, _gl.GL_SPOT_DIRECTION, kwargs.get('spot_direction'))
     else:
-        glLightfv(light, GL_SPOT_DIRECTION, DEFAULT_SPOT_DIRECTION)
+        _gl.glLightfv(light, _gl.GL_SPOT_DIRECTION, _DEFAULT_SPOT_DIRECTION)
 
     # Constant attenuation factor
     if kwargs.get('constant_att') is not None:
-        glLightfv(light, GL_CONSTANT_ATTENUATION, kwargs.get('constant_att'))
+        _gl.glLightfv(light, _gl.GL_CONSTANT_ATTENUATION, kwargs.get('constant_att'))
     else:
-        glLightfv(light, GL_CONSTANT_ATTENUATION, DEFAULT_CONSTANT_ATTENUATION)
+        _gl.glLightfv(light, _gl.GL_CONSTANT_ATTENUATION, _DEFAULT_CONSTANT_ATTENUATION)
 
     # Lineal attenuation factor
     if kwargs.get('linear_att') is not None:
-        glLightfv(light, GL_LINEAR_ATTENUATION, kwargs.get('linear_att'))
+        _gl.glLightfv(light, _gl.GL_LINEAR_ATTENUATION, kwargs.get('linear_att'))
     else:
-        glLightfv(light, GL_LINEAR_ATTENUATION, DEFAULT_LINEAR_ATTENUATION)
+        _gl.glLightfv(light, _gl.GL_LINEAR_ATTENUATION, _DEFAULT_LINEAR_ATTENUATION)
 
     # Quadratic attenuation
     if kwargs.get('quad_att') is not None:
-        glLightfv(light, GL_QUADRATIC_ATTENUATION, kwargs.get('quad_att'))
+        _gl.glLightfv(light, _gl.GL_QUADRATIC_ATTENUATION, kwargs.get('quad_att'))
     else:
-        glLightfv(light, GL_QUADRATIC_ATTENUATION, DEFAULT_QUADRATIC_ATTENUATION)
+        _gl.glLightfv(light, _gl.GL_QUADRATIC_ATTENUATION, _DEFAULT_QUADRATIC_ATTENUATION)
 
 
 def is_light_enabled():
