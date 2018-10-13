@@ -32,7 +32,7 @@ from OpenGL.GL import *
 from OpenGL.GLUT import *
 from PyOpenGLtoolbox.utils import print_gl_error
 from PyOpenGLtoolbox.utils_geometry import *
-from PyOpenGLtoolbox.utils_math import Point3, cos, sin, Point2
+from PyOpenGLtoolbox.utils_math import Point3, _cos, _sin, Point2
 import math
 
 # Constants
@@ -399,12 +399,12 @@ def create_circle(rad=1.0, diff=0.1, normal=None, color=None):
         glBegin(GL_POLYGON)
         while ang <= 360.0:
             glNormal3fv(normal)
-            glVertex2f(sin(ang) * rad, cos(ang) * rad)
+            glVertex2f(_sin(ang) * rad, _cos(ang) * rad)
             ang += diff
         glEnd()
         glBegin(GL_LINE_LOOP)
         while ang <= 360.0:
-            glVertex2f(sin(ang) * rad, cos(ang) * rad)
+            glVertex2f(_sin(ang) * rad, _cos(ang) * rad)
             ang += diff
         glEnd()
         glPopMatrix()
@@ -766,11 +766,11 @@ def create_pyramid_vbo(edge=1.0):
     e = Point3(0.0, 0.0, 0.666) * edge
 
     # Create normals
-    n1 = ex(normal_3_points(a, b, e))
-    n2 = ex(normal_3_points(b, c, e))
-    n3 = ex(normal_3_points(c, d, e))
-    n4 = ex(normal_3_points(d, a, e))
-    n5 = ex(normal_3_points(c, b, a))
+    n1 = ex(_normal_3_points(a, b, e))
+    n2 = ex(_normal_3_points(b, c, e))
+    n3 = ex(_normal_3_points(c, d, e))
+    n4 = ex(_normal_3_points(d, a, e))
+    n5 = ex(_normal_3_points(c, b, a))
 
     # Create point list
     vertex_array = [ex(b), ex(e), ex(a), ex(b), ex(c), ex(e), ex(c), ex(d),
@@ -807,10 +807,10 @@ def create_tetrahedron_vbo(edge=1.0):
     d = Point3(0.0, 0.0, 0.57735) * edge
 
     # Create normals
-    n1 = ex(normal_3_points(a, b, d))
-    n2 = ex(normal_3_points(b, c, d))
-    n3 = ex(normal_3_points(c, a, d))
-    n4 = ex(normal_3_points(c, b, a))
+    n1 = ex(_normal_3_points(a, b, d))
+    n2 = ex(_normal_3_points(b, c, d))
+    n3 = ex(_normal_3_points(c, a, d))
+    n4 = ex(_normal_3_points(c, b, a))
 
     # Create triangles
     vertex_array = [ex(a), ex(b), ex(d), ex(b), ex(c), ex(d), ex(c), ex(a),

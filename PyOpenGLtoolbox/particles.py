@@ -27,7 +27,7 @@ SOFTWARE.
 
 # Library imports
 from __future__ import print_function
-from PyOpenGLtoolbox.utils_math import cos, sin, Point3, Vector3
+from PyOpenGLtoolbox.utils_math import _cos, _sin, Point3, Vector3
 import types
 
 # Constants
@@ -91,8 +91,8 @@ class Particle:
         """Rota la partícula según el eje X en ang grados"""
         if ang != 0.0:
             x = self.get_x()
-            y = self.get_y() * cos(ang) - self.get_z() * sin(ang)
-            z = self.get_y() * sin(ang) + self.get_z() * cos(ang)
+            y = self.get_y() * _cos(ang) - self.get_z() * _sin(ang)
+            z = self.get_y() * _sin(ang) + self.get_z() * _cos(ang)
             self.set_x(x)
             self.set_y(y)
             self.set_z(z)
@@ -100,9 +100,9 @@ class Particle:
     def rotate_y(self, ang):
         """Rota la partícula según el eje Y en ang grados"""
         if ang != 0.0:
-            x = self.get_x() * cos(ang) + self.get_z() * sin(ang)
+            x = self.get_x() * _cos(ang) + self.get_z() * _sin(ang)
             y = self.get_y()
-            z = -self.get_x() * sin(ang) + self.get_z() * cos(ang)
+            z = -self.get_x() * _sin(ang) + self.get_z() * _cos(ang)
             self.set_x(x)
             self.set_y(y)
             self.set_z(z)
@@ -110,8 +110,8 @@ class Particle:
     def rotate_z(self, ang):
         """Rota la partícula según el eje Z en ang grados"""
         if ang != 0.0:
-            x = self.get_x() * cos(ang) - self.get_y() * sin(ang)
-            y = self.get_x() * sin(ang) + self.get_y() * cos(ang)
+            x = self.get_x() * _cos(ang) - self.get_y() * _sin(ang)
+            y = self.get_x() * _sin(ang) + self.get_y() * _cos(ang)
             z = self.get_z()
             self.set_x(x)
             self.set_y(y)

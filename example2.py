@@ -48,7 +48,7 @@ init_pygame(WINDOW_SIZE[0], WINDOW_SIZE[1], 'Example 2', centered_window=True)
 init_gl(transparency=False, materialcolor=False, normalized=True, lighting=True,
         numlights=1, perspectivecorr=True, antialiasing=True, depth=True, smooth=True,
         texture=True, verbose=False)
-reshape(*WINDOW_SIZE)
+reshape(*WINDOW_SIZE, nearplane=1)
 init_light(GL_LIGHT0)
 clock = pygame.time.Clock()
 
@@ -61,6 +61,7 @@ print('Zoom in/out with N/M keys')
 # Create objects
 axis = create_axes(AXES_LENGTH)  # Axis
 camera = CameraR(CAMERA_RAD, CAMERA_PHI, CAMERA_THETA)  # Spheric camera
+camera.set_r_vel(30)
 
 cube = Particle()
 cube.add_property('GLLIST', create_cube())

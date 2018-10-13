@@ -529,9 +529,7 @@ class Vector3(object):
         """Retorna la distancia a otro vector"""
         if isinstance(other, Vector3):
             return math.sqrt(
-                (self.x - other.get_x()) ** 2 + (
-                        self.y - other.get_y()) ** 2 + (
-                        self.z - other.get_y()) ** 2)
+                (self.x - other.get_x()) ** 2 + (self.y - other.get_y()) ** 2 + (self.z - other.get_y()) ** 2)
         elif type(other) is list or type(other) is tuple:
             return self.distance_with(Vector3(*other))
         else:
@@ -564,7 +562,7 @@ class Vector3(object):
         return self.x, self.y, self.z
 
 
-def normal_3_points(a, b, c):
+def _normal_3_points(a, b, c):
     """Retorna el vector normal dado tres puntos a, b, c"""
     if type(a) is list or type(a) is tuple:
         a = Vector3(*a)
@@ -584,17 +582,17 @@ def normal_3_points(a, b, c):
     return cross_result
 
 
-def cos(angle):
+def _cos(angle):
     """Retorna el coseno de un angulo"""
     return math.cos(math.radians(angle))
 
 
-def sin(angle):
+def _sin(angle):
     """Retorna el seno de un angulo"""
     return math.sin(math.radians(angle))
 
 
-def sgn(x):
+def _sgn(x):
     """Retorna el signo de x"""
     if x > 0:
         return 1
@@ -604,36 +602,52 @@ def sgn(x):
         return -1
 
 
-def spr_to_xyz(r, fi, theta):
+def _spr_to_xyz(r, fi, theta):
     """Convierte las coordenadas esferiacs (r,fi,theta) a (x,y,z)"""
-    x = r * sin(theta) * cos(fi)
-    y = r * sin(theta) * sin(fi)
-    z = r * cos(theta)
+    x = r * _sin(theta) * _cos(fi)
+    y = r * _sin(theta) * _sin(fi)
+    z = r * _cos(theta)
     return x, y, z
 
 
-def xyz_to_spr(x, y, z):
-    """Convierte las coordenadas cartesianas (x,y,z) a las coordenadas esfericas (r,phi,theta) con angulos en grados"""
-    # Calculo el radio
+def _xyz_to_spr(x, y, z):
+    """
+    Converts cartesian coordinates (x,y,z) to spheric coordinates (r,phi,theta) in sexagesimal angles.
+
+    :param x: X-coordinate
+    :param y: Y-coordinate
+    :param z: Z-coordinate
+    :type x: float, int
+    :type y: float, int
+    :type z: float, int
+    :return: (r,phi,theta) coordinates
+    :rtype: tuple
+    """
+
+    # Radius
     r = math.sqrt(x ** 2 + y ** 2 + z ** 2)
-    # Calculo el angulo theta
+
+    # Theta
     if z > 0:
         theta = math.atan(math.sqrt(x ** 2 + y ** 2) / z)
     elif z == 0:
         theta = math.pi / 2
     else:
         theta = math.pi + math.atan(math.sqrt(x ** 2 + y ** 2) / z)
-    # Calculo el angulo phi
+
+    # Calculate phi angle
     if x > 0:
         if y > 0:
             phi = math.atan(y / x)
         else:
             phi = 2 * math.pi + math.atan(y / x)
     elif x == 0:
-        phi = sgn(y) * math.pi / 2
+        phi = _sgn(y) * math.pi / 2
     else:
         phi = math.pi + math.atan(y / x)
     theta = math.degrees(theta)
     phi = math.degrees(phi) % 360
     theta = min(max(theta, 0.000001), 180)
+
+    # Return tuple
     return r, phi, theta

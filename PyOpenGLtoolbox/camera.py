@@ -28,7 +28,7 @@ SOFTWARE.
 # Library imports
 from OpenGL.GL import glLoadIdentity
 from OpenGL.GLU import gluLookAt
-from PyOpenGLtoolbox.utils_math import Point3, Vector3, cos, sin, xyz_to_spr, spr_to_xyz
+from PyOpenGLtoolbox.utils_math import Point3, Vector3, _cos, _sin, _xyz_to_spr, _spr_to_xyz
 import math as _math
 
 # Constants
@@ -44,21 +44,21 @@ CAMERA_SPHERICAL = 0x0fb
 CAMERA_XYZ = 0x0fa
 
 
-# noinspection PyMethodMayBeStatic
-class _Camera(object):
+class _Camera:
     """
-    Abstract class
+    Abstract camera class.
     """
 
     def __init__(self):
         """
-        Void constructor
+        Void constructor.
         """
         pass
 
     def place(self):
         """
-        Place camera in world
+        Place camera in world.
+
         :return:
         """
         pass
@@ -328,8 +328,8 @@ class CameraXYZ(_Camera):
         :return:
         """
         x = self.pos.get_x()
-        y = self.pos.get_y() * cos(angle) - self.pos.get_z() * sin(angle)
-        z = self.pos.get_y() * sin(angle) + self.pos.get_z() * cos(angle)
+        y = self.pos.get_y() * _cos(angle) - self.pos.get_z() * _sin(angle)
+        z = self.pos.get_y() * _sin(angle) + self.pos.get_z() * _cos(angle)
         self.pos.set_x(x)
         self.pos.set_y(y)
         self.pos.set_z(z)
@@ -340,9 +340,9 @@ class CameraXYZ(_Camera):
         :param angle: Rotation angle
         :return:
         """
-        x = self.pos.get_x() * cos(angle) + self.pos.get_z() * sin(angle)
+        x = self.pos.get_x() * _cos(angle) + self.pos.get_z() * _sin(angle)
         y = self.pos.get_y()
-        z = -self.pos.get_x() * sin(angle) + self.pos.get_z() * cos(angle)
+        z = -self.pos.get_x() * _sin(angle) + self.pos.get_z() * _cos(angle)
         self.pos.set_x(x)
         self.pos.set_y(y)
         self.pos.set_z(z)
@@ -353,8 +353,8 @@ class CameraXYZ(_Camera):
         :param angle: Rotation angle
         :return:
         """
-        x = self.pos.get_x() * cos(angle) - self.pos.get_y() * sin(angle)
-        y = self.pos.get_x() * sin(angle) + self.pos.get_y() * cos(angle)
+        x = self.pos.get_x() * _cos(angle) - self.pos.get_y() * _sin(angle)
+        y = self.pos.get_x() * _sin(angle) + self.pos.get_y() * _cos(angle)
         z = self.pos.get_z()
         self.pos.set_x(x)
         self.pos.set_y(y)
@@ -393,8 +393,8 @@ class CameraXYZ(_Camera):
         :return:
         """
         rad = _math.sqrt(self.pos.get_x() ** 2 + self.pos.get_y() ** 2)
-        self.pos.set_x(rad * cos(self.angle))
-        self.pos.set_y(rad * sin(self.angle))
+        self.pos.set_x(rad * _cos(self.angle))
+        self.pos.set_y(rad * _sin(self.angle))
 
     def far(self):
         """
@@ -477,9 +477,9 @@ class CameraR(_Camera):
         :return:
         """
         glLoadIdentity()
-        gluLookAt(self.r * sin(self.theta) * cos(self.phi),
-                  self.r * sin(self.theta) * sin(self.phi),
-                  self.r * cos(self.theta),
+        gluLookAt(self.r * _sin(self.theta) * _cos(self.phi),
+                  self.r * _sin(self.theta) * _sin(self.phi),
+                  self.r * _cos(self.theta),
                   self.center.get_x(), self.center.get_y(), self.center.get_z(),
                   self.up.get_x(), self.up.get_y(),
                   self.up.get_z())
@@ -523,10 +523,10 @@ class CameraR(_Camera):
         x, y, z = self.convert_to_xyz()
         # Rotate (x,y,z) by x
         xr = x
-        yr = y * cos(angle) - z * sin(angle)
-        zr = y * sin(angle) + z * cos(angle)
+        yr = y * _cos(angle) - z * _sin(angle)
+        zr = y * _sin(angle) + z * _cos(angle)
         # Convert to spheric
-        r, phi, theta = xyz_to_spr(xr, yr, zr)
+        r, phi, theta = _xyz_to_spr(xr, yr, zr)
         self.r = r
         self.phi = phi
         self.theta = theta
@@ -552,7 +552,7 @@ class CameraR(_Camera):
         Convert spheric to cartesian
         :return:
         """
-        return spr_to_xyz(self.r, self.phi, self.theta)
+        return _spr_to_xyz(self.r, self.phi, self.theta)
 
     def move_center_x(self, dist):
         """

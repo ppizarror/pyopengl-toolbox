@@ -28,7 +28,7 @@ SOFTWARE.
 # Library imports
 from OpenGL.GL import glVertex2fv, glVertex3fv, glNormal3fv, glTexCoord2fv, glPushMatrix, glTranslate, glScale, \
     glColor4fv, glRotatef, glCallList, glPopMatrix
-from PyOpenGLtoolbox.utils_math import POINT_2, POINT_3, Vector3, normal_3_points
+from PyOpenGLtoolbox.utils_math import POINT_2, POINT_3, Vector3, _normal_3_points
 
 
 def draw_vertex_list(vertex_list):
@@ -59,7 +59,7 @@ def draw_vertex_list_normal(normal, vertex_list):
 def draw_vertex_list_create_normal(vertex_list):
     """Dibuja una lista de puntos point2/point3 creando una normal"""
     if len(vertex_list) >= 3:
-        normal = normal_3_points(vertex_list[0], vertex_list[1], vertex_list[2])
+        normal = _normal_3_points(vertex_list[0], vertex_list[1], vertex_list[2])
         draw_vertex_list_normal(normal, vertex_list)
     else:
         raise Exception("vertices insucifientes")
@@ -103,7 +103,7 @@ def draw_vertex_list_create_normal_textured(vertex_list, tvertex_list):
     """Dibuja una lista de puntos point3 con una lista Point2 de aristas para modelos
     texturados creando una normal"""
     if len(vertex_list) >= 3:
-        normal = normal_3_points(vertex_list[0], vertex_list[1], vertex_list[2])
+        normal = _normal_3_points(vertex_list[0], vertex_list[1], vertex_list[2])
         draw_vertex_list_normal_textured(normal, vertex_list, tvertex_list)
     else:
         raise Exception("vertices insuficientes")
