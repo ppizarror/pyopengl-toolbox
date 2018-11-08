@@ -71,7 +71,7 @@ def draw_vertex_list_normal(normal, vertex_list):
 
 def draw_vertex_list_create_normal(vertex_list):
     """
-    Craw a list of points, function create a normal automatically.
+    Draw a list of points, function create a normal automatically.
 
     :param vertex_list: Vertex list
     :type vertex_list: list
@@ -148,27 +148,31 @@ def draw_vertex_list_create_normal_textured(vertex_list, tvertex_list):
         raise Exception('Not enough vertex')
 
 
-def draw_list(lista, pos=None, angle=0.0, rot=None, sz=None, rgb=None):
+def draw_list(gl_list, pos=None, angle=0.0, rotation_list=None, scale_list=None, color_list=None):
     """
-    Dibuja una lista de OpenGL
+    Draw an opengl list.
 
-    :param lista: Lista OpenGL
-    :param pos: Posición
-    :param angle: Lista de ángulos a rotar
-    :param rot: Indica si rota o no
-    :param sz: Escalado de imagen
-    :param rgb: Colores del objeto
+    :param gl_list: OpenGL list
+    :param pos: Position
+    :param angle: Angle
+    :param rotation_list: Rotation list
+    :param scale_list: Scale list
+    :param color_list: Color list
+    :type pos: float
+    :type rotation_list: list
+    :type scale_list: list
+    :type color_list: list
     :return:
     """
     if pos is None:
         pos = [0.0, 0.0, 0.0]
     _gl.glPushMatrix()
     _gl.glTranslate(pos[0], pos[1], pos[2])
-    if sz is not None:
-        _gl.glScale(sz[0], sz[1], sz[2])
-    if rot is not None:
-        _gl.glRotatef(angle, rot[0], rot[1], rot[2])
-    if rgb is not None:
-        _gl.glColor4fv(rgb)
-    _gl.glCallList(lista)
+    if scale_list is not None:
+        _gl.glScale(scale_list[0], scale_list[1], scale_list[2])
+    if rotation_list is not None:
+        _gl.glRotatef(angle, rotation_list[0], rotation_list[1], rotation_list[2])
+    if color_list is not None:
+        _gl.glColor4fv(color_list)
+    _gl.glCallList(gl_list)
     _gl.glPopMatrix()
