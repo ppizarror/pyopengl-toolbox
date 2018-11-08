@@ -211,9 +211,9 @@ def clear_buffer():
     _gl.glClear(_gl.GL_COLOR_BUFFER_BIT | _gl.GL_DEPTH_BUFFER_BIT)
 
 
-def reshape_window(w, h, near, far, fov=_OPENGL_DEFAULT_FOV):
+def reshape_window_perspective(w, h, near, far, fov=_OPENGL_DEFAULT_FOV):
     """
-    Reshape OpenGL window.
+    Reshape OpenGL window, perspective matrix.
 
     :param w: Window width
     :param h: Window height
@@ -233,8 +233,44 @@ def reshape_window(w, h, near, far, fov=_OPENGL_DEFAULT_FOV):
     _gl.glViewport(0, 0, int(w), int(h))
     _gl.glMatrixMode(_gl.GL_PROJECTION)
 
-    # Create perspective camera
+    # Create perspective projection
     _gluPerspective(fov, float(w) / float(h), near, far)
+
+    # Set model mode
+    _gl.glMatrixMode(_gl.GL_MODELVIEW)
+    _gl.glLoadIdentity()
+
+
+def reshape_window_ortho(w, h, left, right, bottom, top, z_near, z_far):
+    """
+    Reshape OpenGL window, ortographic matrix.
+
+    :param w: Window width
+    :param h: Window height
+    :param left: Left coordinate of ortho clipping plane
+    :param right: Right coordinate of ortho clipping plane
+    :param bottom: Bottom coordinate of ortho clipping plane
+    :param top: Top coordinate of ortho clipping plane
+    :param z_near: Specify the distance to the nearer depth clipping plane
+    :param z_far: Specify the distance to the farther depth clipping plane
+    :type w: int
+    :type h: int
+    :type left: float, int
+    :type right: float, int
+    :type bottom: float, int
+    :type top: float, int
+    :type z_near: float, int
+    :type z_far: float, int
+    """
+    h = max(h, 1)
+    _gl.glLoadIdentity()
+
+    # Create viewport
+    _gl.glViewport(0, 0, int(w), int(h))
+    _gl.glMatrixMode(_gl.GL_PROJECTION)
+
+    # Create ortho projection
+    _gl.glOrtho(left, right, bottom, top, z_near, z_far)
 
     # Set model mode
     _gl.glMatrixMode(_gl.GL_MODELVIEW)

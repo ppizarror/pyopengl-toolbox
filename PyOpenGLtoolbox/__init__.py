@@ -50,7 +50,7 @@ from PyOpenGLtoolbox.materials import material_black_plastic, material_black_rub
 from PyOpenGLtoolbox.mathlib import Point3, Point2, Vector3
 
 # noinspection PyUnresolvedReferences
-from PyOpenGLtoolbox.opengl import init_gl, init_light, clear_buffer, reshape_window, is_light_enabled
+from PyOpenGLtoolbox.opengl import init_gl, init_light, clear_buffer, reshape_window_perspective, is_light_enabled
 
 # noinspection PyUnresolvedReferences
 from PyOpenGLtoolbox.particles import Particle, PARTICLES_OPERATOR_ADD, PARTICLES_OPERATOR_AND, \
