@@ -85,5 +85,5 @@ from pygame.locals import *
 __author__ = 'Pablo Pizarro @ppizarror.com'
 __description__ = 'PyOpenGL toolbox'
 __email__ = 'pablo.pizarro@ing.uchile.cl'
-__version__ = 'v2.0.1'
+__version__ = 'v2.0.2'
 __url__ = 'https://github.com/ppizarror/pyopengl-toolbox'

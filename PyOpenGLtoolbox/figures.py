@@ -40,11 +40,6 @@ import OpenGL.GL as _gl
 import OpenGL.GLUT as _glut
 
 # Constants
-_FIGURES_COLOR_BLACK = [0.0, 0.0, 0.0, 1.0]
-_FIGURES_COLOR_BLUE = [0.0, 0.0, 1.0, 1.0]
-_FIGURES_COLOR_RED = [1.0, 0.0, 0.0, 1.0]
-_FIGURES_COLOR_GREEN = [0.0, 1.0, 0.0, 1.0]
-_FIGURES_COLOR_WHITE = [1.0, 1.0, 1.0, 1.0]
 _FIGURES_FIGURE_LIST = 0xfa01
 _FIGURES_FIGURE_VBO = 0xfa02
 _FIGURES_ERRS = []
@@ -111,7 +106,7 @@ class VBObject:
             # Enable transform
             if rgb is not None:
                 _gl.glColor4fv(rgb)
-                _gl.glTranslate(pos[0], pos[1], pos[2])
+            _gl.glTranslate(pos[0], pos[1], pos[2])
 
             # Enable textures
             for _i in range(self.texlen):
@@ -382,13 +377,12 @@ def create_sphere(lat=10, lng=10, color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     if lat >= 3 and lng >= 10:
         obj = _gl.glGenLists(1)
         _gl.glNewList(obj, _gl.GL_COMPILE)
         _gl.glPushMatrix()
-        _gl.glColor4fv(color)
+        if color is not None:
+            _gl.glColor4fv(color)
         # noinspection PyBroadException
         try:
             _glut.glutSolidSphere(1.0, lat, lng)
@@ -417,15 +411,14 @@ def create_circle(rad=1.0, diff=0.1, normal=None, color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     if normal is None:
         normal = [0.0, 0.0, 1.0]
     if diff > 0:
         obj = _gl.glGenLists(1)
         _gl.glNewList(obj, _gl.GL_COMPILE)
         _gl.glPushMatrix()
-        _gl.glColor4fv(color)
+        if color is not None:
+            _gl.glColor4fv(color)
         ang = 0.0
         _gl.glBegin(_gl.GL_POLYGON)
         while ang <= 360.0:
@@ -461,15 +454,14 @@ def create_cone(base=1.0, height=1.0, lat=20, lng=20, color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     if lat >= 3 and lng >= 10:
         # noinspection PyArgumentEqualDefault
         circlebase = create_circle(base - 0.05, 0.1, [0.0, 0.0, -1.0], color)
         obj = _gl.glGenLists(1)
         _gl.glNewList(obj, _gl.GL_COMPILE)
         _gl.glPushMatrix()
-        _gl.glColor4fv(color)
+        if color is not None:
+            _gl.glColor4fv(color)
         # noinspection PyBroadException
         try:
             _glut.glutSolidCone(base, height, lat, lng)
@@ -493,8 +485,6 @@ def create_cube(color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     a = Point3(-1.0, -1.0, -1.0)
     b = Point3(1.0, -1.0, -1.0)
     c = Point3(1.0, -1.0, 1.0)
@@ -508,7 +498,8 @@ def create_cube(color=None):
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
     _gl.glBegin(_gl.GL_QUADS)
-    _gl.glColor4fv(color)
+    if color is not None:
+        _gl.glColor4fv(color)
     draw_vertex_list_create_normal([a, b, c, d])
     draw_vertex_list_create_normal([b, f, g, c])
     draw_vertex_list_create_normal([f, e, h, g])
@@ -581,13 +572,12 @@ def create_torus(minr=0.5, maxr=1.0, lat=30, lng=30, color=None):
     :type color: list
     :return: OpenGl list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     if lat >= 3 and lng >= 3:
         obj = _gl.glGenLists(1)
         _gl.glNewList(obj, _gl.GL_COMPILE)
         _gl.glPushMatrix()
-        _gl.glColor4fv(color)
+        if color is not None:
+            _gl.glColor4fv(color)
         # noinspection PyBroadException
         try:
             _glut.glutSolidTorus(minr, maxr, lat, lng)
@@ -610,12 +600,11 @@ def create_cube_solid(color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
-    _gl.glColor4fv(color)
+    if color is not None:
+        _gl.glColor4fv(color)
     # noinspection PyBroadException
     try:
         _glut.glutSolidCube(1.0)
@@ -636,8 +625,6 @@ def create_pyramid(color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     arista = 2.0
     a = Point3(-0.5, -0.5, -0.333) * arista
     b = Point3(0.5, -0.5, -0.333) * arista
@@ -649,7 +636,8 @@ def create_pyramid(color=None):
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
-    _gl.glColor4fv(color)
+    if color is not None:
+        _gl.glColor4fv(color)
     _gl.glBegin(_gl.GL_QUADS)
     draw_vertex_list_create_normal([d, c, b, a])
     _gl.glEnd()
@@ -713,9 +701,6 @@ def create_diamond(color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
-
     # noinspection PyArgumentEqualDefault
     a = Point3(-1.0, -1.0, 0.0)
     # noinspection PyArgumentEqualDefault
@@ -732,7 +717,8 @@ def create_diamond(color=None):
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
-    _gl.glColor4fv(color)
+    if color is not None:
+        _gl.glColor4fv(color)
     _gl.glBegin(_gl.GL_TRIANGLES)
     draw_vertex_list_create_normal([a, b, e])
     draw_vertex_list_create_normal([b, c, e])
@@ -756,12 +742,11 @@ def create_teapot(color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
-    _gl.glColor4fv(color)
+    if color is not None:
+        _gl.glColor4fv(color)
     _gl.glRotate(90, 1, 0, 0)
     # noinspection PyBroadException
     try:
@@ -903,12 +888,11 @@ def create_tetrahedron(color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
-    _gl.glColor4fv(color)
+    if color is not None:
+        _gl.glColor4fv(color)
     # noinspection PyBroadException
     try:
         _glut.glutSolidTetrahedron()
@@ -929,12 +913,11 @@ def create_dodecahedron(color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
-    _gl.glColor4fv(color)
+    if color is not None:
+        _gl.glColor4fv(color)
     # noinspection PyBroadException
     try:
         _glut.glutSolidDodecahedron()
@@ -955,12 +938,11 @@ def create_octahedron(color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
-    _gl.glColor4fv(color)
+    if color is not None:
+        _gl.glColor4fv(color)
     # noinspection PyBroadException
     try:
         _glut.glutSolidOctahedron()
@@ -981,12 +963,11 @@ def create_icosahedron(color=None):
     :type color: list
     :return: OpenGL list
     """
-    if color is None:
-        color = _FIGURES_COLOR_WHITE
     obj = _gl.glGenLists(1)
     _gl.glNewList(obj, _gl.GL_COMPILE)
     _gl.glPushMatrix()
-    _gl.glColor4fv(color)
+    if color is not None:
+        _gl.glColor4fv(color)
     # noinspection PyBroadException
     try:
         _glut.glutSolidIcosahedron()
