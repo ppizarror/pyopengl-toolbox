@@ -49,7 +49,8 @@ print('Zoom in/out with N/M keys')
 
 # Create objects
 axis = create_axes(AXES_LENGTH)  # Axis
-camera = CameraXYZ(Point3(1000, 1000, 1000))  # Camera aligned with z axis
+camera = CameraXYZ(Point3(1000, 1000, 1000))  # Camera aligned with z axis in position (x,y,z)
+camera.set_radial_vel(100)
 
 # Main loop
 while True:

@@ -38,7 +38,6 @@ _CAMERA_CENTER_LIMIT_Z_DOWN = -3500
 _CAMERA_CENTER_LIMIT_Z_UP = 3500
 _CAMERA_CENTER_VEL = 1
 _CAMERA_DEFAULT_RVEL = 1
-_CAMERA_MIN_RADIAL_VALUE = 0.000001
 _CAMERA_MIN_THETA_VALUE = 0.000001
 _CAMERA_NEGATIVE = -1.0
 _CAMERA_POSITIVE = 1.0
@@ -239,7 +238,7 @@ class CameraXYZ(_Camera):
         self._angle = 45.0
         self._cameraVel = _Vector3(1.0, 1.0, 1.0)
         self._centerAngle = 0.0
-        self._centerVel = _Vector3(_CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL, _CAMERA_CENTER_VEL)
+        self._radVel = _CAMERA_CENTER_VEL
         self._name = 'unnamed'
         self._viewVel = _Vector3(1.0, 1.0, 1.0)
 
@@ -309,14 +308,14 @@ class CameraXYZ(_Camera):
         """
         self._cameraVel.set_z(vel)
 
-    def set_center_vel(self, vel):
+    def set_radial_vel(self, vel):
         """
-        Defines center movement velocity.
+        Defines radial movement velocity.
 
-        :param vel: Center velocity
+        :param vel: Radial velocity
         :type vel: float, int
         """
-        self._centerVel = _Vector3(abs(vel), abs(vel), abs(vel))
+        self._radVel = vel
 
     def rotate_x(self, angle):
         """
@@ -404,13 +403,25 @@ class CameraXYZ(_Camera):
         """
         Camera zoom-out.
         """
-        self._center += self._centerVel
+        (rad, phi, theta) = _xyz_to_spr(*self._pos.export_to_list())
+        rad += self._radVel
+        (x, y, z) = _spr_to_xyz(rad, phi, theta)
+        self._pos.set_x(x)
+        self._pos.set_y(y)
+        self._pos.set_z(z)
 
     def close(self):
         """
         Camera zoom-in.
         """
-        self._center -= self._centerVel
+        (rad, phi, theta) = _xyz_to_spr(*self._pos.export_to_list())
+        rad -= self._radVel
+        if rad < 0:  # Radius cannot be less than zero
+            return
+        (x, y, z) = _spr_to_xyz(rad, phi, theta)
+        self._pos.set_x(x)
+        self._pos.set_y(y)
+        self._pos.set_z(z)
 
     def get_name(self):
         """
@@ -542,8 +553,10 @@ class CameraR(_Camera):
         """
         Camera zoom-in.
         """
-        self._r -= self._rvel
-        self._r = max(_CAMERA_MIN_RADIAL_VALUE, self._r)
+        r = self._r - self._rvel
+        if r < 0:  # Radius cannot be less than zero
+            return
+        self._r = r
 
     def rotate_phi(self, angle):
         """

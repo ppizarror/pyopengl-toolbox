@@ -158,11 +158,11 @@ def draw_list(gl_list, pos=None, angle=0.0, rotation_list=None, scale_list=None,
     :param rotation_list: Rotation list
     :param scale_list: Scale list
     :param color_list: Color list
-    :type pos: float
-    :type rotation_list: list
-    :type scale_list: list
-    :type color_list: list
-    :return:
+    :type pos: list, None
+    :type angle: float, int
+    :type rotation_list: list, None
+    :type scale_list: list, None
+    :type color_list: list, None
     """
     if pos is None:
         pos = [0.0, 0.0, 0.0]
