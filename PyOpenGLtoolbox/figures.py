@@ -27,6 +27,7 @@ SOFTWARE.
 
 # Library imports
 from math import sqrt as _sqrt
+from math import pi as _pi
 from numpy import array as _array
 from OpenGL.arrays import vbo as _vbo
 from PyOpenGLtoolbox.utils import print_gl_error as _print_gl_error
@@ -365,19 +366,19 @@ def load_gmsh_model(modelfile, scale, dx=0.0, dy=0.0, dz=0.0, avg=True,
                         len(vertex), texture)
 
 
-def create_sphere(lat=10, lng=10, color=None):
+def create_sphere(lats=10, longs=10, color=None):
     """
     Creates an sphere.
 
-    :param lat: Latitude
-    :param lng: Longitude
+    :param lats: Latitude
+    :param longs: Longitude
     :param color: Color
-    :type lat: int
-    :type lng: int
+    :type lats: int
+    :type longs: int
     :type color: list
     :return: OpenGL list
     """
-    if lat >= 3 and lng >= 10:
+    if lats >= 3 and longs >= 10:
         obj = _gl.glGenLists(1)
         _gl.glNewList(obj, _gl.GL_COMPILE)
         _gl.glPushMatrix()
@@ -385,11 +386,35 @@ def create_sphere(lat=10, lng=10, color=None):
             _gl.glColor4fv(color)
         # noinspection PyBroadException
         try:
-            _glut.glutSolidSphere(1.0, lat, lng)
+            _glut.glutSolidSphere(1.0, lats, longs)
         except:
             if not _FIGURES_ERRS[0]:
                 _print_gl_error('OpenGL actual version does not support glutSolidSphere function')
             _FIGURES_ERRS[0] = True
+
+            for _i in range(0, lats + 1):
+                lat0 = _pi * (-0.5 + float(float(_i - 1) / float(lats)))
+                z0 = _sin(lat0)
+                zr0 = _cos(lat0)
+
+                lat1 = _pi * (-0.5 + float(float(_i) / float(lats)))
+                z1 = _sin(lat1)
+                zr1 = _cos(lat1)
+
+                # Use Quad strips to draw the sphere
+                _gl.glBegin(_gl.GL_QUAD_STRIP)
+
+                for _j in range(0, longs + 1):
+                    long = 2 * _pi * float(float(_j - 1) / float(longs))
+                    x = _cos(long)
+                    y = _sin(long)
+                    _gl.glNormal3f(x * zr0, y * zr0, z0)
+                    _gl.glVertex3f(x * zr0, y * zr0, z0)
+                    _gl.glNormal3f(x * zr1, y * zr1, z1)
+                    _gl.glVertex3f(x * zr1, y * zr1, z1)
+
+                _gl.glEnd()
+
         _gl.glPopMatrix()
         _gl.glEndList()
         return obj
