@@ -1,6 +1,7 @@
 # coding=utf-8
 """
-SETUP DISTRIBUTION
+PYOPENGL-TOOLBOX
+Toolbox for PyOpenGL.
 
 MIT License
 Copyright (c) 2018 Pablo Pizarro R.
@@ -24,29 +25,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-# Library imports
-from setuptools import setup
-from PyOpenGLtoolbox.about import __author__, __description__, __email__, __url__, __version__
-
-with open('README.rst') as f:
-    long_description = f.read()
-
-setup(
-    author=__author__,
-    author_email=__email__,
-    classifiers=[
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Topic :: Software Development :: Libraries :: pygame'
-    ],
-    description=__description__,
-    include_package_data=True,
-    install_requires=['numpy', 'Pillow', 'pygame', 'PyOpenGL'],
-    license='MIT',
-    long_description=long_description,
-    name='PyOpenGL-toolbox',
-    packages=['PyOpenGLtoolbox'],
-    url=__url__,
-    version=__version__
-)
+# Metadata
+__author__ = 'Pablo Pizarro @ppizarror.com'
+__description__ = 'PyOpenGL toolbox'
+__email__ = 'pablo.pizarro@ing.uchile.cl'
+__version__ = '2.2.2'
+__url__ = 'https://github.com/ppizarror/pyopengl-toolbox'

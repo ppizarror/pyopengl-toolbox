@@ -80,10 +80,3 @@ from OpenGL.GLUT import *
 import pygame
 # noinspection PyUnresolvedReferences
 from pygame.locals import *
-
-# Metadata
-__author__ = 'Pablo Pizarro @ppizarror.com'
-__description__ = 'PyOpenGL toolbox'
-__email__ = 'pablo.pizarro@ing.uchile.cl'
-__version__ = 'v2.2.1'
-__url__ = 'https://github.com/ppizarror/pyopengl-toolbox'
