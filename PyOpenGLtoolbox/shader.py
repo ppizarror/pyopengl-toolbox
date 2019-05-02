@@ -38,7 +38,7 @@ _SHADER_FRAGMENT = 0x01
 _SHADER_VERTEX = 0x02
 
 
-class Shader:
+class Shader(object):
     """
     Shader class, can load an compile GLSL shaders.
     """
@@ -179,7 +179,7 @@ class Shader:
         print(self._file)
 
 
-class ShaderProgram:
+class ShaderProgram(object):
     """
     ShaderProgram class, contains fragment and shader code that runs in background.
     """

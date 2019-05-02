@@ -35,7 +35,7 @@ _UTILS_MATH_POINT_2 = 'util-point-2'
 _UTILS_MATH_POINT_3 = 'util-point-3'
 
 
-class Point3:
+class Point3(object):
     """
     Point with 3 components.
     """

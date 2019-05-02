@@ -64,6 +64,100 @@ class _Camera(object):
         """
         pass
 
+    def get_view(self):
+        """
+        Get view matrix.
+
+        :return:
+        :rtype: array
+        """
+        return self._look_at(
+            _np.array([self.get_pos_x(), self.get_pos_y(), self.get_pos_z()]),
+            _np.array([self.get_center_x(), self.get_center_y(), self.get_center_z()]),
+            _np.array([self.get_up_x(), self.get_up_y(), self.get_up_z()])
+        )
+
+    def get_pos_x(self):
+        """
+        Return x position.
+
+        :return:
+        :rtype: float, int
+        """
+        pass
+
+    def get_pos_y(self):
+        """
+        Return y position.
+
+        :return:
+        :rtype: float, int
+        """
+        pass
+
+    def get_pos_z(self):
+        """
+        Return z position.
+
+        :return:
+        :rtype: float, int
+        """
+        pass
+
+    def get_center_x(self):
+        """
+        Return center x position.
+
+        :return:
+        :rtype: float, int
+        """
+        pass
+
+    def get_center_y(self):
+        """
+        Return center y position.
+
+        :return:
+        :rtype: float, int
+        """
+        pass
+
+    def get_center_z(self):
+        """
+        Return center x position.
+
+        :return:
+        :rtype: float, int
+        """
+        pass
+
+    def get_up_x(self):
+        """
+        Return up vector x position.
+
+        :return:
+        :rtype: float, int
+        """
+        pass
+
+    def get_up_y(self):
+        """
+        Return up vector y position.
+
+        :return:
+        :rtype: float, int
+        """
+        pass
+
+    def get_up_z(self):
+        """
+        Return up vector z position.
+
+        :return:
+        :rtype: float, int
+        """
+        pass
+
     def move_x(self, direction=_CAMERA_POSITIVE):
         """
         Moves camera to x-position.
@@ -281,6 +375,86 @@ class CameraXYZ(_Camera):
                    self._center.get_x(), self._center.get_y(),
                    self._center.get_z(), self._up.get_x(), self._up.get_y(),
                    self._up.get_z())
+
+    def get_pos_x(self):
+        """
+        Return x position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._pos.get_x()
+
+    def get_pos_y(self):
+        """
+        Return y position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._pos.get_y()
+
+    def get_pos_z(self):
+        """
+        Return z position.
+
+        :return:
+        """
+        return self._pos.get_z()
+
+    def get_center_x(self):
+        """
+        Return center x position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._center.get_x()
+
+    def get_center_y(self):
+        """
+        Return center y position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._center.get_y()
+
+    def get_center_z(self):
+        """
+        Return center x position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._center.get_z()
+
+    def get_up_x(self):
+        """
+        Return up vector x position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._up.get_x()
+
+    def get_up_y(self):
+        """
+        Return up vector y position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._up.get_y()
+
+    def get_up_z(self):
+        """
+        Return up vector z position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._up.get_z()
 
     def move_x(self, direction=_CAMERA_POSITIVE):
         """
@@ -550,6 +724,87 @@ class CameraR(_Camera):
                    self._center.get_x(), self._center.get_y(), self._center.get_z(),
                    self._up.get_x(), self._up.get_y(),
                    self._up.get_z())
+
+    def get_pos_x(self):
+        """
+        Return x position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._r * _sin(self._theta) * _cos(self._phi)
+
+    def get_pos_y(self):
+        """
+        Return y position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._r * _sin(self._theta) * _sin(self._phi)
+
+    def get_pos_z(self):
+        """
+        Return z position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._r * _cos(self._theta)
+
+    def get_center_x(self):
+        """
+        Return center x position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._center.get_x()
+
+    def get_center_y(self):
+        """
+        Return center y position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._center.get_y()
+
+    def get_center_z(self):
+        """
+        Return center x position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._center.get_z()
+
+    def get_up_x(self):
+        """
+        Return up vector x position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._up.get_x()
+
+    def get_up_y(self):
+        """
+        Return up vector y position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._up.get_y()
+
+    def get_up_z(self):
+        """
+        Return up vector z position.
+
+        :return:
+        :rtype: float, int
+        """
+        return self._up.get_z()
 
     def __str__(self):
         """

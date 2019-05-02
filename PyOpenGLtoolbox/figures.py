@@ -48,7 +48,7 @@ for i in range(10):
     _FIGURES_ERRS.append(False)
 
 
-class VBObject:
+class VBObject(object):
     """
     VBO object that can load and draw elements using shaders.
     """
@@ -405,9 +405,9 @@ def create_sphere(lats=10, longs=10, color=None):
                 _gl.glBegin(_gl.GL_QUAD_STRIP)
 
                 for _j in range(0, longs + 1):
-                    long = 2 * _pi * float(float(_j - 1) / float(longs))
-                    x = _cos(long)
-                    y = _sin(long)
+                    _long = 2 * _pi * float(float(_j - 1) / float(longs))
+                    x = _cos(_long)
+                    y = _sin(_long)
                     _gl.glNormal3f(x * zr0, y * zr0, z0)
                     _gl.glVertex3f(x * zr0, y * zr0, z0)
                     _gl.glNormal3f(x * zr1, y * zr1, z1)

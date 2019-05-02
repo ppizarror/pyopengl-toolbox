@@ -29,5 +29,5 @@ SOFTWARE.
 __author__ = 'Pablo Pizarro @ppizarror.com'
 __description__ = 'PyOpenGL toolbox'
 __email__ = 'pablo.pizarro@ing.uchile.cl'
-__version__ = '2.2.2'
+__version__ = '2.3.0'
 __url__ = 'https://github.com/ppizarror/pyopengl-toolbox'

@@ -43,7 +43,7 @@ PARTICLES_OPERATOR_XOR = 0x0f68
 _PARTICLES_ROUND = 3
 
 
-class Particle:
+class Particle(object):
     """
     Particle.
     """
