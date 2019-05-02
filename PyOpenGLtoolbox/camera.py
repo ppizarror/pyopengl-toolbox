@@ -32,6 +32,7 @@ from PyOpenGLtoolbox.mathlib import _cos, _sin, _xyz_to_spr, _spr_to_xyz
 from PyOpenGLtoolbox.mathlib import Point3 as _Point3
 from PyOpenGLtoolbox.mathlib import Vector3 as _Vector3
 import math as _math
+import numpy as _np
 
 # Constants
 _CAMERA_CENTER_LIMIT_Z_DOWN = -3500
@@ -46,7 +47,7 @@ _CAMERA_SPHERICAL = 0x0fb
 _CAMERA_XYZ = 0x0fa
 
 
-class _Camera:
+class _Camera(object):
     """
     Abstract camera class.
     """
@@ -210,6 +211,32 @@ class _Camera:
         :param n: Camera name
         """
         pass
+
+    @staticmethod
+    def _look_at(_eye, _at, _up):
+        """
+        Create look at matrix.
+
+        :param _eye:
+        :param _at:
+        :param _up:
+        :return:
+        """
+        forward = (_at - _eye)
+        forward /= _np.linalg.norm(forward)
+
+        side = _np.cross(forward, _up)
+        side /= _np.linalg.norm(side)
+
+        new_up = _np.cross(side, forward)
+        new_up /= _np.linalg.norm(new_up)
+
+        return _np.array([
+            [side[0], side[1], side[2], -_np.dot(side, _eye)],
+            [new_up[0], new_up[1], new_up[2], -_np.dot(new_up, _eye)],
+            [-forward[0], -forward[1], -forward[2], _np.dot(forward, _eye)],
+            [0, 0, 0, 1]
+        ], dtype=_np.float32)
 
 
 class CameraXYZ(_Camera):
@@ -464,33 +491,33 @@ class CameraR(_Camera):
     Camera in spheric coordinates.
     """
 
-    def __init__(self, r=1.0, phi=45, theta=45, center_point=_Point3(), up_vector=_Vector3(0, 0, 1)):
+    def __init__(self, r=1.0, phi=45, theta=45, center=_Point3(), up=_Vector3(0, 0, 1)):
         """
         Constructor.
 
         :param r: Radius
         :param phi: Phi angle
         :param theta: Theta angle
-        :param center_point: Center point
-        :param up_vector: Up vector
+        :param center: Center point
+        :param up: Up vector
         :type r: float, int
         :type phi: float, int
         :type theta: float, int
-        :type center_point: Point3
-        :type up_vector: Point3
+        :type center: Point3
+        :type up: Point3
         """
         _Camera.__init__(self)
-        if isinstance(center_point, _Point3):
-            if isinstance(up_vector, _Vector3):
+        if isinstance(center, _Point3):
+            if isinstance(up, _Vector3):
                 if r > 0:
                     if 0 <= phi <= 360 and 0 <= theta <= 180:
-                        self._center = center_point
+                        self._center = center
                         self._name = 'unnamed'
                         self._phi = phi
                         self._r = r
                         self._rvel = _CAMERA_DEFAULT_RVEL
                         self._theta = theta
-                        self._up = up_vector
+                        self._up = up
                     else:
                         raise Exception('Phi angle must be between 0 and 360 degrees, theta must be between 0 and 180')
                 else:
