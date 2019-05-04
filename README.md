@@ -33,7 +33,7 @@ from PyOpenGLtoolbox import *
 ```
 
 ## License
-This project is licensed unde MIT [https://opensource.org/licenses/MIT/]
+This project is licensed under MIT [https://opensource.org/licenses/MIT/]
 
 ## Author
-<a href="https://ppizarror.com" title="ppizarror">Pablo Pizarro R.</a> | 2015-2018
+<a href="https://ppizarror.com" title="ppizarror">Pablo Pizarro R.</a> | 2015-2019

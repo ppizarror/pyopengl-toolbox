@@ -20,4 +20,4 @@ from PyOpenGLtoolbox import *
 ```
 
 ## License
-This project is licensed unde MIT [https://opensource.org/licenses/MIT/]
+This project is licensed under MIT [https://opensource.org/licenses/MIT/]
