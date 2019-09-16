@@ -15,9 +15,11 @@ PyOpenGL-toolbox needs pygame, numpy and Pillow.
 ## Import
 
 Import of this library is similar as PyOpenGL:
+
 ```python
 from PyOpenGLtoolbox import *
 ```
 
 ## License
+
 This project is licensed under MIT [https://opensource.org/licenses/MIT/]

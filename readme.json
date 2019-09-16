@@ -2,12 +2,12 @@
     "PROJECT": {
         "NAME": "PyOpenGL-toolbox",
         "ICON": {
-            "IMAGE": "https://ppizarror.com/resources/other/python.png",
+            "IMAGE": "https://res.ppizarror.com/other/python.png",
             "ALT": "PyOpenGL-toolbox",
             "WIDTH": 200,
             "HEIGHT": 200
         },
-        "URL": "https://ppizarror.com/pyopengl-toolbox/",
+        "URL": "https://github.ppizarror.com/pyopengl-toolbox/",
         "URL_TITLE": "PyOpenGL-toolbox"
     },
     "AUTHOR": {
@@ -23,22 +23,22 @@
     "DESCRIPTION": "Toolbox for Pygame+OpenGL",
     "BADGES": {
         "0": {
-            "IMAGE": "https://ppizarror.com/badges/author.svg",
+            "IMAGE": "https://res.ppizarror.com/badges/author.svg",
             "HREF": "https://ppizarror.com",
             "ALT": "@ppizarror"
         },
         "1": {
-            "IMAGE": "https://ppizarror.com/badges/licensemit.svg",
+            "IMAGE": "https://res.ppizarror.com/badges/licensemit.svg",
             "HREF": "https://opensource.org/licenses/MIT/",
             "ALT": "License MIT"
         },
 		"2": {
-		  "IMAGE": "https://ppizarror.com/badges/python27.svg",
+		  "IMAGE": "https://res.ppizarror.com/badges/python27.svg",
 		  "HREF": "https://www.python.org/downloads/",
 		  "ALT": "Python 2.7"
 		},
         "3": {
-            "IMAGE": "https://ppizarror.com/badges/python36.svg",
+            "IMAGE": "https://res.ppizarror.com/badges/python36.svg",
             "HREF": "https://www.python.org/downloads/",
             "ALT": "Python 3.6"
         }
