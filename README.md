@@ -1,7 +1,5 @@
 <h1 align="center">
-  <a href="https://github.ppizarror.com/pyopengl-toolbox/" title="PyOpenGL-toolbox">
-    <img alt="PyOpenGL-toolbox" src="https://res.ppizarror.com/other/python.png" width="200px" height="200px" />
-  </a>
+  <img alt="PyOpenGL-toolbox" src="https://res.ppizarror.com/other/python.png" width="200px" height="200px" />
   <br /><br />
   PyOpenGL-toolbox</h1>
 <p align="center">Toolbox for Pygame+OpenGL</p>
