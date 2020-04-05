@@ -28,6 +28,6 @@ SOFTWARE.
 # Metadata
 __author__ = 'Pablo Pizarro @ppizarror.com'
 __description__ = 'PyOpenGL toolbox'
-__email__ = 'pablo.pizarro@ing.uchile.cl'
+__email__ = 'pablo@ppizarror.com'
 __version__ = '2.3.0'
 __url__ = 'https://github.com/ppizarror/pyopengl-toolbox'
