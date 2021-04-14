@@ -37,4 +37,4 @@ This project is licensed under MIT [https://opensource.org/licenses/MIT/]
 
 
 ## Author
-<a href="https://ppizarror.com" title="ppizarror">Pablo Pizarro R.</a> | 2015-2019
+<a href="https://ppizarror.com" title="ppizarror">Pablo Pizarro R.</a> | 2015 - 2019
