@@ -6,15 +6,15 @@
 *.zip
 
 # Compiled python files
-*/__pycache__
+*/__pycache__/
 *.pyc
 
 # Distribution files
 *.egg-info
-build/*
-dist
-build.bat
 *.eggs
+build.bat
+build/*
+dist/
 
 # Test files
 test.py
